@@ -830,7 +830,15 @@ function AppSearch({
   );
 }
 function Media({ item }: { item: Item }) {
-  const src = safeMedia(item.media);
+  const fallbackMedia =
+    item.id === "photo-bamby-uniform"
+      ? "./images/bamby-uniform.jpg"
+      : item.id === "photo-bamby-hoodie"
+        ? "./images/bamby-hoodie.jpg"
+        : item.id === "photo-eunho-bamby-cafe"
+          ? "./images/eunho-bamby-wallpaper.jpg"
+          : "";
+  const src = safeMedia(item.media) || safeMedia(fallbackMedia);
   return src ? (
     item.kind === "audio" ? (
       <audio controls src={src} />
