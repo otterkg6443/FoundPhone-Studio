@@ -1,16 +1,17 @@
 {
   "scriptVersion": 1,
-  "id": "ui-test-phone-v2",
-  "title": "捡手机",
-  "description": "仅用于界面测试，不含剧情",
-  "revision": 2,
+  "id": "eunho-phone",
+  "title": "EUNHO 的手机",
+  "description": "机主 EUNHO。锁屏密码 4399；壁纸为 EUNHO 与 BAMBY 的咖啡馆双人合照。相册记录 BAMBY 的两张单人照和一张双人合照。",
+  "revision": 3,
   "phone": {
-    "owner": "机主",
+    "owner": "EUNHO",
     "date": "2026-10-25",
     "time": "09:41",
     "battery": 94,
     "network": "5G",
-    "wallpaper": "apple-wwdc26"
+    "wallpaper": "bamby-eunho-cafe",
+    "passcode": "4399"
   },
   "installedApps": [
     "appstore",
@@ -269,12 +270,41 @@
     ],
     "photos": [
       {
-        "id": "test-item-photos",
-        "title": "测试内容",
-        "body": "这是一条测试内容。",
-        "sender": "测试用户",
-        "kind": "text",
-        "meta": {}
+        "id": "photo-bamby-uniform",
+        "title": "BAMBY 制服照",
+        "body": "BAMBY 的制服造型单人照。",
+        "sender": "EUNHO",
+        "kind": "image",
+        "media": "",
+        "time": "",
+        "meta": {
+          "description": "粉发、紫色眼睛，白蓝格纹装饰制服。"
+        }
+      },
+      {
+        "id": "photo-bamby-hoodie",
+        "title": "BAMBY 连帽外套照",
+        "body": "BAMBY 穿黑色连帽外套的侧面照。",
+        "sender": "EUNHO",
+        "kind": "image",
+        "media": "",
+        "time": "",
+        "meta": {
+          "description": "黑色连帽外套、白色 T 恤，昏暗室内场馆。"
+        }
+      },
+      {
+        "id": "photo-eunho-bamby-cafe",
+        "title": "EUNHO & BAMBY",
+        "body": "EUNHO 与 BAMBY 在咖啡馆里的双人合照，也是手机壁纸。",
+        "sender": "EUNHO",
+        "kind": "image",
+        "media": "",
+        "time": "",
+        "favorite": true,
+        "meta": {
+          "description": "白发角色靠近粉发角色并用手碰着他的脸。"
+        }
       }
     ],
     "camera": [
