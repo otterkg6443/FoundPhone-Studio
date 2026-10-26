@@ -196,57 +196,15 @@ export function WeChatSkin(p: SkinProps) {
     "wechatChatStarted",
     false,
   );
-  // Staged chat progress is stored in the phone runtime, so it survives
-  // leaving WeChat and opening it again.
-  const revealedIdsRef = useRef(revealedChatIds);
-  revealedIdsRef.current = revealedChatIds;
-  // Parent phone renders can replace p.items (for example, when a banner updates).
-  // Keep the latest items available without restarting the staged message clock.
-  const itemsRef = useRef(p.items);
-  itemsRef.current = p.items;
+  // Opening messages become part of the conversation when the thread opens.
+  // Follow-up reply timers are managed by PhoneRuntime, independently of this view.
   useEffect(() => {
     if (p.thread !== "당신") return;
-    const opening = itemsRef.current
+    const opening = p.items
       .filter((i) => i.title === "당신" && /^opening-[12]$/.test(i.meta?.stage || ""))
       .sort((a, b) => (a.meta?.stage || "").localeCompare(b.meta?.stage || ""));
-    // Opening messages are already part of the conversation when the thread opens.
-    // Their lock-screen notifications are handled by the phone unlock flow.
     setRevealedChatIds((ids) => [...new Set([...ids, ...opening.map((i) => i.id)])]);
   }, [p.thread]);
-  useEffect(() => {
-    if (p.thread !== "당신" || !chatStarted) return;
-    // Only schedule messages that have not already appeared in this conversation.
-    const followup = itemsRef.current
-      .filter(
-        (i) =>
-          i.title === "당신" &&
-          i.meta?.stage?.startsWith("chat-") &&
-          !revealedChatIds.includes(i.id),
-      )
-      .sort((a, b) => (a.meta?.stage || "").localeCompare(b.meta?.stage || ""));
-    let nextIndex = 0;
-    let timer: number | undefined;
-    // Each delayMs is the interval after the previous staged message:
-    // 2.5s → "头很晕吗", 4s → "是啊", 5s → "那你再戴上就不会晕了", 4.5s → "我还是研究一下拉黑键在哪里吧".
-    // These follow-up chat messages never create additional notification banners.
-    const scheduleNext = () => {
-      const item = followup[nextIndex++];
-      if (!item) return;
-      timer = window.setTimeout(() => {
-        const current = revealedIdsRef.current;
-        if (!current.includes(item.id)) {
-          const updated = [...current, item.id];
-          revealedIdsRef.current = updated;
-          setRevealedChatIds(updated);
-        }
-        scheduleNext();
-      }, Number(item.meta.delayMs || "3500"));
-    };
-    scheduleNext();
-    return () => {
-      if (timer !== undefined) window.clearTimeout(timer);
-    };
-  }, [p.thread, chatStarted]);
   const conversations = [
     ...new Set(
       p.items
