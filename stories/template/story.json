@@ -783,7 +783,92 @@
         "body": "这是一条测试内容。"
       }
     ],
-    "wechat": []
+    "wechat": [
+      {
+        "id": "wechat-dangsin-1",
+        "title": "당신",
+        "body": "我今天试戴了万圣节要用的那个南瓜头，超级重",
+        "sender": "당신",
+        "kind": "text",
+        "time": "2026-10-28 14:00",
+        "avatar": "./images/dog-avatar.jpg",
+        "read": false,
+        "meta": {
+          "stage": "opening-1"
+        }
+      },
+      {
+        "id": "wechat-dangsin-2",
+        "title": "당신",
+        "body": "摘下来之后头好晕",
+        "sender": "당신",
+        "kind": "text",
+        "time": "2026-10-28 14:00",
+        "avatar": "./images/dog-avatar.jpg",
+        "read": false,
+        "meta": {
+          "stage": "opening-2"
+        }
+      },
+      {
+        "id": "wechat-dangsin-3",
+        "title": "당신",
+        "body": "头很晕吗",
+        "sender": "我",
+        "kind": "text",
+        "time": "2026-10-28 14:01",
+        "avatar": "./images/dog-avatar.jpg",
+        "outgoing": true,
+        "read": true,
+        "meta": {
+          "stage": "chat-1",
+          "delayMs": "2500"
+        }
+      },
+      {
+        "id": "wechat-dangsin-4",
+        "title": "당신",
+        "body": "是啊",
+        "sender": "당신",
+        "kind": "text",
+        "time": "2026-10-28 14:01",
+        "avatar": "./images/dog-avatar.jpg",
+        "read": false,
+        "meta": {
+          "stage": "chat-2",
+          "delayMs": "4000"
+        }
+      },
+      {
+        "id": "wechat-dangsin-5",
+        "title": "당신",
+        "body": "那你再戴上就不会晕了",
+        "sender": "我",
+        "kind": "text",
+        "time": "2026-10-28 14:02",
+        "avatar": "./images/dog-avatar.jpg",
+        "outgoing": true,
+        "read": true,
+        "meta": {
+          "stage": "chat-3",
+          "delayMs": "5000"
+        }
+      },
+      {
+        "id": "wechat-dangsin-6",
+        "title": "당신",
+        "body": "我还是研究一下拉黑键在哪里吧",
+        "sender": "당신",
+        "kind": "text",
+        "time": "2026-10-28 14:02",
+        "avatar": "./images/dog-avatar.jpg",
+        "read": false,
+        "meta": {
+          "stage": "chat-4",
+          "delayMs": "4500"
+        }
+      }
+    ]
   },
   "variables": {},
   "events": [],
