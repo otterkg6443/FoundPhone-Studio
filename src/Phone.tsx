@@ -285,6 +285,11 @@ function PhoneRuntime({
     const revealedIds = Array.isArray(wechatRevealedValue)
       ? wechatRevealedValue
       : [];
+    const deliveredIds = new Set(
+      (s.messages.wechat ?? [])
+        .map((item) => item.meta?.scheduledSourceId)
+        .filter((id): id is string => typeof id === "string"),
+    );
     let schedule: { id: string; dueAt: number }[] = [];
     try {
       const parsed =
@@ -307,6 +312,7 @@ function PhoneRuntime({
     const missing = stagedMessages.filter(
       (item) =>
         !revealedIds.includes(item.id) &&
+        !deliveredIds.has(item.id) &&
         !schedule.some((entry) => entry.id === item.id),
     );
     if (missing.length) {
@@ -323,6 +329,7 @@ function PhoneRuntime({
       .filter(
         (entry) =>
           !revealedIds.includes(entry.id) &&
+          !deliveredIds.has(entry.id) &&
           stagedMessages.some((item) => item.id === entry.id),
       )
       .sort((a, b) => a.dueAt - b.dueAt)[0];
@@ -355,19 +362,53 @@ function PhoneRuntime({
           return [];
         }
       })();
-      const dueIds = currentSchedule
+      const currentDelivered = new Set(
+        (latest.messages.wechat ?? [])
+          .map((item) => item.meta?.scheduledSourceId)
+          .filter((id): id is string => typeof id === "string"),
+      );
+      const dueEntries = currentSchedule
         .filter(
           (entry) =>
             entry.dueAt <= Date.now() &&
             !currentRevealed.includes(entry.id) &&
+            !currentDelivered.has(entry.id) &&
             stagedMessages.some((item) => item.id === entry.id),
         )
-        .map((entry) => entry.id);
-      if (dueIds.length) {
-        updateWeChatUi(
-          "wechatRevealedChatIds",
-          [...new Set([...currentRevealed, ...dueIds])],
-        );
+        .sort((a, b) => a.dueAt - b.dueAt);
+      if (dueEntries.length) {
+        const dueIds = dueEntries.map((entry) => entry.id);
+        const deliveredMessages: Item[] = dueEntries.flatMap((entry) => {
+          const source = stagedMessages.find((item) => item.id === entry.id);
+          if (!source) return [];
+          const { stage: _stage, delayMs: _delayMs, ...meta } = source.meta;
+          return [
+            {
+              ...source,
+              id: `scheduled-${source.id}`,
+              meta: { ...meta, scheduledSourceId: source.id },
+            },
+          ];
+        });
+        // Materialize the due messages in the phone's saved message stream.
+        // They are now sent/delivered events, not just a visibility flag held
+        // by the currently mounted WeChat conversation.
+        update({
+          ...latest,
+          ui: {
+            ...latest.ui,
+            wechat: {
+              ...latestUi,
+              wechatRevealedChatIds: [
+                ...new Set([...currentRevealed, ...dueIds]),
+              ],
+            },
+          },
+          messages: {
+            ...latest.messages,
+            wechat: [...(latest.messages.wechat ?? []), ...deliveredMessages],
+          },
+        });
       }
     }, Math.max(0, next.dueAt - Date.now()));
 
