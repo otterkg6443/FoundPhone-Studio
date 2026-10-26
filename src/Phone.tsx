@@ -277,11 +277,34 @@ function PhoneRuntime({
   };
   const installedApps = work.apps.filter((a) => a.installed);
   const apps = installedApps.filter((a) => a.visible);
+  const openingNotificationsSent = useRef(false);
   const unlock = (pin = "") => {
     if (!work.phone.passcode || pin === work.phone.passcode) {
       setLocked(false);
       setPinOpen(false);
       event("password", pin);
+      if (!openingNotificationsSent.current && work.phone.notifications) {
+        openingNotificationsSent.current = true;
+        const opening = (work.data.wechat ?? [])
+          .filter((item) => item.title === "당신" && /^opening-[12]$/.test(item.meta?.stage || ""))
+          .sort((a, b) => (a.meta?.stage || "").localeCompare(b.meta?.stage || ""));
+        const first = opening[0];
+        const second = opening[1];
+        if (first) {
+          update({
+            ...runtimeRef.current,
+            notifications: [...runtimeRef.current.notifications, `${first.sender}：${first.body}`],
+          });
+        }
+        if (second) {
+          window.setTimeout(() => {
+            update({
+              ...runtimeRef.current,
+              notifications: [...runtimeRef.current.notifications, `${second.sender}：${second.body}`],
+            });
+          }, 10000);
+        }
+      }
     } else {
       setPinError("密码不正确");
       setPinOpen(true);
