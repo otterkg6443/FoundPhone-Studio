@@ -183,7 +183,7 @@ export function WeChatSkin(p: SkinProps) {
       }, 10000);
       return () => window.clearTimeout(timer);
     }
-  }, [p.items, p.onIncoming]);
+  }, []);
   useEffect(() => {
     if (p.thread !== "당신") return;
     const followup = p.items.filter((i) => i.title === "당신" && i.meta?.stage?.startsWith("chat-"));
@@ -198,7 +198,7 @@ export function WeChatSkin(p: SkinProps) {
       timers.push(timer);
     });
     return () => timers.forEach((timer) => window.clearTimeout(timer));
-  }, [p.thread, p.items, p.onIncoming]);
+  }, [p.thread]);
   const conversations = [
     ...new Set(
       p.items
