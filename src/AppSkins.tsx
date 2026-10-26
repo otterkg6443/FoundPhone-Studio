@@ -60,7 +60,7 @@ function Avatar({
 }) {
   return (
     <span className={`skin-avatar ${round ? "round" : ""}`}>
-      {safeMedia(src)?.startsWith("data:image/") ? (
+      {safeMedia(src) ? (
         <img src={safeMedia(src)} alt="" />
       ) : (
         name.slice(0, 1)
@@ -193,14 +193,13 @@ export function WeChatSkin(p: SkinProps) {
       .sort((a, b) => (a.meta?.stage || "").localeCompare(b.meta?.stage || ""));
     let elapsed = 0;
     const timers: number[] = [];
+    // The staged conversation starts only after the user opens the thread.
+    // Keep the two incoming opening messages as the only lock-screen notices.
     followup.forEach((item) => {
       elapsed += Number(item.meta.delayMs || "3500");
       const timer = window.setTimeout(() => {
         setRevealedChatIds((ids) => ids.includes(item.id) ? ids : [...ids, item.id]);
-        if (!item.outgoing && !notifiedMessageIds.current.has(item.id)) {
-          notifiedMessageIds.current.add(item.id);
-          p.onIncoming?.(`${item.sender}：${item.body}`);
-        }
+        // Follow-up chat messages are part of the conversation, not lock-screen notices.
       }, elapsed);
       timers.push(timer);
     });
