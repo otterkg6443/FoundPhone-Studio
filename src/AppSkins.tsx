@@ -1,6 +1,6 @@
 import { NativeComposer } from "./DeviceSystem";
 import { useSkinState } from "./skinState";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ChevronLeft,
   Plus,
@@ -174,33 +174,45 @@ export function WeChatSkin(p: SkinProps) {
     "readThreads",
     [],
   );
-  const [revealedChatIds, setRevealedChatIds] = useState<string[]>(() => {
-    const first = p.items.find((i) => i.title === "당신" && i.meta?.stage === "opening-1");
-    return first ? [first.id] : [];
-  });
+  const [revealedChatIds, setRevealedChatIds] = useState<string[]>([]);
+  const notifiedMessageIds = useRef<Set<string>>(new Set());
   useEffect(() => {
+    if (p.thread !== "당신") return;
     const first = p.items.find((i) => i.title === "당신" && i.meta?.stage === "opening-1");
     const second = p.items.find((i) => i.title === "당신" && i.meta?.stage === "opening-2");
-    if (first && !revealedChatIds.includes(first.id)) {
+    const timers: number[] = [];
+    if (first) {
       setRevealedChatIds((ids) => ids.includes(first.id) ? ids : [...ids, first.id]);
+      if (!notifiedMessageIds.current.has(first.id)) {
+        notifiedMessageIds.current.add(first.id);
+        p.onIncoming?.(`${first.sender}：${first.body}`);
+      }
     }
-    if (second && !revealedChatIds.includes(second.id)) {
+    if (second) {
       const timer = window.setTimeout(() => {
         setRevealedChatIds((ids) => ids.includes(second.id) ? ids : [...ids, second.id]);
+        if (!notifiedMessageIds.current.has(second.id)) {
+          notifiedMessageIds.current.add(second.id);
+          p.onIncoming?.(`${second.sender}：${second.body}`);
+        }
       }, 10000);
-      return () => window.clearTimeout(timer);
+      timers.push(timer);
     }
-  }, []);
+    return () => timers.forEach((timer) => window.clearTimeout(timer));
+  }, [p.thread]);
   useEffect(() => {
     if (p.thread !== "당신") return;
     const followup = p.items.filter((i) => i.title === "당신" && i.meta?.stage?.startsWith("chat-"));
-    let elapsed = 0;
+    let elapsed = 10000;
     const timers: number[] = [];
     followup.forEach((item) => {
       elapsed += Number(item.meta.delayMs || "3500");
       const timer = window.setTimeout(() => {
         setRevealedChatIds((ids) => ids.includes(item.id) ? ids : [...ids, item.id]);
-        if (!item.outgoing) p.onIncoming?.(`${item.sender}：${item.body}`);
+        if (!item.outgoing && !notifiedMessageIds.current.has(item.id)) {
+          notifiedMessageIds.current.add(item.id);
+          p.onIncoming?.(`${item.sender}：${item.body}`);
+        }
       }, elapsed);
       timers.push(timer);
     });
