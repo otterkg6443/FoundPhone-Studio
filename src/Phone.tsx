@@ -173,6 +173,7 @@ function PhoneRuntime({
   const appSnapshots = useRef(new Map<string, HTMLElement>());
   const [banner, setBanner] = useState("");
   const noticesSeen = useRef(0);
+  const notificationsInitialized = useRef(false);
   const [contextApp, setContextApp] = useState("");
   const [deviceScale, setDeviceScale] = useState(0.84);
   const shell = useRef<HTMLDivElement>(null);
@@ -384,7 +385,14 @@ function PhoneRuntime({
   const displayTime = creator ? work.phone.time : s.time || work.phone.time;
   const plugin = getApp(app);
   useEffect(() => {
+    if (!ready) return;
     const count = s.notifications.length;
+    // Do not replay an old banner after restoring a saved session.
+    if (!notificationsInitialized.current) {
+      notificationsInitialized.current = true;
+      noticesSeen.current = count;
+      return;
+    }
     if (!locked && work.phone.notifications && count > noticesSeen.current) {
       setBanner(s.notifications.at(-1) || "");
       const timer = setTimeout(() => setBanner(""), 4500);
@@ -392,7 +400,7 @@ function PhoneRuntime({
       return () => clearTimeout(timer);
     }
     noticesSeen.current = count;
-  }, [s.notifications.length, locked, work.phone.notifications]);
+  }, [ready, s.notifications.length, locked, work.phone.notifications]);
   const dismissNotice = (index: number) =>
     update({
       ...runtimeRef.current,
