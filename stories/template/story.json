@@ -90,6 +90,13 @@
   ],
   "contacts": [
     {
+      "id": "test-contact",
+      "name": "测试联系人",
+      "phone": "",
+      "avatar": "",
+      "bio": ""
+    },
+    {
       "id": "dangsin",
       "name": "당신",
       "phone": "",
