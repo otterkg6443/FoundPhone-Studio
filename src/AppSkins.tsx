@@ -97,7 +97,16 @@ function MessageList({
   onRead: (id: string) => void;
   whatsapp?: boolean;
 }) {
-  const visibleItems = items.filter((i) => ["image", "audio", "video", "transfer"].includes(i.kind) || i.body.trim().length > 0);
+  const visibleItems = items
+    .filter((i) => ["image", "audio", "video", "transfer"].includes(i.kind) || i.body.trim().length > 0)
+    .filter((item, index, list) =>
+      list.findIndex((other) =>
+        other.sender === item.sender &&
+        other.body === item.body &&
+        other.outgoing === item.outgoing &&
+        other.kind === item.kind
+      ) === index
+    );
   return (
     <div className={`skin-messages ${whatsapp ? "wa-wallpaper" : ""}`}>
       <div className="skin-date">{visibleItems[0]?.time.slice(0, 10)}</div>
