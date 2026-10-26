@@ -1,6 +1,6 @@
 import { NativeComposer } from "./DeviceSystem";
 import { useSkinState } from "./skinState";
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ChevronLeft,
   Plus,
@@ -171,34 +171,21 @@ function Compose({
   disabled?: boolean;
   wa?: boolean;
 }) {
-  const [draft, setDraft] = useState("");
-  const submit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const message = draft.trim();
-    if (!message || !onSend) return;
-    onSend(message);
-    setDraft("");
-  };
   return (
     <div className={`skin-compose ${wa ? "wa-compose" : ""}`}>
       {wa ? <Plus size={20} /> : <Mic size={20} />}
-      {onSend && !creator ? (
-        <form className="wx-compose-form" onSubmit={submit}>
-          <input
-            aria-label="输入微信消息"
-            value={draft}
-            onChange={(event) => setDraft(event.target.value)}
-            placeholder={placeholder}
-            autoComplete="off"
-            disabled={disabled}
-          />
-          <button type="submit" disabled={!draft.trim() || disabled} className="wx-send-button">
-            发送
-          </button>
-        </form>
-      ) : (
-        <NativeComposer creator={creator} onAdd={onAdd} onInput={onInput} />
-      )}
+      <NativeComposer
+        creator={creator}
+        onAdd={onAdd}
+        onInput={onInput}
+        label={onSend && !creator ? placeholder : ""}
+        disabled={disabled}
+        keyboardOptions={
+          onSend && !creator
+            ? { placeholder, onSend, disabled }
+            : undefined
+        }
+      />
       <Smile size={21} />
       {wa ? <Mic size={20} /> : <Plus size={22} />}
     </div>
