@@ -1,6 +1,6 @@
 import { NativeComposer } from "./DeviceSystem";
 import { useSkinState } from "./skinState";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import {
   ChevronLeft,
   Plus,
@@ -48,6 +48,7 @@ export type SkinProps = {
   thread: string;
   onThread: (s: string) => void;
   onIncoming?: (message: string) => void;
+  onSendChat?: (message: string) => void;
 };
 function avatarSource(src: string) {
   const media = safeMedia(src);
@@ -157,18 +158,44 @@ function Compose({
   creator,
   onAdd,
   onInput,
+  onSend,
+  placeholder = "输入消息",
   wa = false,
 }: {
   creator: boolean;
   onAdd: () => void;
   onInput?: () => void;
+  onSend?: (message: string) => void;
+  placeholder?: string;
   wa?: boolean;
 }) {
+  const [draft, setDraft] = useState("");
+  const submit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const message = draft.trim();
+    if (!message || !onSend) return;
+    onSend(message);
+    setDraft("");
+  };
   return (
     <div className={`skin-compose ${wa ? "wa-compose" : ""}`}>
       {wa ? <Plus size={20} /> : <Mic size={20} />}
-      <NativeComposer creator={creator} onAdd={onAdd} onInput={onInput} />
-
+      {onSend && !creator ? (
+        <form className="wx-compose-form" onSubmit={submit}>
+          <input
+            aria-label="输入微信消息"
+            value={draft}
+            onChange={(event) => setDraft(event.target.value)}
+            placeholder={placeholder}
+            autoComplete="off"
+          />
+          <button type="submit" disabled={!draft.trim()} className="wx-send-button">
+            发送
+          </button>
+        </form>
+      ) : (
+        <NativeComposer creator={creator} onAdd={onAdd} onInput={onInput} />
+      )}
       <Smile size={21} />
       {wa ? <Mic size={20} /> : <Plus size={22} />}
     </div>
@@ -191,11 +218,6 @@ export function WeChatSkin(p: SkinProps) {
     "wechatRevealedChatIds",
     [],
   );
-  const [, setChatStarted] = useSkinState<boolean>(
-    p,
-    "wechatChatStarted",
-    false,
-  );
   // Keep the latest messages without tying reply timers to this screen's lifecycle.
   const itemsRef = useRef(p.items);
   itemsRef.current = p.items;
@@ -208,23 +230,40 @@ export function WeChatSkin(p: SkinProps) {
       .sort((a, b) => (a.meta?.stage || "").localeCompare(b.meta?.stage || ""));
     setRevealedChatIds((ids) => [...new Set([...ids, ...opening.map((i) => i.id)])]);
   }, [p.thread]);
-  // Messages arriving while the conversation is open are read immediately.
+  // Track the actual rendered incoming messages, without coupling arrival to this view.
+  const visibleIncomingIds = p.items
+    .filter(
+      (item) =>
+        item.title === "당신" &&
+        !item.outgoing &&
+        (!item.meta?.stage ||
+          /^opening-[12]$/.test(item.meta.stage) ||
+          revealedChatIds.includes(item.id)),
+    )
+    .filter(
+      (item, index, items) =>
+        items.findIndex(
+          (other) =>
+            other.title === item.title &&
+            other.body.trim() === item.body.trim() &&
+            other.kind === item.kind,
+        ) === index,
+    )
+    .map((item) => item.id);
+  const visibleIncomingSignature = visibleIncomingIds.join("|");
   useEffect(() => {
     if (p.thread !== "당신") return;
-    const readNow = itemsRef.current
-      .filter(
-        (item) =>
-          item.title === p.thread &&
-          !item.outgoing &&
-          (!item.meta?.stage ||
-            /^opening-[12]$/.test(item.meta.stage) ||
-            revealedChatIds.includes(item.id)),
-      )
-      .map((item) => item.id);
-    if (readNow.length) {
-      setReadMessageIds((ids) => [...new Set([...ids, ...readNow])]);
+    const unreadNow = visibleIncomingIds.filter(
+      (id) => !readMessageIds.includes(id),
+    );
+    if (unreadNow.length) {
+      setReadMessageIds((ids) =>
+        unreadNow.some((id) => !ids.includes(id))
+          ? [...new Set([...ids, ...unreadNow])]
+          : ids,
+      );
     }
-  }, [p.thread, revealedChatIds]);
+  }, [p.thread, visibleIncomingSignature, readMessageIds]);
   const conversations = [
     ...new Set(
       p.items
@@ -355,7 +394,24 @@ export function WeChatSkin(p: SkinProps) {
           <Compose
             creator={p.creator}
             onAdd={p.onAdd}
-            onInput={() => setChatStarted(true)}
+            onSend={p.onSendChat}
+            placeholder={(() => {
+              const sentIds = Array.isArray(p.ui?.wechatSentMessageIds)
+                ? p.ui.wechatSentMessageIds
+                : [];
+              const next = itemsRef.current
+                .filter(
+                  (item) =>
+                    item.title === "당신" &&
+                    item.outgoing &&
+                    /^chat-[13]$/.test(item.meta?.stage || "") &&
+                    !sentIds.includes(item.id),
+                )
+                .sort((a, b) =>
+                  (a.meta?.stage || "").localeCompare(b.meta?.stage || ""),
+                )[0];
+              return next ? `输入：${next.body}` : "输入消息";
+            })()}
           />
         </>
       ) : moments ? (
