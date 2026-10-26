@@ -39,30 +39,44 @@ import {
 } from "lucide-react";
 import { motion } from "motion/react";
 import type { Work } from "./schema";
-export const KeyboardContext = createContext<(open: boolean) => void>(() => {});
+export type DeviceKeyboardOptions = {
+  placeholder?: string;
+  onSend?: (message: string) => void;
+  disabled?: boolean;
+};
+export const KeyboardContext = createContext<
+  (open: boolean, options?: DeviceKeyboardOptions) => void
+>(() => {});
 export function NativeComposer({
   creator,
   onAdd,
   onInput,
+  label = "",
+  keyboardOptions,
+  disabled = false,
 }: {
   creator: boolean;
   onAdd: () => void;
   onInput?: () => void;
+  label?: string;
+  keyboardOptions?: DeviceKeyboardOptions;
+  disabled?: boolean;
 }) {
   const open = useContext(KeyboardContext);
   return (
     <button
       className="native-compose-field"
       aria-label={creator ? "添加消息" : "输入消息"}
+      disabled={!creator && disabled}
       onClick={() => {
         if (creator) onAdd();
         else {
           onInput?.();
-          open(true);
+          open(true, keyboardOptions);
         }
       }}
     >
-      {creator ? "添加消息" : ""}
+      {creator ? "添加消息" : label}
     </button>
   );
 }
@@ -412,10 +426,26 @@ export function ControlCenter({
     </motion.div>
   );
 }
-export function DeviceKeyboard({ close }: { close: () => void }) {
+export function DeviceKeyboard({
+  close,
+  placeholder = "输入消息",
+  onSend,
+  disabled = false,
+}: {
+  close: () => void;
+  placeholder?: string;
+  onSend?: (message: string) => void;
+  disabled?: boolean;
+}) {
   const [value, setValue] = useState(""),
     [shift, setShift] = useState(false),
     [numbers, setNumbers] = useState(false);
+  const submit = () => {
+    const message = value.trim();
+    if (!message || !onSend || disabled) return;
+    onSend(message);
+    close();
+  };
   return (
     <div className="device-keyboard" role="dialog" aria-label="屏幕键盘">
       <div className="keyboard-draft">
@@ -424,8 +454,24 @@ export function DeviceKeyboard({ close }: { close: () => void }) {
           aria-label="消息草稿"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder="输入消息"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              submit();
+            }
+          }}
+          placeholder={placeholder}
+          disabled={disabled}
         />
+        {onSend && (
+          <button
+            className="keyboard-send-action"
+            onClick={submit}
+            disabled={!value.trim() || disabled}
+          >
+            发送
+          </button>
+        )}
         <button aria-label="收起键盘" onClick={close}>
           <ChevronDown />
         </button>
@@ -433,7 +479,7 @@ export function DeviceKeyboard({ close }: { close: () => void }) {
       <div className="keyboard-candidates">
         {(value ? [value, "好的", "知道了"] : ["我", "你", "好的"]).map(
           (v, i) => (
-            <button key={i} onClick={() => setValue(value + v)}>
+            <button key={i} onClick={() => setValue((current) => current + v)}>
               {v}
             </button>
           ),
@@ -456,7 +502,7 @@ export function DeviceKeyboard({ close }: { close: () => void }) {
           {[...row].map((k) => (
             <button
               key={k}
-              onClick={() => setValue(value + (shift ? k.toUpperCase() : k))}
+              onClick={() => setValue((current) => current + (shift ? k.toUpperCase() : k))}
             >
               {shift ? k.toUpperCase() : k}
             </button>
@@ -465,7 +511,7 @@ export function DeviceKeyboard({ close }: { close: () => void }) {
             <button
               className="key-special"
               aria-label="退格"
-              onClick={() => setValue(value.slice(0, -1))}
+              onClick={() => setValue((current) => current.slice(0, -1))}
             >
               <Delete size={20} />
             </button>
@@ -476,7 +522,7 @@ export function DeviceKeyboard({ close }: { close: () => void }) {
         <button onClick={() => setNumbers(!numbers)}>
           {numbers ? "ABC" : "123"}
         </button>
-        <button className="key-space" onClick={() => setValue(value + " ")}>
+        <button className="key-space" onClick={() => setValue((current) => current + " ")}>
           空格
         </button>
         <button onClick={close}>完成</button>
