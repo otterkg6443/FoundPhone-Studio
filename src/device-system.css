@@ -746,6 +746,28 @@
   border-radius: 17px;
   padding: 5px 12px;
 }
+.ios18 .keyboard-draft .keyboard-send-action {
+  flex: 0 0 auto;
+  min-width: 42px;
+  height: 32px;
+  padding: 0 8px;
+  border-radius: 16px;
+  background: #07c160;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+}
+.ios18 .keyboard-draft .keyboard-send-action:disabled {
+  opacity: 0.4;
+}
+.ios18 .keyboard-draft > button[aria-label="收起键盘"] {
+  flex: 0 0 auto;
+  width: 27px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  color: #555;
+}
 .ios18 .keyboard-candidates {
   height: 39px;
   display: flex;
