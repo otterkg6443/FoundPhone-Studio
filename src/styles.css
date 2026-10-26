@@ -901,6 +901,37 @@ svg {
   align-items: center;
   gap: 6px;
   min-width: 0;
+  position: relative;
+}
+.app-icon-badge {
+  position: absolute;
+  z-index: 3;
+  top: -5px;
+  left: calc(50% + 9px);
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #fff;
+  border-radius: 999px;
+  background: #fa5151;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 15%);
+}
+.app-icon-wrap.small .app-icon-badge {
+  top: -3px;
+  left: calc(50% + 5px);
+  min-width: 15px;
+  height: 15px;
+  padding: 0 3px;
+  font-size: 9px;
 }
 .app-icon {
   display: grid;
@@ -4093,6 +4124,47 @@ label {
   color: #aaa;
   justify-content: flex-start;
   padding: 0 9px;
+}
+.wx-compose-form {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  gap: 5px;
+}
+.wx-compose-form input {
+  flex: 1;
+  width: 0;
+  min-width: 0;
+  height: 32px;
+  border: 1px solid #e3e3e3;
+  border-radius: 6px;
+  padding: 0 9px;
+  background: #fff;
+  color: #222;
+  font-size: 11px;
+  box-shadow: none;
+}
+.wx-compose-form input::placeholder {
+  color: #a3a3a3;
+}
+.wx-send-button {
+  flex: 0 0 auto;
+  min-width: 39px;
+  height: 31px;
+  padding: 0 7px;
+  border-radius: 5px;
+  background: #07c160;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+}
+.wx-send-button:disabled {
+  opacity: 0.42;
+  cursor: default;
+}
+.wx-compose-form + svg {
+  flex-shrink: 0;
 }
 .wx-moments {
   flex: 1;
