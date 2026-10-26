@@ -160,6 +160,7 @@ function Compose({
   onInput,
   onSend,
   placeholder = "输入消息",
+  disabled = false,
   wa = false,
 }: {
   creator: boolean;
@@ -167,6 +168,7 @@ function Compose({
   onInput?: () => void;
   onSend?: (message: string) => void;
   placeholder?: string;
+  disabled?: boolean;
   wa?: boolean;
 }) {
   const [draft, setDraft] = useState("");
@@ -188,8 +190,9 @@ function Compose({
             onChange={(event) => setDraft(event.target.value)}
             placeholder={placeholder}
             autoComplete="off"
+            disabled={disabled}
           />
-          <button type="submit" disabled={!draft.trim()} className="wx-send-button">
+          <button type="submit" disabled={!draft.trim() || disabled} className="wx-send-button">
             发送
           </button>
         </form>
@@ -410,7 +413,44 @@ export function WeChatSkin(p: SkinProps) {
                 .sort((a, b) =>
                   (a.meta?.stage || "").localeCompare(b.meta?.stage || ""),
                 )[0];
-              return next ? `输入：${next.body}` : "输入消息";
+              if (!next) return "输入消息";
+              if (next.meta?.stage === "chat-3") {
+                const priorReply = itemsRef.current.find(
+                  (item) =>
+                    item.title === "당신" &&
+                    item.meta?.stage === "chat-2",
+                );
+                const arrived = !!priorReply && itemsRef.current.some(
+                  (item) => item.meta?.scheduledSourceId === priorReply.id,
+                );
+                if (!arrived) return "等待对方回复…";
+              }
+              return `输入：${next.body}`;
+            })()}
+            disabled={(() => {
+              const sentIds = Array.isArray(p.ui?.wechatSentMessageIds)
+                ? p.ui.wechatSentMessageIds
+                : [];
+              const next = itemsRef.current
+                .filter(
+                  (item) =>
+                    item.title === "당신" &&
+                    item.outgoing &&
+                    /^chat-[13]$/.test(item.meta?.stage || "") &&
+                    !sentIds.includes(item.id),
+                )
+                .sort((a, b) =>
+                  (a.meta?.stage || "").localeCompare(b.meta?.stage || ""),
+                )[0];
+              if (next?.meta?.stage !== "chat-3") return false;
+              const priorReply = itemsRef.current.find(
+                (item) =>
+                  item.title === "당신" &&
+                  item.meta?.stage === "chat-2",
+              );
+              return !priorReply || !itemsRef.current.some(
+                (item) => item.meta?.scheduledSourceId === priorReply.id,
+              );
             })()}
           />
         </>
