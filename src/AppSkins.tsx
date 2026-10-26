@@ -96,10 +96,11 @@ function MessageList({
   onRead: (id: string) => void;
   whatsapp?: boolean;
 }) {
+  const visibleItems = items.filter((i) => ["image", "audio", "video", "transfer"].includes(i.kind) || i.body.trim().length > 0);
   return (
     <div className={`skin-messages ${whatsapp ? "wa-wallpaper" : ""}`}>
-      <div className="skin-date">{items[0]?.time.slice(0, 10)}</div>
-      {items.map((i) => (
+      <div className="skin-date">{visibleItems[0]?.time.slice(0, 10)}</div>
+      {visibleItems.map((i) => (
         <div
           key={i.id}
           className={`skin-message ${i.outgoing ? "outgoing" : ""}`}
