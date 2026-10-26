@@ -245,6 +245,143 @@ function PhoneRuntime({
     setOwn(next);
     onRuntime?.(next);
   };
+  const updateWeChatUi = (key: string, value: UiValue) => {
+    const current = runtimeRef.current;
+    update(
+      dispatch(
+        work,
+        {
+          ...current,
+          ui: {
+            ...current.ui,
+            wechat: { ...current.ui?.wechat, [key]: value },
+          },
+        },
+        "variable",
+        `ui:wechat:${key}`,
+      ),
+    );
+  };
+  const wechatUi = s.ui?.wechat;
+  const wechatChatStarted = wechatUi?.wechatChatStarted === true;
+  const wechatRevealedValue = wechatUi?.wechatRevealedChatIds;
+  const wechatScheduleValue = wechatUi?.wechatSchedule;
+  useEffect(() => {
+    if (creator || !ready || !wechatChatStarted) return;
+
+    // Reply timing belongs to the phone runtime, not the visible chat screen.
+    // Persist absolute arrival times so leaving WeChat or refreshing the page
+    // cannot pause or restart the staged replies.
+    const stagedMessages = (work.data.wechat ?? [])
+      .filter(
+        (item) =>
+          item.title === "당신" && item.meta?.stage?.startsWith("chat-"),
+      )
+      .sort((a, b) =>
+        (a.meta?.stage || "").localeCompare(b.meta?.stage || ""),
+      );
+    if (!stagedMessages.length) return;
+
+    const revealedIds = Array.isArray(wechatRevealedValue)
+      ? wechatRevealedValue
+      : [];
+    let schedule: { id: string; dueAt: number }[] = [];
+    try {
+      const parsed =
+        typeof wechatScheduleValue === "string"
+          ? JSON.parse(wechatScheduleValue)
+          : [];
+      if (Array.isArray(parsed)) {
+        schedule = parsed.filter(
+          (entry): entry is { id: string; dueAt: number } =>
+            !!entry &&
+            typeof entry.id === "string" &&
+            typeof entry.dueAt === "number" &&
+            Number.isFinite(entry.dueAt),
+        );
+      }
+    } catch {
+      schedule = [];
+    }
+
+    const missing = stagedMessages.filter(
+      (item) =>
+        !revealedIds.includes(item.id) &&
+        !schedule.some((entry) => entry.id === item.id),
+    );
+    if (missing.length) {
+      let dueAt = Math.max(Date.now(), ...schedule.map((entry) => entry.dueAt));
+      for (const item of missing) {
+        dueAt += Math.max(0, Number(item.meta?.delayMs || "3500"));
+        schedule.push({ id: item.id, dueAt });
+      }
+      updateWeChatUi("wechatSchedule", JSON.stringify(schedule));
+      return;
+    }
+
+    const next = schedule
+      .filter(
+        (entry) =>
+          !revealedIds.includes(entry.id) &&
+          stagedMessages.some((item) => item.id === entry.id),
+      )
+      .sort((a, b) => a.dueAt - b.dueAt)[0];
+    if (!next) return;
+
+    const timer = window.setTimeout(() => {
+      const latest = runtimeRef.current;
+      const latestUi = latest.ui?.wechat;
+      const currentRevealed = Array.isArray(
+        latestUi?.wechatRevealedChatIds,
+      )
+        ? latestUi.wechatRevealedChatIds
+        : [];
+      const currentSchedule: { id: string; dueAt: number }[] = (() => {
+        try {
+          const parsed =
+            typeof latestUi?.wechatSchedule === "string"
+              ? JSON.parse(latestUi.wechatSchedule)
+              : [];
+          return Array.isArray(parsed)
+            ? parsed.filter(
+                (entry): entry is { id: string; dueAt: number } =>
+                  !!entry &&
+                  typeof entry.id === "string" &&
+                  typeof entry.dueAt === "number" &&
+                  Number.isFinite(entry.dueAt),
+              )
+            : [];
+        } catch {
+          return [];
+        }
+      })();
+      const dueIds = currentSchedule
+        .filter(
+          (entry) =>
+            entry.dueAt <= Date.now() &&
+            !currentRevealed.includes(entry.id) &&
+            stagedMessages.some((item) => item.id === entry.id),
+        )
+        .map((entry) => entry.id);
+      if (dueIds.length) {
+        updateWeChatUi(
+          "wechatRevealedChatIds",
+          [...new Set([...currentRevealed, ...dueIds])],
+        );
+      }
+    }, Math.max(0, next.dueAt - Date.now()));
+
+    return () => window.clearTimeout(timer);
+  }, [
+    creator,
+    ready,
+    work.id,
+    work.updatedAt,
+    work.data.wechat,
+    wechatChatStarted,
+    wechatRevealedValue,
+    wechatScheduleValue,
+  ]);
   useEffect(() => {
     if (creator || !ready) return;
     try {
