@@ -100,7 +100,7 @@
       "id": "dangsin",
       "name": "당신",
       "phone": "",
-      "avatar": "",
+      "avatar": "data:image/jpeg;base64,DATA_URI_PLACEHOLDER",
       "bio": ""
     }
   ],
@@ -747,7 +747,7 @@
         "body": "",
         "sender": "당신",
         "kind": "text",
-        "avatar": "",
+        "avatar": "data:image/jpeg;base64,DATA_URI_PLACEHOLDER",
         "meta": {
           "type": "contact"
         }
