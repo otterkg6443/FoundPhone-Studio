@@ -306,11 +306,20 @@ function PhoneRuntime({
         openingWechatNotices.length
       ) {
         openingNotificationsSent.current = true;
-        // Replace stale saved notices instead of appending to old chat history.
+        // Start a fresh two-message notification sequence instead of keeping saved notices.
+        noticesSeen.current = 0;
         update({
           ...runtimeRef.current,
-          notifications: openingWechatNotices,
+          notifications: openingWechatNotices.slice(0, 1),
         });
+        if (openingWechatNotices.length > 1) {
+          window.setTimeout(() => {
+            update({
+              ...runtimeRef.current,
+              notifications: openingWechatNotices,
+            });
+          }, 2500);
+        }
       }
     } else {
       setPinError("密码不正确");
@@ -582,9 +591,9 @@ function PhoneRuntime({
               {panel === "notification" ? (
                 <>
                   <h2>通知中心</h2>
-                  {work.phone.notifications && s.notifications.length ? (
+                  {work.phone.notifications && lockNotices.length ? (
                     <SystemNotifications
-                      notices={s.notifications}
+                      notices={lockNotices}
                       apps={work.apps}
                       onOpen={() => {
                         setPanel("");
