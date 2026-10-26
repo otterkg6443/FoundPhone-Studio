@@ -319,6 +319,7 @@ function PhoneRuntime({
       <KeyboardContext.Provider value={setKeyboard}>
         <div
           className={`phone-screen wallpaper-${work.phone.wallpaper} ${locked ? "is-locked" : ""} ${app ? "in-app" : ""} ${keyboard ? "keyboard-open" : ""}`}
+          style={work.phone.wallpaper === "bamby-eunho-cafe" ? { backgroundImage: 'url("./images/eunho-bamby-wallpaper.jpg")', backgroundPosition: "center", backgroundSize: "cover" } : undefined}
           data-app={app}
           onDragStart={(e) => e.preventDefault()}
           onPointerDown={(e) => {
