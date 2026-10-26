@@ -47,6 +47,7 @@ export type SkinProps = {
   onBack: () => void;
   thread: string;
   onThread: (s: string) => void;
+  onIncoming?: (message: string) => void;
 };
 function Avatar({
   name,
@@ -164,6 +165,40 @@ export function WeChatSkin(p: SkinProps) {
     "readThreads",
     [],
   );
+  const [revealedChatIds, setRevealedChatIds] = useState<string[]>(() => {
+    const first = p.items.find((i) => i.title === "당신" && i.meta?.stage === "opening-1");
+    return first ? [first.id] : [];
+  });
+  useEffect(() => {
+    const first = p.items.find((i) => i.title === "당신" && i.meta?.stage === "opening-1");
+    const second = p.items.find((i) => i.title === "당신" && i.meta?.stage === "opening-2");
+    if (first && !revealedChatIds.includes(first.id)) {
+      setRevealedChatIds((ids) => ids.includes(first.id) ? ids : [...ids, first.id]);
+      p.onIncoming?.(`${first.sender}：${first.body}`);
+    }
+    if (second && !revealedChatIds.includes(second.id)) {
+      const timer = window.setTimeout(() => {
+        setRevealedChatIds((ids) => ids.includes(second.id) ? ids : [...ids, second.id]);
+        p.onIncoming?.(`${second.sender}：${second.body}`);
+      }, 10000);
+      return () => window.clearTimeout(timer);
+    }
+  }, [p.items, p.onIncoming]);
+  useEffect(() => {
+    if (p.thread !== "당신") return;
+    const followup = p.items.filter((i) => i.title === "당신" && i.meta?.stage?.startsWith("chat-"));
+    let elapsed = 0;
+    const timers: number[] = [];
+    followup.forEach((item) => {
+      elapsed += Number(item.meta.delayMs || "3500");
+      const timer = window.setTimeout(() => {
+        setRevealedChatIds((ids) => ids.includes(item.id) ? ids : [...ids, item.id]);
+        if (!item.outgoing) p.onIncoming?.(`${item.sender}：${item.body}`);
+      }, elapsed);
+      timers.push(timer);
+    });
+    return () => timers.forEach((timer) => window.clearTimeout(timer));
+  }, [p.thread, p.items, p.onIncoming]);
   const conversations = [
     ...new Set(
       p.items
@@ -279,7 +314,7 @@ export function WeChatSkin(p: SkinProps) {
       ) : p.thread ? (
         <>
           <MessageList
-            items={p.items.filter((i) => i.title === p.thread)}
+            items={p.items.filter((i) => i.title === p.thread && (p.creator || !i.meta?.stage || revealedChatIds.includes(i.id)))}
             creator={p.creator}
             onItem={p.onItem}
             onRead={p.onRead}
@@ -338,8 +373,9 @@ export function WeChatSkin(p: SkinProps) {
                     ),
                 )
                 .map((t) => {
-                  const list = p.items.filter((i) => i.title === t),
+                  const list = p.items.filter((i) => i.title === t && (p.creator || !i.meta?.stage || revealedChatIds.includes(i.id))),
                     last = list.at(-1)!;
+                  if (!last) return null;
                   return (
                     <button
                       className="wx-chat-row"
