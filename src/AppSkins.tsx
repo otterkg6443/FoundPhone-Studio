@@ -362,7 +362,14 @@ export function WeChatSkin(p: SkinProps) {
       ) : p.thread ? (
         <>
           <MessageList
-            items={p.items.filter((i) => i.title === p.thread && (p.creator || !i.meta?.stage || revealedChatIds.includes(i.id)))}
+            items={p.items.filter(
+              (i) =>
+                i.title === p.thread &&
+                (p.creator ||
+                  !i.meta?.stage ||
+                  /^opening-[12]$/.test(i.meta.stage) ||
+                  revealedChatIds.includes(i.id)),
+            )}
             creator={p.creator}
             onItem={p.onItem}
             onRead={p.onRead}
@@ -431,6 +438,7 @@ export function WeChatSkin(p: SkinProps) {
                         i.title === t &&
                         (p.creator ||
                           !i.meta?.stage ||
+                          /^opening-[12]$/.test(i.meta.stage) ||
                           revealedChatIds.includes(i.id)),
                     )
                     // Match MessageList's dedupe rule so legacy chat entries
@@ -446,9 +454,14 @@ export function WeChatSkin(p: SkinProps) {
                     );
                   const last = list.at(-1);
                   if (!last) return null;
+                  // Only incoming messages count as unread. Opening-stage messages
+                  // remain visible in the chat list before the conversation is opened.
+                  const unreadCount = readThreads.includes(t)
+                    ? 0
+                    : list.filter((i) => !i.outgoing && !i.read).length;
                   return (
                     <button
-                      className="wx-chat-row"
+                      className={`wx-chat-row ${unreadCount ? "has-unread" : ""}`}
                       key={t}
                       onClick={() => {
                         setReadThreads((v) => (v.includes(t) ? v : [...v, t]));
@@ -458,12 +471,14 @@ export function WeChatSkin(p: SkinProps) {
                     >
                       <span className="wx-chat-avatar">
                         <Avatar name={t} src={last.avatar} />
-                        {!readThreads.includes(t) &&
-                          list.some((i) => !i.read) && (
-                            <b className="wx-unread">
-                              {list.filter((i) => !i.read).length}
-                            </b>
-                          )}
+                        {unreadCount > 0 && (
+                          <b
+                            className="wx-unread"
+                            aria-label={`${unreadCount} 条未读消息`}
+                          >
+                            {unreadCount > 99 ? "99+" : unreadCount}
+                          </b>
+                        )}
                       </span>
                       <div>
                         <strong>{t}</strong>
