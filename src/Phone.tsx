@@ -281,7 +281,6 @@ function PhoneRuntime({
   const wechatUi = s.ui?.wechat;
   const wechatInteractionVersion = wechatUi?.wechatInteractionVersion;
   const wechatScheduleValue = wechatUi?.wechatSchedule;
-  const wechatSentIdsValue = wechatUi?.wechatSentMessageIds;
 
   // Migrate saves created by the previous automatic-message implementation:
   // only incoming replies should ever be scheduled, and outgoing messages
@@ -308,7 +307,14 @@ function PhoneRuntime({
     const wechatState = latest.ui?.wechat ?? {};
     const oldReadIds = Array.isArray(wechatState.wechatReadMessageIds)
       ? wechatState.wechatReadMessageIds.filter(
-          (id) => typeof id === "string" && !stagedIds.has(id),
+          (id) =>
+            typeof id === "string" &&
+            !stagedIds.has(id) &&
+            ![...stagedIds].some(
+              (sourceId) =>
+                id === `scheduled-${sourceId}` ||
+                id === `sent-${sourceId}`,
+            ),
         )
       : [];
     const cleanMessages = (latest.messages.wechat ?? []).filter(
@@ -494,17 +500,17 @@ function PhoneRuntime({
     });
   };
 
-  const stagedIncomingReplies = (work.data.wechat ?? [])
-    .filter(
-      (item) =>
-        item.title === "당신" &&
-        !item.outgoing &&
-        /^chat-[24]$/.test(item.meta?.stage || ""),
-    )
-    .sort((a, b) =>
-      (a.meta?.stage || "").localeCompare(b.meta?.stage || ""),
-    );
   useEffect(() => {
+    const stagedIncomingReplies = (work.data.wechat ?? [])
+      .filter(
+        (item) =>
+          item.title === "당신" &&
+          !item.outgoing &&
+          /^chat-[24]$/.test(item.meta?.stage || ""),
+      )
+      .sort((a, b) =>
+        (a.meta?.stage || "").localeCompare(b.meta?.stage || ""),
+      );
     if (
       creator ||
       !ready ||
