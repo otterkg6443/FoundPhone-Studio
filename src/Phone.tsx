@@ -21,6 +21,7 @@ import {
   DeviceKeyboard,
   KeyboardContext,
   NativeSettings,
+  type DeviceKeyboardOptions,
 } from "./DeviceSystem";
 import { AppArtwork, hasNativeArtwork } from "./AppArtwork";
 import { getFields } from "./fields";
@@ -176,6 +177,11 @@ function PhoneRuntime({
   const [pinOpen, setPinOpen] = useState(false);
   const [quickCamera, setQuickCamera] = useState(false);
   const [keyboard, setKeyboard] = useState(false);
+  const [keyboardOptions, setKeyboardOptions] = useState<DeviceKeyboardOptions>({});
+  const openKeyboard = (open: boolean, options?: DeviceKeyboardOptions) => {
+    if (open && options) setKeyboardOptions(options);
+    setKeyboard(open);
+  };
   const [recent, setRecent] = useState<string[]>([]);
   const appSnapshots = useRef(new Map<string, HTMLElement>());
   const [banner, setBanner] = useState("");
@@ -820,7 +826,7 @@ function PhoneRuntime({
       style={{ "--phone-scale": deviceScale } as CSSProperties}
       className={`phone-shell ios18 ${work.phone.theme === "dark" ? "dark-phone" : ""}`}
     >
-      <KeyboardContext.Provider value={setKeyboard}>
+      <KeyboardContext.Provider value={openKeyboard}>
         <div
           className={`phone-screen wallpaper-${work.phone.wallpaper} ${locked ? "is-locked" : ""} ${app ? "in-app" : ""} ${keyboard ? "keyboard-open" : ""}`}
           style={work.phone.wallpaper === "bamby-eunho-cafe" ? { backgroundImage: 'url("./images/eunho-bamby-wallpaper.jpg")', backgroundPosition: "center", backgroundSize: "cover" } : undefined}
@@ -1274,7 +1280,14 @@ function PhoneRuntime({
               </div>
             </div>
           )}
-          {keyboard && <DeviceKeyboard close={() => setKeyboard(false)} />}
+          {keyboard && (
+            <DeviceKeyboard
+              close={() => setKeyboard(false)}
+              placeholder={keyboardOptions.placeholder}
+              onSend={keyboardOptions.onSend}
+              disabled={keyboardOptions.disabled}
+            />
+          )}
           {loadError && (
             <button className="runtime-error" onClick={() => setLoadError("")}>
               {loadError}
