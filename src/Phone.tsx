@@ -1009,6 +1009,10 @@ function AppContent({
               onBack={onBack}
               thread={thread}
               onThread={setThread}
+              onIncoming={(message) => {
+                setBanner(message);
+                window.setTimeout(() => setBanner((current) => current === message ? "" : current), 4500);
+              }}
             />
           </Suspense>
         </div>
