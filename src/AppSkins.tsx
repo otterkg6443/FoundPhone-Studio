@@ -176,7 +176,6 @@ export function WeChatSkin(p: SkinProps) {
     [],
   );
   const [revealedChatIds, setRevealedChatIds] = useState<string[]>([]);
-  const notifiedMessageIds = useRef<Set<string>>(new Set());
   useEffect(() => {
     if (p.thread !== "당신") return;
     const opening = p.items
