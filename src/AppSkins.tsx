@@ -178,32 +178,19 @@ export function WeChatSkin(p: SkinProps) {
   const notifiedMessageIds = useRef<Set<string>>(new Set());
   useEffect(() => {
     if (p.thread !== "당신") return;
-    const first = p.items.find((i) => i.title === "당신" && i.meta?.stage === "opening-1");
-    const second = p.items.find((i) => i.title === "당신" && i.meta?.stage === "opening-2");
-    const timers: number[] = [];
-    if (first) {
-      setRevealedChatIds((ids) => ids.includes(first.id) ? ids : [...ids, first.id]);
-      if (!notifiedMessageIds.current.has(first.id)) {
-        notifiedMessageIds.current.add(first.id);
-        p.onIncoming?.(`${first.sender}：${first.body}`);
-      }
-    }
-    if (second) {
-      const timer = window.setTimeout(() => {
-        setRevealedChatIds((ids) => ids.includes(second.id) ? ids : [...ids, second.id]);
-        if (!notifiedMessageIds.current.has(second.id)) {
-          notifiedMessageIds.current.add(second.id);
-          p.onIncoming?.(`${second.sender}：${second.body}`);
-        }
-      }, 10000);
-      timers.push(timer);
-    }
-    return () => timers.forEach((timer) => window.clearTimeout(timer));
-  }, [p.thread]);
+    const opening = p.items
+      .filter((i) => i.title === "당신" && /^opening-[12]$/.test(i.meta?.stage || ""))
+      .sort((a, b) => (a.meta?.stage || "").localeCompare(b.meta?.stage || ""));
+    // Opening messages are already part of the conversation when the thread opens.
+    // Their lock-screen notifications are handled by the phone unlock flow.
+    setRevealedChatIds((ids) => [...new Set([...ids, ...opening.map((i) => i.id)])]);
+  }, [p.thread, p.items]);
   useEffect(() => {
     if (p.thread !== "당신") return;
-    const followup = p.items.filter((i) => i.title === "당신" && i.meta?.stage?.startsWith("chat-"));
-    let elapsed = 10000;
+    const followup = p.items
+      .filter((i) => i.title === "당신" && i.meta?.stage?.startsWith("chat-"))
+      .sort((a, b) => (a.meta?.stage || "").localeCompare(b.meta?.stage || ""));
+    let elapsed = 0;
     const timers: number[] = [];
     followup.forEach((item) => {
       elapsed += Number(item.meta.delayMs || "3500");
@@ -217,7 +204,7 @@ export function WeChatSkin(p: SkinProps) {
       timers.push(timer);
     });
     return () => timers.forEach((timer) => window.clearTimeout(timer));
-  }, [p.thread]);
+  }, [p.thread, p.items]);
   const conversations = [
     ...new Set(
       p.items
