@@ -425,8 +425,26 @@ export function WeChatSkin(p: SkinProps) {
                     ),
                 )
                 .map((t) => {
-                  const list = p.items.filter((i) => i.title === t && (p.creator || !i.meta?.stage || revealedChatIds.includes(i.id))),
-                    last = list.at(-1)!;
+                  const list = p.items
+                    .filter(
+                      (i) =>
+                        i.title === t &&
+                        (p.creator ||
+                          !i.meta?.stage ||
+                          revealedChatIds.includes(i.id)),
+                    )
+                    // Match MessageList's dedupe rule so legacy chat entries
+                    // appended after the staged messages cannot overwrite the preview.
+                    .filter(
+                      (item, index, visible) =>
+                        visible.findIndex(
+                          (other) =>
+                            other.title === item.title &&
+                            other.body.trim() === item.body.trim() &&
+                            other.kind === item.kind,
+                        ) === index,
+                    );
+                  const last = list.at(-1);
                   if (!last) return null;
                   return (
                     <button
