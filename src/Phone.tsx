@@ -381,7 +381,11 @@ function PhoneRuntime({
         const deliveredMessages: Item[] = dueEntries.flatMap((entry) => {
           const source = stagedMessages.find((item) => item.id === entry.id);
           if (!source) return [];
-          const { stage: _stage, delayMs: _delayMs, ...meta } = source.meta;
+          const meta = Object.fromEntries(
+            Object.entries(source.meta).filter(
+              ([key]) => key !== "stage" && key !== "delayMs",
+            ),
+          );
           return [
             {
               ...source,
