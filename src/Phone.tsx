@@ -101,6 +101,31 @@ export function AppIcon({
   );
 }
 type PhoneProps = Omit<Parameters<typeof PhoneRuntime>[0], "deviceLayout">;
+type PhoneSession = { revision: number; locked: boolean; app: string };
+function readPhoneSession(work: Work, creator: boolean): PhoneSession {
+  const fallback = { revision: work.updatedAt, locked: !creator, app: "" };
+  if (creator || typeof window === "undefined") return fallback;
+  try {
+    const raw = window.localStorage.getItem(
+      `foundphone-phone-session-v1:${work.id}`,
+    );
+    if (!raw) return fallback;
+    const saved = JSON.parse(raw) as Partial<PhoneSession>;
+    if (saved.revision !== work.updatedAt) return fallback;
+    const app =
+      typeof saved.app === "string" &&
+      work.apps.some((item) => item.id === saved.app && item.installed)
+        ? saved.app
+        : "";
+    return {
+      revision: work.updatedAt,
+      locked: typeof saved.locked === "boolean" ? saved.locked : true,
+      app,
+    };
+  } catch {
+    return fallback;
+  }
+}
 export function Phone(props: PhoneProps) {
   const deviceLayout = useDeviceLayout(props.work, props.creator);
   return (
@@ -132,9 +157,10 @@ function PhoneRuntime({
   runtime?: Runtime;
   onRuntime?: (s: Runtime) => void;
 }) {
-  const [app, setApp] = useState("");
+  const [sessionInitial] = useState(() => readPhoneSession(work, creator));
+  const [app, setApp] = useState(sessionInitial.app);
   const [homeRequest, setHomeRequest] = useState(0);
-  const [locked, setLocked] = useState(!creator);
+  const [locked, setLocked] = useState(sessionInitial.locked);
   const [pinOpen, setPinOpen] = useState(false);
   const [quickCamera, setQuickCamera] = useState(false);
   const [keyboard, setKeyboard] = useState(false);
@@ -213,6 +239,21 @@ function PhoneRuntime({
     setOwn(next);
     onRuntime?.(next);
   };
+  useEffect(() => {
+    if (creator) return;
+    try {
+      window.localStorage.setItem(
+        `foundphone-phone-session-v1:${work.id}`,
+        JSON.stringify({
+          revision: work.updatedAt,
+          locked,
+          app: locked ? "" : app,
+        } satisfies PhoneSession),
+      );
+    } catch {
+      // Keep the runtime save usable even when local storage is unavailable.
+    }
+  }, [creator, work.id, work.updatedAt, locked, app]);
   useEffect(() => {
     let active = true;
     if (creator || external) return;
