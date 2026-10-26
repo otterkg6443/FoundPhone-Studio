@@ -148,21 +148,6 @@ function PhoneRuntime({
   const gesture = useRef({ x: 0, y: 0, time: 0, zone: "" });
   const [launchOrigin, setLaunchOrigin] = useState(screenOrigin);
 
-  useEffect(() => {
-    if (locked || creator) return;
-    const firstTimer = window.setTimeout(() => {
-      setBanner("당신：我今天试戴了万圣节要用的那个南瓜头，超级重");
-      window.setTimeout(() => setBanner((current) => current.startsWith("당신：我今天试戴") ? "" : current), 4500);
-    }, 500);
-    const secondTimer = window.setTimeout(() => {
-      setBanner("당신：摘下来之后头好晕");
-      window.setTimeout(() => setBanner((current) => current === "당신：摘下来之后头好晕" ? "" : current), 4500);
-    }, 10500);
-    return () => {
-      window.clearTimeout(firstTimer);
-      window.clearTimeout(secondTimer);
-    };
-  }, [locked, creator, work.id]);
   const beginUnlock = () => {
     setPinError("");
     setQuickCamera(false);
