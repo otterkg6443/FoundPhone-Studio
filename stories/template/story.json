@@ -287,7 +287,7 @@
         "body": "BAMBY 穿黑色连帽外套的侧面照。",
         "sender": "EUNHO",
         "kind": "image",
-        "media": "",
+        "media": "./images/bamby-hoodie.jpg",
         "time": "",
         "meta": {
           "description": "黑色连帽外套、白色 T 恤，昏暗室内场馆。"
@@ -299,7 +299,7 @@
         "body": "EUNHO 与 BAMBY 在咖啡馆里的双人合照，也是手机壁纸。",
         "sender": "EUNHO",
         "kind": "image",
-        "media": "",
+        "media": "./images/eunho-bamby-wallpaper.jpg",
         "time": "",
         "favorite": true,
         "meta": {
