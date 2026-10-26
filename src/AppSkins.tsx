@@ -99,11 +99,12 @@ function MessageList({
 }) {
   const visibleItems = items
     .filter((i) => ["image", "audio", "video", "transfer"].includes(i.kind) || i.body.trim().length > 0)
+    // The same chat can arrive from both story content and runtime chat data.
+    // Within a single thread, render one copy of each identical message body.
     .filter((item, index, list) =>
       list.findIndex((other) =>
-        other.sender === item.sender &&
-        other.body === item.body &&
-        other.outgoing === item.outgoing &&
+        other.title === item.title &&
+        other.body.trim() === item.body.trim() &&
         other.kind === item.kind
       ) === index
     );
