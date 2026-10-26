@@ -71,6 +71,7 @@ export function AppIcon({
   custom = "",
   date,
   time,
+  badge = 0,
 }: {
   id: string;
   name?: string;
@@ -78,6 +79,7 @@ export function AppIcon({
   custom?: string;
   date?: string;
   time?: string;
+  badge?: number;
 }) {
   const a = getApp(id);
   const Icon = a.icon;
@@ -96,6 +98,11 @@ export function AppIcon({
           <Icon size={small ? 21 : 28} strokeWidth={1.65} />
         )}
       </span>
+      {badge > 0 && (
+        <b className="app-icon-badge" aria-label={`${badge} 条未读消息`}>
+          {badge > 99 ? "99+" : badge}
+        </b>
+      )}
       {name && <span className="app-name">{name}</span>}
     </span>
   );
@@ -221,6 +228,32 @@ function PhoneRuntime({
     };
   }, [creator, ready]);
   const s = external ?? own;
+  const readWechatValue = s.ui?.wechat?.wechatReadMessageIds;
+  const readWechatMessageIds = Array.isArray(readWechatValue)
+    ? readWechatValue
+    : [];
+  const arrivedIncomingWechat = [
+    ...(work.data.wechat ?? []).filter(
+      (item) =>
+        item.title === "당신" &&
+        !item.outgoing &&
+        (!item.meta?.stage || /^opening-[12]$/.test(item.meta.stage)),
+    ),
+    ...(s.messages.wechat ?? []).filter(
+      (item) => item.title === "당신" && !item.outgoing,
+    ),
+  ].filter(
+    (item, index, items) =>
+      items.findIndex(
+        (other) =>
+          other.title === item.title &&
+          other.body.trim() === item.body.trim() &&
+          other.kind === item.kind,
+      ) === index,
+  );
+  const unreadWechatCount = arrivedIncomingWechat.filter(
+    (item) => !item.read && !readWechatMessageIds.includes(item.id),
+  ).length;
   const openingWechatItems = (work.data.wechat ?? [])
     .filter(
       (item) =>
@@ -245,51 +278,242 @@ function PhoneRuntime({
     setOwn(next);
     onRuntime?.(next);
   };
-  const updateWeChatUi = (key: string, value: UiValue) => {
-    const current = runtimeRef.current;
-    update(
-      dispatch(
-        work,
-        {
-          ...current,
-          ui: {
-            ...current.ui,
-            wechat: { ...current.ui?.wechat, [key]: value },
-          },
-        },
-        "variable",
-        `ui:wechat:${key}`,
-      ),
-    );
-  };
   const wechatUi = s.ui?.wechat;
-  const wechatChatStarted = wechatUi?.wechatChatStarted === true;
-  const wechatRevealedValue = wechatUi?.wechatRevealedChatIds;
+  const wechatInteractionVersion = wechatUi?.wechatInteractionVersion;
   const wechatScheduleValue = wechatUi?.wechatSchedule;
-  useEffect(() => {
-    if (creator || !ready || !wechatChatStarted) return;
+  const wechatSentIdsValue = wechatUi?.wechatSentMessageIds;
 
-    // Reply timing belongs to the phone runtime, not the visible chat screen.
-    // Persist absolute arrival times so leaving WeChat or refreshing the page
-    // cannot pause or restart the staged replies.
-    const stagedMessages = (work.data.wechat ?? [])
+  // Migrate saves created by the previous automatic-message implementation:
+  // only incoming replies should ever be scheduled, and outgoing messages
+  // must now be authored and sent by the player.
+  useEffect(() => {
+    if (
+      creator ||
+      !ready ||
+      wechatInteractionVersion === "manual-send-v2"
+    ) {
+      return;
+    }
+    const latest = runtimeRef.current;
+    const stagedIds = new Set(
+      (work.data.wechat ?? [])
+        .filter((item) => item.meta?.stage?.startsWith("chat-"))
+        .map((item) => item.id),
+    );
+    const openingIds = new Set(
+      (work.data.wechat ?? [])
+        .filter((item) => /^opening-[12]$/.test(item.meta?.stage || ""))
+        .map((item) => item.id),
+    );
+    const wechatState = latest.ui?.wechat ?? {};
+    const oldReadIds = Array.isArray(wechatState.wechatReadMessageIds)
+      ? wechatState.wechatReadMessageIds.filter(
+          (id) => typeof id === "string" && !stagedIds.has(id),
+        )
+      : [];
+    const cleanMessages = (latest.messages.wechat ?? []).filter(
+      (item) =>
+        !(
+          typeof item.meta?.scheduledSourceId === "string" &&
+          stagedIds.has(item.meta.scheduledSourceId)
+        ),
+    );
+    update({
+      ...latest,
+      ui: {
+        ...latest.ui,
+        wechat: {
+          ...wechatState,
+          wechatInteractionVersion: "manual-send-v2",
+          wechatChatStarted: false,
+          wechatSentMessageIds: [],
+          wechatRevealedChatIds: Array.isArray(
+            wechatState.wechatRevealedChatIds,
+          )
+            ? wechatState.wechatRevealedChatIds.filter((id) =>
+                openingIds.has(id),
+              )
+            : [],
+          wechatReadMessageIds: oldReadIds,
+          wechatSchedule: "[]",
+        },
+      },
+      messages: {
+        ...latest.messages,
+        wechat: cleanMessages,
+      },
+    });
+  }, [
+    creator,
+    ready,
+    work.id,
+    work.updatedAt,
+    work.data.wechat,
+    wechatInteractionVersion,
+  ]);
+
+  // A send action creates one outgoing message and schedules only its response.
+  // Nothing advances merely because the chat is visible or its composer is opened.
+  const sendWeChatMessage = (value: string) => {
+    const body = value.trim();
+    if (!body) return;
+    const latest = runtimeRef.current;
+    const currentUi = latest.ui?.wechat ?? {};
+    const sentIds = Array.isArray(currentUi.wechatSentMessageIds)
+      ? currentUi.wechatSentMessageIds
+      : [];
+    const outgoingStages = (work.data.wechat ?? [])
       .filter(
         (item) =>
-          item.title === "당신" && item.meta?.stage?.startsWith("chat-"),
+          item.title === "당신" &&
+          item.outgoing &&
+          /^chat-[13]$/.test(item.meta?.stage || ""),
       )
       .sort((a, b) =>
         (a.meta?.stage || "").localeCompare(b.meta?.stage || ""),
       );
-    if (!stagedMessages.length) return;
-
-    const revealedIds = Array.isArray(wechatRevealedValue)
-      ? wechatRevealedValue
-      : [];
-    const deliveredIds = new Set(
-      (s.messages.wechat ?? [])
-        .map((item) => item.meta?.scheduledSourceId)
-        .filter((id): id is string => typeof id === "string"),
+    const nextOutgoing = outgoingStages.find(
+      (item) => !sentIds.includes(item.id),
     );
+    const stage = nextOutgoing?.meta?.stage || "";
+    const previousReplyId =
+      stage === "chat-3"
+        ? (work.data.wechat ?? []).find(
+            (item) => item.title === "당신" && item.meta?.stage === "chat-2",
+          )?.id
+        : undefined;
+    const previousReplyArrived =
+      !previousReplyId ||
+      (latest.messages.wechat ?? []).some(
+        (item) => item.meta?.scheduledSourceId === previousReplyId,
+      );
+    const matchesScript =
+      !!nextOutgoing &&
+      previousReplyArrived &&
+      body === nextOutgoing.body.trim();
+    const timestamp = `${latest.date || work.phone.date || "2026-10-28"} ${latest.time || work.phone.time}`;
+    const outgoingMessage: Item = matchesScript && nextOutgoing
+      ? {
+          ...nextOutgoing,
+          id: `sent-${nextOutgoing.id}`,
+          body,
+          time: timestamp,
+          sender: "我",
+          avatar: "./images/owner-avatar.jpg",
+          outgoing: true,
+          read: true,
+          meta: {
+            ...Object.fromEntries(
+              Object.entries(nextOutgoing.meta).filter(
+                ([key]) => key !== "stage" && key !== "delayMs",
+              ),
+            ),
+            sentSourceId: nextOutgoing.id,
+          },
+        }
+      : {
+          id: `wechat-user-${Date.now()}-${(latest.messages.wechat ?? []).length}`,
+          title: "당신",
+          body,
+          richText: "",
+          meta: {},
+          time: timestamp,
+          sender: "我",
+          avatar: "./images/owner-avatar.jpg",
+          kind: "text",
+          media: "",
+          hidden: false,
+          unlock: "",
+          password: "",
+          folder: "",
+          favorite: false,
+          outgoing: true,
+          read: true,
+          likes: 0,
+          comments: [],
+        };
+
+    let nextSchedule: { id: string; dueAt: number }[] = [];
+    try {
+      const parsed =
+        typeof currentUi.wechatSchedule === "string"
+          ? JSON.parse(currentUi.wechatSchedule)
+          : [];
+      if (Array.isArray(parsed)) {
+        nextSchedule = parsed.filter(
+          (entry): entry is { id: string; dueAt: number } =>
+            !!entry &&
+            typeof entry.id === "string" &&
+            typeof entry.dueAt === "number" &&
+            Number.isFinite(entry.dueAt),
+        );
+      }
+    } catch {
+      nextSchedule = [];
+    }
+
+    let nextUi: Record<string, UiValue> = {
+      ...currentUi,
+      wechatInteractionVersion: "manual-send-v2",
+    };
+    if (matchesScript && nextOutgoing) {
+      const replyStage = stage === "chat-1" ? "chat-2" : "chat-4";
+      const reply = (work.data.wechat ?? []).find(
+        (item) => item.title === "당신" && item.meta?.stage === replyStage,
+      );
+      nextUi = {
+        ...nextUi,
+        wechatChatStarted: true,
+        wechatSentMessageIds: [...sentIds, nextOutgoing.id],
+      };
+      if (
+        reply &&
+        !nextSchedule.some((entry) => entry.id === reply.id) &&
+        !(latest.messages.wechat ?? []).some(
+          (item) => item.meta?.scheduledSourceId === reply.id,
+        )
+      ) {
+        nextSchedule.push({
+          id: reply.id,
+          dueAt: Date.now() + Math.max(0, Number(reply.meta.delayMs || "4000")),
+        });
+      }
+      nextUi.wechatSchedule = JSON.stringify(nextSchedule);
+    }
+
+    update({
+      ...latest,
+      ui: {
+        ...latest.ui,
+        wechat: nextUi,
+      },
+      messages: {
+        ...latest.messages,
+        wechat: [...(latest.messages.wechat ?? []), outgoingMessage],
+      },
+    });
+  };
+
+  const stagedIncomingReplies = (work.data.wechat ?? [])
+    .filter(
+      (item) =>
+        item.title === "당신" &&
+        !item.outgoing &&
+        /^chat-[24]$/.test(item.meta?.stage || ""),
+    )
+    .sort((a, b) =>
+      (a.meta?.stage || "").localeCompare(b.meta?.stage || ""),
+    );
+  useEffect(() => {
+    if (
+      creator ||
+      !ready ||
+      wechatInteractionVersion !== "manual-send-v2" ||
+      !stagedIncomingReplies.length
+    ) {
+      return;
+    }
+
     let schedule: { id: string; dueAt: number }[] = [];
     try {
       const parsed =
@@ -308,60 +532,41 @@ function PhoneRuntime({
     } catch {
       schedule = [];
     }
-
-    const missing = stagedMessages.filter(
-      (item) =>
-        !revealedIds.includes(item.id) &&
-        !deliveredIds.has(item.id) &&
-        !schedule.some((entry) => entry.id === item.id),
+    const deliveredIds = new Set(
+      (s.messages.wechat ?? [])
+        .map((item) => item.meta?.scheduledSourceId)
+        .filter((id): id is string => typeof id === "string"),
     );
-    if (missing.length) {
-      let dueAt = Math.max(Date.now(), ...schedule.map((entry) => entry.dueAt));
-      for (const item of missing) {
-        dueAt += Math.max(0, Number(item.meta?.delayMs || "3500"));
-        schedule.push({ id: item.id, dueAt });
-      }
-      updateWeChatUi("wechatSchedule", JSON.stringify(schedule));
-      return;
-    }
-
     const next = schedule
       .filter(
         (entry) =>
-          !revealedIds.includes(entry.id) &&
           !deliveredIds.has(entry.id) &&
-          stagedMessages.some((item) => item.id === entry.id),
+          stagedIncomingReplies.some((item) => item.id === entry.id),
       )
       .sort((a, b) => a.dueAt - b.dueAt)[0];
     if (!next) return;
 
     const timer = window.setTimeout(() => {
       const latest = runtimeRef.current;
-      const latestUi = latest.ui?.wechat;
-      const currentRevealed = Array.isArray(
-        latestUi?.wechatRevealedChatIds,
-      )
-        ? latestUi.wechatRevealedChatIds
-        : [];
-      const currentSchedule: { id: string; dueAt: number }[] = (() => {
-        try {
-          const parsed =
-            typeof latestUi?.wechatSchedule === "string"
-              ? JSON.parse(latestUi.wechatSchedule)
-              : [];
-          return Array.isArray(parsed)
-            ? parsed.filter(
-                (entry): entry is { id: string; dueAt: number } =>
-                  !!entry &&
-                  typeof entry.id === "string" &&
-                  typeof entry.dueAt === "number" &&
-                  Number.isFinite(entry.dueAt),
-              )
+      const latestUi = latest.ui?.wechat ?? {};
+      let currentSchedule: { id: string; dueAt: number }[] = [];
+      try {
+        const parsed =
+          typeof latestUi.wechatSchedule === "string"
+            ? JSON.parse(latestUi.wechatSchedule)
             : [];
-        } catch {
-          return [];
+        if (Array.isArray(parsed)) {
+          currentSchedule = parsed.filter(
+            (entry): entry is { id: string; dueAt: number } =>
+              !!entry &&
+              typeof entry.id === "string" &&
+              typeof entry.dueAt === "number" &&
+              Number.isFinite(entry.dueAt),
+          );
         }
-      })();
+      } catch {
+        currentSchedule = [];
+      }
       const currentDelivered = new Set(
         (latest.messages.wechat ?? [])
           .map((item) => item.meta?.scheduledSourceId)
@@ -371,49 +576,58 @@ function PhoneRuntime({
         .filter(
           (entry) =>
             entry.dueAt <= Date.now() &&
-            !currentRevealed.includes(entry.id) &&
             !currentDelivered.has(entry.id) &&
-            stagedMessages.some((item) => item.id === entry.id),
+            stagedIncomingReplies.some((item) => item.id === entry.id),
         )
         .sort((a, b) => a.dueAt - b.dueAt);
-      if (dueEntries.length) {
-        const dueIds = dueEntries.map((entry) => entry.id);
-        const deliveredMessages: Item[] = dueEntries.flatMap((entry) => {
-          const source = stagedMessages.find((item) => item.id === entry.id);
-          if (!source) return [];
-          const meta = Object.fromEntries(
-            Object.entries(source.meta).filter(
-              ([key]) => key !== "stage" && key !== "delayMs",
-            ),
+      if (!dueEntries.length) return;
+      const deliveredMessages: Item[] = dueEntries.flatMap((entry) => {
+        const source = stagedIncomingReplies.find(
+          (item) => item.id === entry.id,
+        );
+        if (!source) return [];
+        const meta = Object.fromEntries(
+          Object.entries(source.meta).filter(
+            ([key]) => key !== "stage" && key !== "delayMs",
+          ),
+        );
+        return [
+          {
+            ...source,
+            id: `scheduled-${source.id}`,
+            meta: { ...meta, scheduledSourceId: source.id },
+          },
+        ];
+      });
+      const activeConversation =
+        app === "wechat" && latestUi.currentThread === "당신";
+      const newNotifications = activeConversation
+        ? []
+        : deliveredMessages.map(
+            (item) => `${item.sender}：${item.body}`,
           );
-          return [
-            {
-              ...source,
-              id: `scheduled-${source.id}`,
-              meta: { ...meta, scheduledSourceId: source.id },
-            },
-          ];
-        });
-        // Materialize the due messages in the phone's saved message stream.
-        // They are now sent/delivered events, not just a visibility flag held
-        // by the currently mounted WeChat conversation.
-        update({
-          ...latest,
-          ui: {
-            ...latest.ui,
-            wechat: {
-              ...latestUi,
-              wechatRevealedChatIds: [
-                ...new Set([...currentRevealed, ...dueIds]),
-              ],
-            },
+      const deliveredEntryIds = new Set(dueEntries.map((entry) => entry.id));
+      const remainingSchedule = currentSchedule.filter(
+        (entry) => !deliveredEntryIds.has(entry.id),
+      );
+      update({
+        ...latest,
+        ui: {
+          ...latest.ui,
+          wechat: {
+            ...latestUi,
+            wechatSchedule: JSON.stringify(remainingSchedule),
           },
-          messages: {
-            ...latest.messages,
-            wechat: [...(latest.messages.wechat ?? []), ...deliveredMessages],
-          },
-        });
-      }
+        },
+        messages: {
+          ...latest.messages,
+          wechat: [...(latest.messages.wechat ?? []), ...deliveredMessages],
+        },
+        notifications: [
+          ...latest.notifications,
+          ...newNotifications,
+        ],
+      });
     }, Math.max(0, next.dueAt - Date.now()));
 
     return () => window.clearTimeout(timer);
@@ -423,9 +637,12 @@ function PhoneRuntime({
     work.id,
     work.updatedAt,
     work.data.wechat,
-    wechatChatStarted,
-    wechatRevealedValue,
+    wechatInteractionVersion,
     wechatScheduleValue,
+    s.messages.wechat,
+    app,
+    locked,
+    wechatUi?.currentThread,
   ]);
   useEffect(() => {
     if (creator || !ready) return;
@@ -756,6 +973,7 @@ function PhoneRuntime({
                       ),
                     );
                   }}
+                  onSendChat={app === "wechat" ? sendWeChatMessage : undefined}
                   work={work}
                 />
               </AppWindow>
@@ -784,6 +1002,7 @@ function PhoneRuntime({
                     custom={a.icon}
                     date={s.date || work.phone.date}
                     time={s.time}
+                    badge={a.id === "wechat" ? unreadWechatCount : 0}
                   />
                 )}
                 clearApp={(id) =>
@@ -1156,6 +1375,7 @@ function AppContent({
   onBack,
   onSettings,
   onUi,
+  onSendChat,
   work,
 }: {
   app: AppPlugin;
@@ -1169,6 +1389,7 @@ function AppContent({
   onBack: () => void;
   onSettings?: () => void;
   onUi?: (key: string, value: UiValue) => void;
+  onSendChat?: (message: string) => void;
   work: Work;
 }) {
   const [detail, setDetail] = useState<Item | null>(null);
@@ -1297,6 +1518,7 @@ function AppContent({
               onBack={onBack}
               thread={thread}
               onThread={changeThread}
+              onSendChat={app.id === "wechat" ? onSendChat : undefined}
             />
           </Suspense>
         </div>
