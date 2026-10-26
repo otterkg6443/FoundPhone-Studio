@@ -6,9 +6,11 @@ import type { Work } from "./schema";
 export function notificationContent(text: string, apps: Work["apps"]) {
   const separator = text.search(/[:：]/);
   const sender = separator > 0 ? text.slice(0, separator) : "信息";
-  const app = apps.find((a) => a.name === sender);
+  const app = sender === "당신" || sender === "微信"
+    ? apps.find((a) => a.id === "wechat")
+    : apps.find((a) => a.name === sender);
   return {
-    title: sender,
+    title: sender === "당신" ? "微信" : sender,
     body: separator > 0 ? text.slice(separator + 1) : text,
     appId: app?.id ?? "messages",
   };
