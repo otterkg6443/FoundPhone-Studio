@@ -971,7 +971,14 @@ function AppContent({
   work: Work;
 }) {
   const [detail, setDetail] = useState<Item | null>(null);
-  const [thread, setThread] = useState("");
+  const [thread, setThread] = useState(() => {
+    const savedThread = state.ui?.[app.id]?.currentThread;
+    return typeof savedThread === "string" ? savedThread : "";
+  });
+  const changeThread = (value: string) => {
+    setThread(value);
+    if (!creator) onUi?.("currentThread", value);
+  };
   const [tab, setTab] = useState(app.tabs[0]);
   const [q, setQ] = useState("");
   const [pw, setPw] = useState("");
@@ -1000,7 +1007,7 @@ function AppContent({
   const chats = [...new Set(shown.map((i) => i.title))];
   const back = () => {
     if (detail) setDetail(null);
-    else if (thread) setThread("");
+    else if (thread) changeThread("");
     else onBack();
   };
   const Skin =
@@ -1088,7 +1095,7 @@ function AppContent({
               onAdd={onAdd}
               onBack={onBack}
               thread={thread}
-              onThread={setThread}
+              onThread={changeThread}
             />
           </Suspense>
         </div>
