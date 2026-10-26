@@ -49,6 +49,14 @@ export type SkinProps = {
   onThread: (s: string) => void;
   onIncoming?: (message: string) => void;
 };
+function avatarSource(src: string) {
+  const media = safeMedia(src);
+  if (!media || media.startsWith("data:")) return media;
+  if (media.startsWith("./images/")) {
+    return `${import.meta.env.BASE_URL}${media.slice(2)}`;
+  }
+  return media;
+}
 function Avatar({
   name,
   round = false,
@@ -58,10 +66,11 @@ function Avatar({
   round?: boolean;
   src?: string;
 }) {
+  const imageSrc = avatarSource(src);
   return (
     <span className={`skin-avatar ${round ? "round" : ""}`}>
-      {safeMedia(src) ? (
-        <img src={safeMedia(src)} alt="" />
+      {imageSrc ? (
+        <img src={imageSrc} alt="" />
       ) : (
         name.slice(0, 1)
       )}
@@ -147,16 +156,18 @@ function MessageList({
 function Compose({
   creator,
   onAdd,
+  onInput,
   wa = false,
 }: {
   creator: boolean;
   onAdd: () => void;
+  onInput?: () => void;
   wa?: boolean;
 }) {
   return (
     <div className={`skin-compose ${wa ? "wa-compose" : ""}`}>
       {wa ? <Plus size={20} /> : <Mic size={20} />}
-      <NativeComposer creator={creator} onAdd={onAdd} />
+      <NativeComposer creator={creator} onAdd={onAdd} onInput={onInput} />
 
       <Smile size={21} />
       {wa ? <Mic size={20} /> : <Plus size={22} />}
@@ -176,8 +187,12 @@ export function WeChatSkin(p: SkinProps) {
     [],
   );
   const [revealedChatIds, setRevealedChatIds] = useState<string[]>([]);
+  const [chatStarted, setChatStarted] = useState(false);
   useEffect(() => {
-    if (p.thread !== "당신") return;
+    if (p.thread !== "당신") {
+      setChatStarted(false);
+      return;
+    }
     const opening = p.items
       .filter((i) => i.title === "당신" && /^opening-[12]$/.test(i.meta?.stage || ""))
       .sort((a, b) => (a.meta?.stage || "").localeCompare(b.meta?.stage || ""));
@@ -186,13 +201,13 @@ export function WeChatSkin(p: SkinProps) {
     setRevealedChatIds((ids) => [...new Set([...ids, ...opening.map((i) => i.id)])]);
   }, [p.thread, p.items]);
   useEffect(() => {
-    if (p.thread !== "당신") return;
+    if (p.thread !== "당신" || !chatStarted) return;
     const followup = p.items
       .filter((i) => i.title === "당신" && i.meta?.stage?.startsWith("chat-"))
       .sort((a, b) => (a.meta?.stage || "").localeCompare(b.meta?.stage || ""));
     let elapsed = 0;
     const timers: number[] = [];
-    // The staged conversation starts only after the user opens the thread.
+    // Follow-up messages begin only after the user taps the input composer.
     // Keep the two incoming opening messages as the only lock-screen notices.
     followup.forEach((item) => {
       elapsed += Number(item.meta.delayMs || "3500");
@@ -203,7 +218,7 @@ export function WeChatSkin(p: SkinProps) {
       timers.push(timer);
     });
     return () => timers.forEach((timer) => window.clearTimeout(timer));
-  }, [p.thread, p.items]);
+  }, [p.thread, chatStarted, p.items]);
   const conversations = [
     ...new Set(
       p.items
@@ -324,7 +339,11 @@ export function WeChatSkin(p: SkinProps) {
             onItem={p.onItem}
             onRead={p.onRead}
           />
-          <Compose creator={p.creator} onAdd={p.onAdd} />
+          <Compose
+            creator={p.creator}
+            onAdd={p.onAdd}
+            onInput={() => setChatStarted(true)}
+          />
         </>
       ) : moments ? (
         <div className="wx-moments">
@@ -461,7 +480,10 @@ export function WeChatSkin(p: SkinProps) {
           ) : (
             <>
               <div className="wx-profile">
-                <Avatar name={p.owner || "机主"} />
+                <Avatar
+                  name={p.owner || "机主"}
+                  src={p.items.find((i) => i.outgoing)?.avatar || "./images/owner-avatar.jpg"}
+                />
                 <div>
                   <h2>{p.owner || "机主"}</h2>
                   <small>微信号：未设置</small>

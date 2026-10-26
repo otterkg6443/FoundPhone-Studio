@@ -43,16 +43,24 @@ export const KeyboardContext = createContext<(open: boolean) => void>(() => {});
 export function NativeComposer({
   creator,
   onAdd,
+  onInput,
 }: {
   creator: boolean;
   onAdd: () => void;
+  onInput?: () => void;
 }) {
   const open = useContext(KeyboardContext);
   return (
     <button
       className="native-compose-field"
       aria-label={creator ? "添加消息" : "输入消息"}
-      onClick={() => (creator ? onAdd() : open(true))}
+      onClick={() => {
+        if (creator) onAdd();
+        else {
+          onInput?.();
+          open(true);
+        }
+      }}
     >
       {creator ? "添加消息" : ""}
     </button>

@@ -189,6 +189,23 @@ function PhoneRuntime({
     };
   }, [creator, ready]);
   const s = external ?? own;
+  const openingWechatItems = (work.data.wechat ?? [])
+    .filter(
+      (item) =>
+        item.title === "당신" &&
+        /^opening-[12]$/.test(item.meta?.stage || ""),
+    )
+    .sort((a, b) =>
+      (a.meta?.stage || "").localeCompare(b.meta?.stage || ""),
+    )
+    .slice(0, 2);
+  const openingWechatNotices = openingWechatItems.map(
+    (item) => `${item.sender}：${item.body}`,
+  );
+  const lockNotices =
+    openingWechatNotices.length === 2
+      ? openingWechatNotices
+      : s.notifications;
   const runtimeRef = useRef(s);
   runtimeRef.current = s;
   const update = (next: Runtime) => {
@@ -283,27 +300,17 @@ function PhoneRuntime({
       setLocked(false);
       setPinOpen(false);
       event("password", pin);
-      if (!openingNotificationsSent.current && work.phone.notifications) {
+      if (
+        !openingNotificationsSent.current &&
+        work.phone.notifications &&
+        openingWechatNotices.length
+      ) {
         openingNotificationsSent.current = true;
-        const opening = (work.data.wechat ?? [])
-          .filter((item) => item.title === "당신" && /^opening-[12]$/.test(item.meta?.stage || ""))
-          .sort((a, b) => (a.meta?.stage || "").localeCompare(b.meta?.stage || ""));
-        const first = opening[0];
-        const second = opening[1];
-        if (first) {
-          update({
-            ...runtimeRef.current,
-            notifications: [...runtimeRef.current.notifications, `${first.sender}：${first.body}`],
-          });
-        }
-        if (second) {
-          window.setTimeout(() => {
-            update({
-              ...runtimeRef.current,
-              notifications: [...runtimeRef.current.notifications, `${second.sender}：${second.body}`],
-            });
-          }, 10000);
-        }
+        // Replace stale saved notices instead of appending to old chat history.
+        update({
+          ...runtimeRef.current,
+          notifications: openingWechatNotices,
+        });
       }
     } else {
       setPinError("密码不正确");
@@ -446,7 +453,7 @@ function PhoneRuntime({
                     : work
                 }
                 time={displayTime}
-                notices={s.notifications}
+                notices={lockNotices}
                 onDismiss={dismissNotice}
                 pinOpen={pinOpen}
                 setPinOpen={setPinOpen}
