@@ -174,12 +174,10 @@ export function WeChatSkin(p: SkinProps) {
     const second = p.items.find((i) => i.title === "당신" && i.meta?.stage === "opening-2");
     if (first && !revealedChatIds.includes(first.id)) {
       setRevealedChatIds((ids) => ids.includes(first.id) ? ids : [...ids, first.id]);
-      p.onIncoming?.(`${first.sender}：${first.body}`);
     }
     if (second && !revealedChatIds.includes(second.id)) {
       const timer = window.setTimeout(() => {
         setRevealedChatIds((ids) => ids.includes(second.id) ? ids : [...ids, second.id]);
-        p.onIncoming?.(`${second.sender}：${second.body}`);
       }, 10000);
       return () => window.clearTimeout(timer);
     }
