@@ -1,6 +1,6 @@
 import { NativeComposer } from "./DeviceSystem";
 import { useSkinState } from "./skinState";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ChevronLeft,
   Plus,
@@ -188,37 +188,45 @@ export function WeChatSkin(p: SkinProps) {
   );
   const [revealedChatIds, setRevealedChatIds] = useState<string[]>([]);
   const [chatStarted, setChatStarted] = useState(false);
+  // Parent phone renders can replace p.items (for example, when a banner updates).
+  // Keep the latest items available without restarting the staged message clock.
+  const itemsRef = useRef(p.items);
+  itemsRef.current = p.items;
   useEffect(() => {
     if (p.thread !== "당신") {
       setChatStarted(false);
       return;
     }
-    const opening = p.items
+    const opening = itemsRef.current
       .filter((i) => i.title === "당신" && /^opening-[12]$/.test(i.meta?.stage || ""))
       .sort((a, b) => (a.meta?.stage || "").localeCompare(b.meta?.stage || ""));
     // Opening messages are already part of the conversation when the thread opens.
     // Their lock-screen notifications are handled by the phone unlock flow.
     setRevealedChatIds((ids) => [...new Set([...ids, ...opening.map((i) => i.id)])]);
-  }, [p.thread, p.items]);
+  }, [p.thread]);
   useEffect(() => {
     if (p.thread !== "당신" || !chatStarted) return;
-    const followup = p.items
+    const followup = itemsRef.current
       .filter((i) => i.title === "당신" && i.meta?.stage?.startsWith("chat-"))
       .sort((a, b) => (a.meta?.stage || "").localeCompare(b.meta?.stage || ""));
-    let elapsed = 0;
-    const timers: number[] = [];
-    // Follow-up messages begin only after the user taps the input composer.
-    // Keep the two incoming opening messages as the only lock-screen notices.
-    followup.forEach((item) => {
-      elapsed += Number(item.meta.delayMs || "3500");
-      const timer = window.setTimeout(() => {
+    let nextIndex = 0;
+    let timer: number | undefined;
+    // Each delayMs is the interval after the previous staged message:
+    // 2.5s → "头很晕吗", 4s → "是啊", 5s → "那你再戴上就不会晕了", 4.5s → "我还是研究一下拉黑键在哪里吧".
+    // These follow-up chat messages never create additional notification banners.
+    const scheduleNext = () => {
+      const item = followup[nextIndex++];
+      if (!item) return;
+      timer = window.setTimeout(() => {
         setRevealedChatIds((ids) => ids.includes(item.id) ? ids : [...ids, item.id]);
-        // Follow-up chat messages are part of the conversation, not lock-screen notices.
-      }, elapsed);
-      timers.push(timer);
-    });
-    return () => timers.forEach((timer) => window.clearTimeout(timer));
-  }, [p.thread, chatStarted, p.items]);
+        scheduleNext();
+      }, Number(item.meta.delayMs || "3500"));
+    };
+    scheduleNext();
+    return () => {
+      if (timer !== undefined) window.clearTimeout(timer);
+    };
+  }, [p.thread, chatStarted]);
   const conversations = [
     ...new Set(
       p.items
