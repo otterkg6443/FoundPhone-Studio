@@ -101,7 +101,7 @@ export function AppIcon({
   );
 }
 type PhoneProps = Omit<Parameters<typeof PhoneRuntime>[0], "deviceLayout">;
-type PhoneSession = { revision: number; locked: boolean; app: string };
+type PhoneSession = { revision: number; locked: boolean; app: string; ui?: Runtime["ui"] };
 function readPhoneSession(work: Work, creator: boolean): PhoneSession {
   const fallback = { revision: work.updatedAt, locked: !creator, app: "" };
   if (creator || typeof window === "undefined") return fallback;
@@ -117,10 +117,15 @@ function readPhoneSession(work: Work, creator: boolean): PhoneSession {
       work.apps.some((item) => item.id === saved.app && item.installed)
         ? saved.app
         : "";
+    const ui =
+      saved.ui && typeof saved.ui === "object" && !Array.isArray(saved.ui)
+        ? (saved.ui as Runtime["ui"])
+        : undefined;
     return {
       revision: work.updatedAt,
       locked: typeof saved.locked === "boolean" ? saved.locked : true,
       app,
+      ui,
     };
   } catch {
     return fallback;
@@ -240,7 +245,7 @@ function PhoneRuntime({
     onRuntime?.(next);
   };
   useEffect(() => {
-    if (creator) return;
+    if (creator || !ready) return;
     try {
       window.localStorage.setItem(
         `foundphone-phone-session-v1:${work.id}`,
@@ -248,12 +253,13 @@ function PhoneRuntime({
           revision: work.updatedAt,
           locked,
           app: locked ? "" : app,
+          ui: s.ui,
         } satisfies PhoneSession),
       );
     } catch {
       // Keep the runtime save usable even when local storage is unavailable.
     }
-  }, [creator, work.id, work.updatedAt, locked, app]);
+  }, [creator, ready, work.id, work.updatedAt, locked, app, s.ui]);
   useEffect(() => {
     let active = true;
     if (creator || external) return;
@@ -262,15 +268,20 @@ function PhoneRuntime({
       .then((saved) => {
         if (!active) return;
         if (saved && saved.state.revision === work.updatedAt)
-          setOwn(saved.state);
+          setOwn({
+            ...saved.state,
+            ui: { ...saved.state.ui, ...sessionInitial.ui },
+          });
         else {
-          setOwn(dispatch(work, initialRuntime(work), "start"));
+          const started = dispatch(work, initialRuntime(work), "start");
+          setOwn({ ...started, ui: sessionInitial.ui ?? started.ui });
           if (saved) setLoadError("作品已更新，已开始新的进度。");
         }
         setReady(true);
       })
       .catch(() => {
-        setOwn(dispatch(work, initialRuntime(work), "start"));
+        const started = dispatch(work, initialRuntime(work), "start");
+        setOwn({ ...started, ui: sessionInitial.ui ?? started.ui });
         setLoadError("无法读取本地存档。本次仍可游玩。");
         setReady(true);
       });
