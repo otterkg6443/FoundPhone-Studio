@@ -246,6 +246,16 @@
           "senderId": "owner"
         }
       ]
+    },
+    {
+      "id": "wechat-dangsin",
+      "app": "wechat",
+      "title": "당신",
+      "participants": [
+        "owner",
+        "dangsin"
+      ],
+      "messages": []
     }
   ],
   "content": {
