@@ -181,9 +181,9 @@ export function WeChatSkin(p: SkinProps) {
     [menu, setMenu] = useState(false),
     [searchOpen, setSearchOpen] = useState(false),
     [utility, setUtility] = useState("");
-  const [readThreads, setReadThreads] = useSkinState<string[]>(
+  const [readMessageIds, setReadMessageIds] = useSkinState<string[]>(
     p,
-    "readThreads",
+    "wechatReadMessageIds",
     [],
   );
   const [revealedChatIds, setRevealedChatIds] = useSkinState<string[]>(
@@ -191,20 +191,40 @@ export function WeChatSkin(p: SkinProps) {
     "wechatRevealedChatIds",
     [],
   );
-  const [chatStarted, setChatStarted] = useSkinState<boolean>(
+  const [, setChatStarted] = useSkinState<boolean>(
     p,
     "wechatChatStarted",
     false,
   );
+  // Keep the latest messages without tying reply timers to this screen's lifecycle.
+  const itemsRef = useRef(p.items);
+  itemsRef.current = p.items;
   // Opening messages become part of the conversation when the thread opens.
   // Follow-up reply timers are managed by PhoneRuntime, independently of this view.
   useEffect(() => {
     if (p.thread !== "당신") return;
-    const opening = p.items
+    const opening = itemsRef.current
       .filter((i) => i.title === "당신" && /^opening-[12]$/.test(i.meta?.stage || ""))
       .sort((a, b) => (a.meta?.stage || "").localeCompare(b.meta?.stage || ""));
     setRevealedChatIds((ids) => [...new Set([...ids, ...opening.map((i) => i.id)])]);
   }, [p.thread]);
+  // Messages arriving while the conversation is open are read immediately.
+  useEffect(() => {
+    if (p.thread !== "당신") return;
+    const readNow = itemsRef.current
+      .filter(
+        (item) =>
+          item.title === p.thread &&
+          !item.outgoing &&
+          (!item.meta?.stage ||
+            /^opening-[12]$/.test(item.meta.stage) ||
+            revealedChatIds.includes(item.id)),
+      )
+      .map((item) => item.id);
+    if (readNow.length) {
+      setReadMessageIds((ids) => [...new Set([...ids, ...readNow])]);
+    }
+  }, [p.thread, revealedChatIds]);
   const conversations = [
     ...new Set(
       p.items
@@ -414,15 +434,23 @@ export function WeChatSkin(p: SkinProps) {
                   if (!last) return null;
                   // Only incoming messages count as unread. Opening-stage messages
                   // remain visible in the chat list before the conversation is opened.
-                  const unreadCount = readThreads.includes(t)
-                    ? 0
-                    : list.filter((i) => !i.outgoing && !i.read).length;
+                  const unreadCount = list.filter(
+                    (item) =>
+                      !item.outgoing &&
+                      !item.read &&
+                      !readMessageIds.includes(item.id),
+                  ).length;
                   return (
                     <button
                       className={`wx-chat-row ${unreadCount ? "has-unread" : ""}`}
                       key={t}
                       onClick={() => {
-                        setReadThreads((v) => (v.includes(t) ? v : [...v, t]));
+                        setReadMessageIds((ids) => [
+                          ...new Set([
+                            ...ids,
+                            ...list.filter((item) => !item.outgoing).map((item) => item.id),
+                          ]),
+                        ]);
                         p.onThread(t);
                         p.onRead(t);
                       }}
