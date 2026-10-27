@@ -105,13 +105,18 @@ export function MymyKakao(p: SkinProps) {
     ...p.items.filter((item) => !isKakaoContact(item)),
     ...localSentItems,
   ];
+  const activeThread =
+    p.thread === "粉红马尔济斯" &&
+    p.items.some((item) => item.title === "啄木鸟")
+      ? "啄木鸟"
+      : p.thread;
   const list = grouped(tab === "好友" ? friendItems : conversationItems),
-    messages = conversationItems.filter((i) => i.title === p.thread),
+    messages = conversationItems.filter((i) => i.title === activeThread),
     scroll = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const node = scroll.current;
     if (node) node.scrollTop = node.scrollHeight;
-  }, [p.thread, messages.length]);
+  }, [activeThread, messages.length]);
   const dateDivider = (value: string) => {
     const match = value.match(/^(\d{4})-(\d{2})-(\d{2})/);
     if (!match) return "";
@@ -122,11 +127,11 @@ export function MymyKakao(p: SkinProps) {
   };
   return (
     <div className="mymy-ui mymy-kakao" data-mymy="kakao">
-      {p.thread ? (
+      {activeThread ? (
         <>
           <header className="kzth">
             <Back onClick={() => p.onThread("")} />
-            <span className="kzname">{p.thread}</span>
+            <span className="kzname">{activeThread}</span>
             <span className="kzpill">
               <button aria-label="聊天菜单" onClick={() => setMenu(!menu)}>
                 <Menu size={21} />
@@ -213,7 +218,7 @@ export function MymyKakao(p: SkinProps) {
                 setSent([
                   ...sent,
                   JSON.stringify([
-                    p.thread,
+                    activeThread,
                     draft.trim(),
                     p.virtualTime || "09:41",
                   ]),
@@ -247,7 +252,7 @@ export function MymyKakao(p: SkinProps) {
           </form>
           {menu && (
             <div className="mymy-local-menu">
-              <strong>{p.thread}</strong>
+              <strong>{activeThread}</strong>
               <p>
                 群成员：{[...new Set(messages.map((m) => m.sender))].join("、")}
               </p>
