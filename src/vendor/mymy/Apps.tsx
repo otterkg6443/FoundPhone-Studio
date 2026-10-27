@@ -70,36 +70,36 @@ export function MymyKakao(p: SkinProps) {
   const isKakaoContact = (item: Item) =>
     item.folder === "好友" && item.meta.kakaoContact === "true";
   const friendItems = p.items.filter(isKakaoContact);
-  const conversationItems = p.items.filter((item) => !isKakaoContact(item));
+  const localSentItems = sent.flatMap((raw, index) => {
+    try {
+      const entry: unknown = JSON.parse(raw);
+      if (
+        !Array.isArray(entry) ||
+        entry.length !== 3 ||
+        !entry.every((v) => typeof v === "string")
+      )
+        return [];
+      return [
+        makeItem({
+          id: "local-kkt-" + index,
+          title: entry[0],
+          body: entry[1],
+          time: entry[2],
+          sender: p.owner || "机主",
+          outgoing: true,
+          meta: { local: "true" },
+        }),
+      ];
+    } catch {
+      return [];
+    }
+  });
+  const conversationItems = [
+    ...p.items.filter((item) => !isKakaoContact(item)),
+    ...localSentItems,
+  ];
   const list = grouped(tab === "好友" ? friendItems : conversationItems),
-    messages = [
-      ...conversationItems.filter((i) => i.title === p.thread),
-      ...sent.flatMap((raw, index) => {
-        try {
-          const entry: unknown = JSON.parse(raw);
-          if (
-            !Array.isArray(entry) ||
-            entry.length !== 3 ||
-            !entry.every((v) => typeof v === "string") ||
-            entry[0] !== p.thread
-          )
-            return [];
-          return [
-            makeItem({
-              id: "local-kkt-" + index,
-              title: entry[0],
-              body: entry[1],
-              time: entry[2],
-              sender: p.owner || "机主",
-              outgoing: true,
-              meta: { local: "true" },
-            }),
-          ];
-        } catch {
-          return [];
-        }
-      }),
-    ],
+    messages = conversationItems.filter((i) => i.title === p.thread),
     scroll = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const node = scroll.current;
