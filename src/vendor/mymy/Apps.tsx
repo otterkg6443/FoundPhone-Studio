@@ -162,7 +162,7 @@ export function MymyKakao(p: SkinProps) {
                     </span>
                   )}
                   <button
-                    className={"kzbub" + (m.media ? " kzimg" : "")}
+                    className={"kzbub" + (m.media ? " kzimg" : "") + (m.id === "kakao-pink-maltese-19" ? " kakao-forum-link" : "")}
                     onClick={() => m.meta.local !== "true" && read(p, m)}
                   >
                     {m.media ? <Media item={m} /> : m.body}
