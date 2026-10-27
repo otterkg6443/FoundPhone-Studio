@@ -71,6 +71,11 @@ function Back({ onClick }: { onClick: () => void }) {
 export function MymyKakao(p: SkinProps) {
   const [tab, setTab] = useSkinState<string>(p, "mymyTab", "聊天"),
     [sent, setSent] = useSkinState<string[]>(p, "mymyKktSent", []),
+    [readKakaoMessageIds, setReadKakaoMessageIds] = useSkinState<string[]>(
+      p,
+      "kakaoReadMessageIds",
+      [],
+    ),
     [draft, setDraft] = useState(""),
     [query, setQuery] = useState(""),
     [menu, setMenu] = useState(false);
@@ -113,10 +118,38 @@ export function MymyKakao(p: SkinProps) {
   const list = grouped(tab === "好友" ? friendItems : conversationItems),
     messages = conversationItems.filter((i) => i.title === activeThread),
     scroll = useRef<HTMLDivElement>(null);
+  const unreadItems = conversationItems.filter(
+    (item) =>
+      item.meta.kakaoUnread === "true" &&
+      !readKakaoMessageIds.includes(item.id),
+  );
+  const totalUnreadCount = unreadItems.length;
+  const unreadCountForThread = (title: string) =>
+    unreadItems.filter((item) => item.title === title).length;
   useEffect(() => {
     const node = scroll.current;
     if (node) node.scrollTop = node.scrollHeight;
   }, [activeThread, messages.length]);
+  useEffect(() => {
+    if (p.creator || !activeThread) return;
+    const newlyReadIds = messages
+      .filter(
+        (item) =>
+          item.meta.kakaoUnread === "true" &&
+          !readKakaoMessageIds.includes(item.id),
+      )
+      .map((item) => item.id);
+    if (!newlyReadIds.length) return;
+    setReadKakaoMessageIds((ids) =>
+      [...new Set([...ids, ...newlyReadIds])],
+    );
+  }, [
+    p.creator,
+    activeThread,
+    messages.length,
+    readKakaoMessageIds,
+    setReadKakaoMessageIds,
+  ]);
   const dateDivider = (value: string) => {
     const match = value.match(/^(\d{4})-(\d{2})-(\d{2})/);
     if (!match) return "";
@@ -297,6 +330,11 @@ export function MymyKakao(p: SkinProps) {
                   onClick={() => setTab(t)}
                 >
                   {t}
+                  {t === "聊天" && totalUnreadCount > 0 && (
+                    <i className="kzkbd" aria-label={`${totalUnreadCount} 条未读消息`}>
+                      {totalUnreadCount > 99 ? "99+" : totalUnreadCount}
+                    </i>
+                  )}
                 </button>
               ))}
             </div>
@@ -326,6 +364,8 @@ export function MymyKakao(p: SkinProps) {
                       ) ??
                       g.items.find((item) => item.sender === g.title) ??
                       last;
+                const unreadCount =
+                  tab === "聊天" ? unreadCountForThread(g.title) : 0;
                 return (
                   <button
                     className="kzkr kzkcr"
@@ -339,8 +379,13 @@ export function MymyKakao(p: SkinProps) {
                     </span>
                     <span className="kzkmt">
                       {last.time.slice(-5)}
-                      {last.meta.unread && (
-                        <i className="kzkbd">{last.meta.unread}</i>
+                      {unreadCount > 0 && (
+                        <i
+                          className="kzkbd"
+                          aria-label={`${unreadCount} 条未读消息`}
+                        >
+                          {unreadCount > 99 ? "99+" : unreadCount}
+                        </i>
                       )}
                     </span>
                   </button>
@@ -360,6 +405,14 @@ export function MymyKakao(p: SkinProps) {
                   }
                 >
                   <Icon />
+                  {i === 1 && totalUnreadCount > 0 && (
+                    <i
+                      className="kzk-tab-badge"
+                      aria-label={`${totalUnreadCount} 条未读消息`}
+                    >
+                      {totalUnreadCount > 99 ? "99+" : totalUnreadCount}
+                    </i>
+                  )}
                 </button>
               ),
             )}
