@@ -634,6 +634,10 @@
   color: #111;
   min-width: 0;
 }
+.mymy-ui .kzinp input::placeholder {
+  color: #9aa1a8;
+  opacity: 1;
+}
 .mymy-ui .kzpl2 {
   width: 32px;
   height: 32px;
