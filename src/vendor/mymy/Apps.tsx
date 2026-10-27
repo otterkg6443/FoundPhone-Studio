@@ -139,7 +139,7 @@ export function MymyKakao(p: SkinProps) {
               const previousDate = messages[i - 1]?.time.slice(0, 10) || "";
               return (
                 <Fragment key={m.id}>
-                  {currentDate !== previousDate && (
+                  {(currentDate !== previousDate || m.meta.kakaoTimestampBreakBefore === "true") && (
                     <div className="kakao-date-divider">
                       {dateDivider(m.time)}
                     </div>
