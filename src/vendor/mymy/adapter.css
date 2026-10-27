@@ -640,3 +640,12 @@
   width: 25px;
   height: 25px;
 }
+
+/* The 10:36 forum-link message is styled like a tappable link. */
+.mymy-ui.mymy-kakao .kzbub.kakao-forum-link {
+  color: #1685e8;
+  text-decoration-line: underline;
+  text-decoration-color: #1685e8;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
