@@ -19,6 +19,7 @@ import {
   BarChart2,
   Share,
   User,
+  Video,
   Bell,
   X,
   Smile,
@@ -171,11 +172,28 @@ export function MymyKakao(p: SkinProps) {
                         (m.media ? " kzimg" : "") +
                         (m.id === "kakao-pink-maltese-19"
                           ? " kakao-forum-link"
+                          : "") +
+                        (m.id === "kakao-pink-maltese-20260310-02"
+                          ? " kakao-missed-call-bubble"
                           : "")
                       }
                       onClick={() => m.meta.local !== "true" && read(p, m)}
                     >
-                      {m.media ? <Media item={m} /> : m.body}
+                      {m.id === "kakao-pink-maltese-20260310-02" ? (
+                        <span className="kakao-missed-call">
+                          <span className="kakao-missed-call-icon">
+                            <span className="kakao-missed-call-tile">
+                              <X size={17} strokeWidth={1.7} />
+                            </span>
+                            <Video size={19} strokeWidth={2} />
+                          </span>
+                          <span>未接来电</span>
+                        </span>
+                      ) : m.media ? (
+                        <Media item={m} />
+                      ) : (
+                        m.body
+                      )}
                     </button>
                     {!m.outgoing && run.last && (
                       <span className="kzt">{m.time.slice(-5)}</span>
