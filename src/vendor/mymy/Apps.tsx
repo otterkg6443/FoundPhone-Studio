@@ -46,7 +46,11 @@ export function messageRun(items: Item[], index: number) {
       !previous ||
       previous.outgoing !== m.outgoing ||
       previous.sender !== m.sender,
-    last: !next || next.outgoing !== m.outgoing || next.sender !== m.sender,
+    last:
+      !next ||
+      next.outgoing !== m.outgoing ||
+      next.sender !== m.sender ||
+      next.meta.kakaoTimestampBreakBefore === "true",
   };
 }
 const read = (p: SkinProps, i: Item) =>
@@ -107,7 +111,7 @@ export function MymyKakao(p: SkinProps) {
   }, [p.thread, messages.length]);
   const dateDivider = (() => {
     const firstMessageTime = messages[0]?.time || "";
-    const match = firstMessageTime.match(/^(\\d{4})-(\\d{2})-(\\d{2})/);
+    const match = firstMessageTime.match(/^(\d{4})-(\d{2})-(\d{2})/);
     if (!match) return "";
     const [, year, month, day] = match;
     const date = new Date(Number(year), Number(month) - 1, Number(day), 12);
