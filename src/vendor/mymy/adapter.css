@@ -76,6 +76,17 @@
   gap: 4px;
   scrollbar-width: none;
 }
+.mymy-ui .kakao-date-divider {
+  align-self: center;
+  flex: none;
+  margin: 4px 0 12px;
+  padding: 5px 13px;
+  border-radius: 18px;
+  background: #96aebe;
+  color: #edf3f7;
+  font-size: 12px;
+  line-height: 1.2;
+}
 .mymy-ui .kzth {
   background: #becfe0;
 }
