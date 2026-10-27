@@ -93,7 +93,8 @@
 .mymy-ui .kzmav .catalog-avatar {
   width: 32px;
   height: 32px;
-  border-radius: 12px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 .mymy-ui .kzbub {
   text-align: left;
