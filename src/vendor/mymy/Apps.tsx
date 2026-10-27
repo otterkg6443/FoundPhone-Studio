@@ -247,17 +247,21 @@ export function MymyKakao(p: SkinProps) {
             className="kzinp"
             onSubmit={(e) => {
               e.preventDefault();
-              if (draft.trim()) {
+              const body = draft.trim();
+              if (!body) return;
+              if (!p.creator && p.onSendChat) {
+                p.onSendChat(body);
+              } else {
                 setSent([
                   ...sent,
                   JSON.stringify([
                     activeThread,
-                    draft.trim(),
+                    body,
                     p.virtualTime || "09:41",
                   ]),
                 ]);
-                setDraft("");
               }
+              setDraft("");
             }}
           >
             <button
@@ -269,7 +273,15 @@ export function MymyKakao(p: SkinProps) {
             </button>
             <input
               aria-label="KKT消息"
-              placeholder="输入消息"
+              placeholder={(() => {
+                const stage = Number(p.ui?.kakaoSequenceStage ?? 0);
+                if (stage === 0 && activeThread === "啄木鸟") return "输入：好";
+                if (stage === 2 && activeThread === "艺俊哥") return "输入：叽里咕噜说啥呢";
+                if (stage === 4 && activeThread === "艺俊哥") return "输入：他好像没跟我讲过这个朋友";
+                if (stage === 1 && activeThread === "啄木鸟") return "已发送，等待艺俊哥消息…";
+                if ([1, 3, 5].includes(stage)) return "等待艺俊哥回复…";
+                return "输入消息";
+              })()}
               value={draft}
               maxLength={2000}
               onChange={(e) => setDraft(e.target.value)}
