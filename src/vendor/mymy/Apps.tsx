@@ -48,6 +48,7 @@ export function messageRun(items: Item[], index: number) {
       previous.outgoing !== m.outgoing ||
       previous.sender !== m.sender,
     last:
+      m.meta.kakaoShowTime === "true" ||
       !next ||
       next.outgoing !== m.outgoing ||
       next.sender !== m.sender ||
@@ -312,13 +313,21 @@ export function MymyKakao(p: SkinProps) {
               .filter((g) => g.title.includes(query.trim()))
               .map((g) => {
                 const last = g.items.at(-1)!;
+                const peer =
+                  tab === "好友"
+                    ? last
+                    : [...g.items].reverse().find(
+                        (item) => !item.outgoing && item.sender !== p.owner,
+                      ) ??
+                      g.items.find((item) => item.sender === g.title) ??
+                      last;
                 return (
                   <button
                     className="kzkr kzkcr"
                     key={g.title}
                     onClick={() => p.onThread(g.title)}
                   >
-                    <Avatar name={last.sender || g.title} src={last.avatar} />
+                    <Avatar name={peer.sender || g.title} src={peer.avatar} />
                     <span className="kzkn">
                       <b>{g.title}</b>
                       <small>{tab === "好友" ? (last.body || "好友") : last.body}</small>
