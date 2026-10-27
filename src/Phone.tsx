@@ -1730,7 +1730,7 @@ function AppContent({
               onBack={onBack}
               thread={thread}
               onThread={changeThread}
-              onSendChat={app.id === "wechat" ? onSendChat : undefined}
+              onSendChat={app.id === "wechat" || app.id === "kakao" ? onSendChat : undefined}
             />
           </Suspense>
         </div>
