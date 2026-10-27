@@ -832,6 +832,7 @@ function PhoneRuntime({
         avatar: "./images/kakao-pink-maltese-avatar.jpg",
         kind: "text",
         outgoing: false,
+        meta: { kakaoUnread: "true" },
       });
       const kakaoMessages = latest.messages.kakao ?? [];
       const messageAlreadyDelivered = kakaoMessages.some(
@@ -1156,15 +1157,24 @@ function PhoneRuntime({
               {panel === "notification" ? (
                 <>
                   <h2>通知中心</h2>
-                  {work.phone.notifications && lockNotices.length ? (
+                  {work.phone.notifications && s.notifications.length ? (
                     <SystemNotifications
-                      notices={lockNotices}
+                      notices={s.notifications}
                       apps={work.apps}
-                      onOpen={() => {
+                      onOpen={(notice) => {
                         setPanel("");
-                        if (locked) beginUnlock();
-                        else if (installedApps.some((a) => a.id === "messages"))
-                          open("messages");
+                        if (locked) {
+                          beginUnlock();
+                        } else {
+                          const target = notice
+                            ? notificationContent(notice, work.apps).appId
+                            : "messages";
+                          open(
+                            installedApps.some((a) => a.id === target)
+                              ? target
+                              : "messages",
+                          );
+                        }
                       }}
                       onDismiss={dismissNotice}
                     />
