@@ -105,6 +105,15 @@ export function MymyKakao(p: SkinProps) {
     const node = scroll.current;
     if (node) node.scrollTop = node.scrollHeight;
   }, [p.thread, messages.length]);
+  const dateDivider = (() => {
+    const firstMessageTime = messages[0]?.time || "";
+    const match = firstMessageTime.match(/^(\\d{4})-(\\d{2})-(\\d{2})/);
+    if (!match) return "";
+    const [, year, month, day] = match;
+    const date = new Date(Number(year), Number(month) - 1, Number(day), 12);
+    const weekdays = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+    return `${year}年${month}月${day}日 ${weekdays[date.getDay()]}`;
+  })();
   return (
     <div className="mymy-ui mymy-kakao" data-mymy="kakao">
       {p.thread ? (
@@ -119,6 +128,9 @@ export function MymyKakao(p: SkinProps) {
             </span>
           </header>
           <div className="msgs kk" ref={scroll}>
+            {dateDivider && (
+              <div className="kakao-date-divider">{dateDivider}</div>
+            )}
             {messages.map((m, i) => {
               const run = messageRun(messages, i);
               return (
