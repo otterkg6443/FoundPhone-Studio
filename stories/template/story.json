@@ -3,7 +3,7 @@
   "id": "eunho-phone",
   "title": "EUNHO 的手机",
   "description": "机主 EUNHO。锁屏密码 4399；壁纸为 EUNHO 与 BAMBY 的咖啡馆双人合照。相册记录 BAMBY 的两张单人照和一张双人合照。",
-  "revision": 5,
+  "revision": 6,
   "phone": {
     "owner": "EUNHO",
     "date": "2026-10-25",
@@ -214,27 +214,6 @@
           "id": "test-message-messenger",
           "body": "这是一条测试消息。",
           "senderId": "test-contact"
-        }
-      ]
-    },
-    {
-      "id": "test-chat-kakao",
-      "app": "kakao",
-      "title": "测试会话",
-      "participants": [
-        "owner",
-        "test-contact"
-      ],
-      "messages": [
-        {
-          "id": "test-message-kakao",
-          "body": "这是一条测试消息。",
-          "senderId": "test-contact"
-        },
-        {
-          "id": "test-reply-kakao",
-          "body": "这是一条测试回复。",
-          "senderId": "owner"
         }
       ]
     },
@@ -828,6 +807,60 @@
         "meta": {
           "stage": "chat-4",
           "delayMs": "4500"
+        }
+      }
+    ],
+    "kakao": [
+      {
+        "id": "kakao-contact-pink-maltese",
+        "title": "粉红马尔济斯",
+        "body": "好友",
+        "sender": "粉红马尔济斯",
+        "avatar": "",
+        "kind": "text",
+        "time": "2026-10-25 09:41",
+        "folder": "好友",
+        "meta": {
+          "kakaoContact": "true"
+        }
+      },
+      {
+        "id": "kakao-contact-yejun",
+        "title": "艺俊哥",
+        "body": "好友",
+        "sender": "艺俊哥",
+        "avatar": "",
+        "kind": "text",
+        "time": "2026-10-25 09:41",
+        "folder": "好友",
+        "meta": {
+          "kakaoContact": "true"
+        }
+      },
+      {
+        "id": "kakao-contact-noah",
+        "title": "诺亚哥",
+        "body": "好友",
+        "sender": "诺亚哥",
+        "avatar": "",
+        "kind": "text",
+        "time": "2026-10-25 09:41",
+        "folder": "好友",
+        "meta": {
+          "kakaoContact": "true"
+        }
+      },
+      {
+        "id": "kakao-contact-ryu-hamin",
+        "title": "柳河珉",
+        "body": "好友",
+        "sender": "柳河珉",
+        "avatar": "",
+        "kind": "text",
+        "time": "2026-10-25 09:41",
+        "folder": "好友",
+        "meta": {
+          "kakaoContact": "true"
         }
       }
     ]
