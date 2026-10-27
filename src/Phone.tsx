@@ -717,7 +717,7 @@ function PhoneRuntime({
   ]);
   const kakaoSequenceScheduleValue = s.ui?.kakao?.kakaoSequenceSchedule;
   useEffect(() => {
-    if (creator || external || !ready || typeof kakaoSequenceScheduleValue !== "string" || !kakaoSequenceScheduleValue) return;
+    if (creator || !ready || typeof kakaoSequenceScheduleValue !== "string" || !kakaoSequenceScheduleValue) return;
     let queue: { id: string; dueAt: number }[] = [];
     try {
       const parsed = JSON.parse(kakaoSequenceScheduleValue);
