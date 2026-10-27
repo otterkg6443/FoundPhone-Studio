@@ -67,9 +67,13 @@ export function MymyKakao(p: SkinProps) {
     [draft, setDraft] = useState(""),
     [query, setQuery] = useState(""),
     [menu, setMenu] = useState(false);
-  const list = grouped(p.items),
+  const isKakaoContact = (item: Item) =>
+    item.folder === "好友" && item.meta.kakaoContact === "true";
+  const friendItems = p.items.filter(isKakaoContact);
+  const conversationItems = p.items.filter((item) => !isKakaoContact(item));
+  const list = grouped(tab === "好友" ? friendItems : conversationItems),
     messages = [
-      ...p.items.filter((i) => i.title === p.thread),
+      ...conversationItems.filter((i) => i.title === p.thread),
       ...sent.flatMap((raw, index) => {
         try {
           const entry: unknown = JSON.parse(raw);
@@ -210,7 +214,7 @@ export function MymyKakao(p: SkinProps) {
           <div className="kzhd">
             <header className="kzkh">
               <b className="kzti">
-                {tab === "好友" ? p.owner || "好友" : "聊天"}
+                {tab === "好友" ? "好友" : "聊天"}
               </b>
               <span className="kzic">
                 <button
@@ -272,7 +276,7 @@ export function MymyKakao(p: SkinProps) {
                     <Avatar name={last.sender || g.title} src={last.avatar} />
                     <span className="kzkn">
                       <b>{g.title}</b>
-                      <small>{tab === "好友" ? last.sender : last.body}</small>
+                      <small>{tab === "好友" ? (last.body || "好友") : last.body}</small>
                     </span>
                     <span className="kzkmt">
                       {last.time.slice(-5)}
