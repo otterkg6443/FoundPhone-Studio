@@ -57,6 +57,7 @@ import {
 import { getApp, type AppPlugin } from "./registry";
 import {
   initialRuntime,
+  makeItem,
   safeMedia,
   type Work,
   type Item,
@@ -765,6 +766,22 @@ function PhoneRuntime({
       setPinOpen(false);
       event("password", pin);
       if (
+        !creator &&
+        !external &&
+        runtimeRef.current.variables.kakaoUnlockSequenceStarted !== true &&
+        runtimeRef.current.variables.kakaoContactRenamed !== true
+      ) {
+        const latest = runtimeRef.current;
+        update({
+          ...latest,
+          variables: {
+            ...latest.variables,
+            kakaoUnlockSequenceStarted: true,
+            kakaoRenameDueAt: Date.now() + 15000,
+          },
+        });
+      }
+      if (
         !openingNotificationsSent.current &&
         work.phone.notifications &&
         openingWechatNotices.length
@@ -790,6 +807,67 @@ function PhoneRuntime({
       setPinOpen(true);
     }
   };
+  useEffect(() => {
+    if (
+      creator ||
+      external ||
+      !ready ||
+      s.variables.kakaoUnlockSequenceStarted !== true ||
+      s.variables.kakaoContactRenamed === true
+    ) {
+      return;
+    }
+    const dueAt = Number(s.variables.kakaoRenameDueAt ?? Date.now() + 15000);
+    const timer = window.setTimeout(() => {
+      const latest = runtimeRef.current;
+      if (latest.variables.kakaoContactRenamed === true) return;
+
+      const messageId = "kakao-pink-maltese-20260316-1810";
+      const message = makeItem({
+        id: messageId,
+        title: "啄木鸟",
+        sender: "啄木鸟",
+        body: "今天舞社有点事 就不和你一起去吃饭了哈",
+        time: "2026-03-16 18:10",
+        avatar: "./images/kakao-pink-maltese-avatar.jpg",
+        kind: "text",
+        outgoing: false,
+      });
+      const kakaoMessages = latest.messages.kakao ?? [];
+      const messageAlreadyDelivered = kakaoMessages.some(
+        (item) => item.id === messageId,
+      );
+      const notification = "KakaoTalk：啄木鸟：今天舞社有点事 就不和你一起去吃饭了哈";
+
+      update({
+        ...latest,
+        variables: {
+          ...latest.variables,
+          kakaoContactRenamed: true,
+          kakaoMessageDelivered: true,
+        },
+        messages: {
+          ...latest.messages,
+          kakao: messageAlreadyDelivered
+            ? kakaoMessages
+            : [...kakaoMessages, message],
+        },
+        notifications: latest.notifications.includes(notification)
+          ? latest.notifications
+          : [...latest.notifications, notification],
+      });
+    }, Math.max(0, dueAt - Date.now()));
+    return () => window.clearTimeout(timer);
+  }, [
+    creator,
+    external,
+    ready,
+    work.id,
+    work.updatedAt,
+    s.variables.kakaoUnlockSequenceStarted,
+    s.variables.kakaoContactRenamed,
+    s.variables.kakaoRenameDueAt,
+  ]);
   useEffect(() => {
     if (app && !work.apps.some((a) => a.id === app && a.installed)) setApp("");
   }, [app, work.apps]);
@@ -960,7 +1038,21 @@ function PhoneRuntime({
                   items={[
                     ...(work.data[app] ?? []),
                     ...(s.messages[app] ?? []),
-                  ]}
+                  ].map((item) => {
+                    if (
+                      app !== "kakao" ||
+                      s.variables.kakaoContactRenamed !== true
+                    ) {
+                      return item;
+                    }
+                    return {
+                      ...item,
+                      title:
+                        item.title === "粉红马尔济斯" ? "啄木鸟" : item.title,
+                      sender:
+                        item.sender === "粉红马尔济斯" ? "啄木鸟" : item.sender,
+                    };
+                  })}
                   creator={creator}
                   state={s}
                   onRead={(id) => event("read", id)}
