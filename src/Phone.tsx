@@ -534,7 +534,7 @@ function PhoneRuntime({
       hidden: false,
       outgoing: true,
       read: true,
-      meta: template?.meta ?? { kakaoUserSent: "true" },
+      meta: template ? { ...template.meta, local: "true" } : { kakaoUserSent: "true", local: "true" },
     });
     let nextStage = stage;
     let queue = ui.kakaoSequenceSchedule;
