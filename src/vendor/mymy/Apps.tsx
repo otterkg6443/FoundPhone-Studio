@@ -1,7 +1,7 @@
 /* React/data adapters for dudwo5/Mymy UI templates: kt/ktn/KHD/bub,
  * igHome/igProfile/igDM/igSheet, xHome. See NOTICE.txt for permission.
  * Author content, DOM globals, timers and media dependencies are excluded. */
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import {
   ArrowLeft,
   Search,
@@ -50,6 +50,7 @@ export function messageRun(items: Item[], index: number) {
       !next ||
       next.outgoing !== m.outgoing ||
       next.sender !== m.sender ||
+      next.time.slice(0, 10) !== m.time.slice(0, 10) ||
       next.meta.kakaoTimestampBreakBefore === "true",
   };
 }
@@ -109,15 +110,14 @@ export function MymyKakao(p: SkinProps) {
     const node = scroll.current;
     if (node) node.scrollTop = node.scrollHeight;
   }, [p.thread, messages.length]);
-  const dateDivider = (() => {
-    const firstMessageTime = messages[0]?.time || "";
-    const match = firstMessageTime.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  const dateDivider = (value: string) => {
+    const match = value.match(/^(\d{4})-(\d{2})-(\d{2})/);
     if (!match) return "";
     const [, year, month, day] = match;
     const date = new Date(Number(year), Number(month) - 1, Number(day), 12);
     const weekdays = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
     return `${year}年${month}月${day}日 ${weekdays[date.getDay()]}`;
-  })();
+  };
   return (
     <div className="mymy-ui mymy-kakao" data-mymy="kakao">
       {p.thread ? (
@@ -132,45 +132,56 @@ export function MymyKakao(p: SkinProps) {
             </span>
           </header>
           <div className="msgs kk" ref={scroll}>
-            {dateDivider && (
-              <div className="kakao-date-divider">{dateDivider}</div>
-            )}
             {messages.map((m, i) => {
               const run = messageRun(messages, i);
+              const currentDate = m.time.slice(0, 10);
+              const previousDate = messages[i - 1]?.time.slice(0, 10) || "";
               return (
-                <div
-                  key={m.id}
-                  className={
-                    "kzm " +
-                    (m.outgoing ? "kzmy" : "kzot") +
-                    (run.first ? " first" : "")
-                  }
-                >
-                  {!m.outgoing && run.first && (
-                    <>
-                      <div className="kzmav">
-                        <Avatar name={m.sender} src={m.avatar} />
-                      </div>
-                      <div className="kzmn">{m.sender}</div>
-                    </>
+                <Fragment key={m.id}>
+                  {currentDate !== previousDate && (
+                    <div className="kakao-date-divider">
+                      {dateDivider(m.time)}
+                    </div>
                   )}
-                  {m.outgoing && run.last && (
-                    <span className="kzt">
-                      {m.meta.unread || ""}
-                      <br />
-                      {m.time.slice(-5)}
-                    </span>
-                  )}
-                  <button
-                    className={"kzbub" + (m.media ? " kzimg" : "") + (m.id === "kakao-pink-maltese-19" ? " kakao-forum-link" : "")}
-                    onClick={() => m.meta.local !== "true" && read(p, m)}
+                  <div
+                    className={
+                      "kzm " +
+                      (m.outgoing ? "kzmy" : "kzot") +
+                      (run.first ? " first" : "")
+                    }
                   >
-                    {m.media ? <Media item={m} /> : m.body}
-                  </button>
-                  {!m.outgoing && run.last && (
-                    <span className="kzt">{m.time.slice(-5)}</span>
-                  )}
-                </div>
+                    {!m.outgoing && run.first && (
+                      <>
+                        <div className="kzmav">
+                          <Avatar name={m.sender} src={m.avatar} />
+                        </div>
+                        <div className="kzmn">{m.sender}</div>
+                      </>
+                    )}
+                    {m.outgoing && run.last && (
+                      <span className="kzt">
+                        {m.meta.unread || ""}
+                        <br />
+                        {m.time.slice(-5)}
+                      </span>
+                    )}
+                    <button
+                      className={
+                        "kzbub" +
+                        (m.media ? " kzimg" : "") +
+                        (m.id === "kakao-pink-maltese-19"
+                          ? " kakao-forum-link"
+                          : "")
+                      }
+                      onClick={() => m.meta.local !== "true" && read(p, m)}
+                    >
+                      {m.media ? <Media item={m} /> : m.body}
+                    </button>
+                    {!m.outgoing && run.last && (
+                      <span className="kzt">{m.time.slice(-5)}</span>
+                    )}
+                  </div>
+                </Fragment>
               );
             })}
             {!messages.length && <Blank />}
