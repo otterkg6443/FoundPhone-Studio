@@ -507,6 +507,64 @@ function PhoneRuntime({
     });
   };
 
+  const sendKakaoMessage = (value: string) => {
+    const body = value.trim();
+    if (!body) return;
+    const latest = runtimeRef.current;
+    const ui = latest.ui?.kakao ?? {};
+    const rawThread = typeof ui.currentThread === "string" ? ui.currentThread : "";
+    const thread = rawThread === "粉红马尔济斯" && latest.variables.kakaoContactRenamed === true ? "啄木鸟" : rawThread;
+    const stage = Number(ui.kakaoSequenceStage ?? 0);
+    const templates = work.data.kakao ?? [];
+    const template = stage === 0 && thread === "啄木鸟" && body === "好"
+      ? templates.find((item) => item.meta.kakaoSequenceOutgoing === "trigger")
+      : stage === 2 && thread === "艺俊哥" && body === "叽里咕噜说啥呢"
+        ? templates.find((item) => item.meta.kakaoSequenceOutgoing === "reply-1")
+        : stage === 4 && thread === "艺俊哥" && body === "他好像没跟我讲过这个朋友"
+          ? templates.find((item) => item.meta.kakaoSequenceOutgoing === "reply-2")
+          : undefined;
+    const message = makeItem({
+      ...(template ?? {}),
+      id: template ? `sent-${template.id}` : `kakao-user-${Date.now()}-${(latest.messages.kakao ?? []).length}`,
+      title: thread || "啄木鸟",
+      body,
+      time: template?.time ?? `${latest.date || work.phone.date || "2026-10-28"} ${latest.time || work.phone.time}`,
+      sender: "EUNHO",
+      avatar: "./images/kakao-owner-avatar.jpg",
+      hidden: false,
+      outgoing: true,
+      read: true,
+      meta: template?.meta ?? { kakaoUserSent: "true" },
+    });
+    let nextStage = stage;
+    let queue = ui.kakaoSequenceSchedule;
+    const now = Date.now();
+    if (template?.meta.kakaoSequenceOutgoing === "trigger") {
+      nextStage = 1;
+      queue = JSON.stringify([
+        { id: "kakao-yejun-20260316-photo-01", dueAt: now + 10000 },
+        { id: "kakao-yejun-20260316-1846-01", dueAt: now + 11500 },
+      ]);
+    } else if (template?.meta.kakaoSequenceOutgoing === "reply-1") {
+      nextStage = 3;
+      queue = JSON.stringify([
+        { id: "kakao-yejun-20260316-1850-02", dueAt: now + 800 },
+        { id: "kakao-yejun-20260316-1851-03", dueAt: now + 1900 },
+      ]);
+    } else if (template?.meta.kakaoSequenceOutgoing === "reply-2") {
+      nextStage = 5;
+      queue = JSON.stringify([
+        { id: "kakao-yejun-20260316-1854-04", dueAt: now + 800 },
+        { id: "kakao-yejun-20260316-1854-05", dueAt: now + 1700 },
+      ]);
+    }
+    update({
+      ...latest,
+      ui: { ...latest.ui, kakao: { ...ui, kakaoSequenceStage: nextStage, kakaoSequenceSchedule: queue ?? "[]" } },
+      messages: { ...latest.messages, kakao: [...(latest.messages.kakao ?? []), message] },
+    });
+  };
+
   useEffect(() => {
     const stagedIncomingReplies = (work.data.wechat ?? [])
       .filter(
@@ -657,6 +715,39 @@ function PhoneRuntime({
     locked,
     wechatUi?.currentThread,
   ]);
+  const kakaoSequenceScheduleValue = s.ui?.kakao?.kakaoSequenceSchedule;
+  useEffect(() => {
+    if (creator || external || !ready || typeof kakaoSequenceScheduleValue !== "string" || !kakaoSequenceScheduleValue) return;
+    let queue: { id: string; dueAt: number }[] = [];
+    try {
+      const parsed = JSON.parse(kakaoSequenceScheduleValue);
+      if (Array.isArray(parsed)) queue = parsed.filter((x): x is { id: string; dueAt: number } => !!x && typeof x.id === "string" && typeof x.dueAt === "number");
+    } catch { queue = []; }
+    const delivered = new Set((s.messages.kakao ?? []).map((item) => item.meta.scheduledSourceId).filter((id): id is string => typeof id === "string"));
+    const next = queue.filter((x) => !delivered.has(x.id) && (work.data.kakao ?? []).some((item) => item.id === x.id)).sort((a, b) => a.dueAt - b.dueAt)[0];
+    if (!next) return;
+    const timer = window.setTimeout(() => {
+      const latest = runtimeRef.current;
+      const ui = latest.ui?.kakao ?? {};
+      let current: { id: string; dueAt: number }[] = [];
+      try {
+        const parsed = typeof ui.kakaoSequenceSchedule === "string" ? JSON.parse(ui.kakaoSequenceSchedule) : [];
+        if (Array.isArray(parsed)) current = parsed.filter((x): x is { id: string; dueAt: number } => !!x && typeof x.id === "string" && typeof x.dueAt === "number");
+      } catch { current = []; }
+      const source = (work.data.kakao ?? []).find((item) => item.id === next.id);
+      if (!source) return;
+      const item = makeItem({ ...source, id: `scheduled-${source.id}`, hidden: false, read: false, meta: { ...source.meta, scheduledSourceId: source.id, kakaoUnread: "true" } });
+      const remaining = current.filter((x) => x.id !== source.id);
+      const stage = Number(source.meta.kakaoSequenceAdvance ?? ui.kakaoSequenceStage ?? 0);
+      update({
+        ...latest,
+        ui: { ...latest.ui, kakao: { ...ui, kakaoSequenceStage: stage, kakaoSequenceSchedule: JSON.stringify(remaining) } },
+        messages: { ...latest.messages, kakao: [...(latest.messages.kakao ?? []), item] },
+        notifications: [...latest.notifications, `KakaoTalk：艺俊哥：${item.media ? "发送了一张照片" : item.body}`],
+      });
+    }, Math.max(0, next.dueAt - Date.now()));
+    return () => window.clearTimeout(timer);
+  }, [creator, external, ready, work.id, work.updatedAt, work.data.kakao, kakaoSequenceScheduleValue, s.messages.kakao]);
   useEffect(() => {
     if (creator || !ready) return;
     try {
@@ -1078,7 +1169,7 @@ function PhoneRuntime({
                       ),
                     );
                   }}
-                  onSendChat={app === "wechat" ? sendWeChatMessage : undefined}
+                  onSendChat={app === "wechat" ? sendWeChatMessage : app === "kakao" ? sendKakaoMessage : undefined}
                   work={work}
                 />
               </AppWindow>
