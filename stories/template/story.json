@@ -3,7 +3,7 @@
   "id": "eunho-phone",
   "title": "EUNHO 的手机",
   "description": "机主 EUNHO。锁屏密码 4399；壁纸为 EUNHO 与 BAMBY 的咖啡馆双人合照。相册记录 BAMBY 的两张单人照和一张双人合照。",
-  "revision": 18,
+  "revision": 19,
   "phone": {
     "owner": "EUNHO",
     "date": "2026-10-25",
@@ -892,9 +892,7 @@
         "title": "粉红马尔济斯",
         "body": "等我切换一下社交模式",
         "richText": "",
-        "meta": {
-          "kakaoTimestampBreakBefore": "true"
-        },
+        "meta": {},
         "time": "2026-03-09 19:31",
         "sender": "粉红马尔济斯",
         "avatar": "./images/kakao-pink-maltese-avatar.jpg",
@@ -993,7 +991,10 @@
         "outgoing": true,
         "read": false,
         "likes": 0,
-        "comments": []
+        "comments": [],
+        "meta": {
+          "kakaoShowTime": "true"
+        }
       },
       {
         "id": "kakao-pink-maltese-01",
@@ -2192,9 +2193,7 @@
         "title": "艺俊哥",
         "body": "不过男生的嘴唇本来就这么软吗",
         "richText": "",
-        "meta": {
-          "kakaoTimestampBreakBefore": "true"
-        },
+        "meta": {},
         "time": "2026-03-10 09:05",
         "sender": "EUNHO",
         "avatar": "./images/kakao-owner-avatar.jpg",
