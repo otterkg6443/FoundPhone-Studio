@@ -810,7 +810,7 @@ function DrawnArtwork({ id, date }: { id: string; date?: string }) {
         fontWeight="800"
         fill="#181818"
       >
-        外卖
+        美团
       </text>
     );
   } else if (id === "forum") {

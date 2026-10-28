@@ -3,7 +3,7 @@
   "id": "eunho-phone",
   "title": "EUNHO 的手机",
   "description": "机主 EUNHO。锁屏密码 4399；壁纸为 EUNHO 与 BAMBY 的咖啡馆双人合照。相册记录 BAMBY 的两张单人照和一张双人合照。",
-  "revision": 25,
+  "revision": 26,
   "phone": {
     "owner": "EUNHO",
     "date": "2026-10-25",
@@ -1605,12 +1605,69 @@
     ],
     "delivery": [
       {
-        "id": "test-item-delivery",
-        "title": "测试内容",
-        "body": "这是一条测试内容。",
-        "sender": "测试用户",
-        "kind": "text",
-        "meta": {}
+        "id": "delivery-order-20260316-1718",
+        "title": "스모크 머스타드 치킨 랩",
+        "body": "스모크 머스타드 치킨 랩 1개\n단품 주문",
+        "sender": "파파이스",
+        "kind": "image",
+        "media": "./images/smoke-mustard-wrap.jpg",
+        "time": "2026.03.16 17:18",
+        "folder": "订单",
+        "meta": {
+          "address": "首尔",
+          "status": "已送达",
+          "price": "₩4,600",
+          "orderNo": "20260316-1718",
+          "orderDate": "2026-03-16",
+          "orderTime": "17:18",
+          "deliveryTime": "17:46",
+          "merchant": "Popeyes / 파파이스",
+          "payment": "已付款"
+        }
+      },
+      {
+        "id": "delivery-order-20260316-1802",
+        "title": "루이 통 스파이시 버거 세트",
+        "body": "루이 통 스파이시 버거 1개\n사이드 선택(1종): 치즈스틱\n음료 선택: 코카콜라제로(L) (+200원)",
+        "sender": "파파이스",
+        "kind": "image",
+        "media": "./images/tong-spicy-burger-set.jpg",
+        "time": "2026.03.16 18:02",
+        "folder": "订单",
+        "meta": {
+          "address": "首尔",
+          "status": "已送达",
+          "price": "₩11,800",
+          "basePrice": "₩11,600",
+          "optionExtra": "₩200",
+          "orderNo": "20260316-1802",
+          "orderDate": "2026-03-16",
+          "orderTime": "18:02",
+          "deliveryTime": "18:31",
+          "merchant": "Popeyes / 파파이스",
+          "payment": "已付款"
+        }
+      },
+      {
+        "id": "delivery-order-20260316-1856",
+        "title": "스모크 치폴레 치킨 랩",
+        "body": "스모크 치폴레 치킨 랩 1개\n단품 주문",
+        "sender": "파파이스",
+        "kind": "image",
+        "media": "./images/smoke-chipotle-wrap.jpg",
+        "time": "2026.03.16 18:56",
+        "folder": "订单",
+        "meta": {
+          "address": "首尔",
+          "status": "已送达",
+          "price": "₩4,600",
+          "orderNo": "20260316-1856",
+          "orderDate": "2026-03-16",
+          "orderTime": "18:56",
+          "deliveryTime": "19:24",
+          "merchant": "Popeyes / 파파이스",
+          "payment": "已付款"
+        }
       }
     ],
     "forum": [

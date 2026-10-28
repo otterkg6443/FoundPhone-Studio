@@ -151,7 +151,7 @@ export function TaobaoSkin(p: Props) {
                     <p>
                       {tab === "物流" ? meta(i, "tracking", i.body) : i.body}
                     </p>
-                    <b>¥ {meta(i, "price", "—")}</b>
+                    <b>{meta(i, "price", "—")}</b>
                   </span>
                 </section>
                 <footer>{meta(i, "number", i.time)}</footer>
@@ -174,7 +174,7 @@ export function TaobaoSkin(p: Props) {
   );
 }
 export function DeliverySkin(p: Props) {
-  const { tab, setTab, q, setQ, items } = useContent(p, "商家");
+  const { tab, setTab, q, setQ, items } = useContent(p, "订单");
   const list = items.filter((i) =>
     tab === "订单" ? i.folder === "订单" : i.folder !== "订单",
   );
