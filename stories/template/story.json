@@ -3,11 +3,11 @@
   "id": "eunho-phone",
   "title": "EUNHO 的手机",
   "description": "机主 EUNHO。锁屏密码 4399；壁纸为 EUNHO 与 BAMBY 的咖啡馆双人合照。相册记录 BAMBY 的两张单人照和一张双人合照。",
-  "revision": 38,
+  "revision": 39,
   "phone": {
     "owner": "EUNHO",
-    "date": "2026-10-25",
-    "time": "09:41",
+    "date": "2026-03-16",
+    "time": "18:10",
     "battery": 94,
     "network": "5G",
     "wallpaper": "bamby-eunho-cafe",
@@ -538,14 +538,6 @@
           "createdAt": "2026-01-01",
           "updatedAt": "2026-01-01"
         }
-      },
-      {
-        "id": "test-item-notes",
-        "title": "测试内容",
-        "body": "这是一条测试内容。",
-        "sender": "测试用户",
-        "kind": "text",
-        "meta": {}
       }
     ],
     "calendar": [
@@ -1748,22 +1740,68 @@
     ],
     "delivery": [
       {
-        "id": "delivery-order-20260316-1718",
-        "title": "스모크 머스타드 치킨 랩",
-        "body": "스모크 머스타드 치킨 랩 1개\n단품 주문",
+        "id": "delivery-order-20260310-0905",
+        "title": "安心粥",
+        "body": "安心粥 1份\n早餐订单",
+        "sender": "维拉早餐铺·汤包·粥·馄饨",
+        "kind": "image",
+        "media": "./images/安心粥.jpg",
+        "time": "2026.03.10 09:05",
+        "folder": "订单",
+        "likes": 0,
+        "comments": [],
+        "meta": {
+          "address": "星辉艺术大学4栋A403",
+          "status": "已送达",
+          "price": "₩2,000",
+          "orderNo": "20260310-0905",
+          "orderDate": "2026-03-10",
+          "orderTime": "09:05",
+          "deliveryTime": "09:05",
+          "merchant": "维拉早餐铺·汤包·粥·馄饨",
+          "payment": "已付款"
+        }
+      },
+      {
+        "id": "delivery-order-20260309-2335",
+        "title": "醒酒药",
+        "body": "醒酒药 1份\n药品订单",
+        "sender": "威廉药房",
+        "kind": "image",
+        "media": "./images/醒酒药.jpg",
+        "time": "2026.03.09 23:35",
+        "folder": "订单",
+        "likes": 0,
+        "comments": [],
+        "meta": {
+          "address": "星辉艺术大学4栋A403",
+          "status": "已送达",
+          "price": "₩5,000",
+          "orderNo": "20260309-2335",
+          "orderDate": "2026-03-09",
+          "orderTime": "23:35",
+          "deliveryTime": "23:35",
+          "merchant": "威廉药房",
+          "payment": "已付款"
+        }
+      },
+      {
+        "id": "delivery-order-20260316-1856",
+        "title": "스모크 치폴레 치킨 랩",
+        "body": "스모크 치폴레 치킨 랩 1개\n단품 주문",
         "sender": "파파이스",
         "kind": "image",
-        "media": "./images/smoke-mustard-wrap.jpg",
-        "time": "2026.03.08 17:18",
+        "media": "./images/辣味鸡肉卷.jpg",
+        "time": "2026.03.08 18:56",
         "folder": "订单",
         "meta": {
           "address": "星辉艺术大学5栋A501",
           "status": "已送达",
           "price": "₩4,600",
-          "orderNo": "20260308-1718",
+          "orderNo": "20260308-1856",
           "orderDate": "2026-03-08",
-          "orderTime": "17:18",
-          "deliveryTime": "17:46",
+          "orderTime": "18:56",
+          "deliveryTime": "19:24",
           "merchant": "Popeyes / 파파이스",
           "payment": "已付款"
         }
@@ -1792,69 +1830,23 @@
         }
       },
       {
-        "id": "delivery-order-20260316-1856",
-        "title": "스모크 치폴레 치킨 랩",
-        "body": "스모크 치폴레 치킨 랩 1개\n단품 주문",
+        "id": "delivery-order-20260316-1718",
+        "title": "스모크 머스타드 치킨 랩",
+        "body": "스모크 머스타드 치킨 랩 1개\n단품 주문",
         "sender": "파파이스",
         "kind": "image",
-        "media": "./images/辣味鸡肉卷.jpg",
-        "time": "2026.03.08 18:56",
+        "media": "./images/smoke-mustard-wrap.jpg",
+        "time": "2026.03.08 17:18",
         "folder": "订单",
         "meta": {
           "address": "星辉艺术大学5栋A501",
           "status": "已送达",
           "price": "₩4,600",
-          "orderNo": "20260308-1856",
+          "orderNo": "20260308-1718",
           "orderDate": "2026-03-08",
-          "orderTime": "18:56",
-          "deliveryTime": "19:24",
+          "orderTime": "17:18",
+          "deliveryTime": "17:46",
           "merchant": "Popeyes / 파파이스",
-          "payment": "已付款"
-        }
-      },
-      {
-        "id": "delivery-order-20260309-2335",
-        "title": "醒酒药",
-        "body": "醒酒药 1份\n药品订单",
-        "sender": "威廉药房",
-        "kind": "image",
-        "media": "./images/醒酒药.jpg",
-        "time": "2026.03.09 23:35",
-        "folder": "订单",
-        "likes": 0,
-        "comments": [],
-        "meta": {
-          "address": "星辉艺术大学4栋A403",
-          "status": "已送达",
-          "price": "₩5,000",
-          "orderNo": "20260309-2335",
-          "orderDate": "2026-03-09",
-          "orderTime": "23:35",
-          "deliveryTime": "23:35",
-          "merchant": "威廉药房",
-          "payment": "已付款"
-        }
-      },
-      {
-        "id": "delivery-order-20260310-0905",
-        "title": "安心粥",
-        "body": "安心粥 1份\n早餐订单",
-        "sender": "维拉早餐铺·汤包·粥·馄饨",
-        "kind": "image",
-        "media": "./images/安心粥.jpg",
-        "time": "2026.03.10 09:05",
-        "folder": "订单",
-        "likes": 0,
-        "comments": [],
-        "meta": {
-          "address": "星辉艺术大学4栋A403",
-          "status": "已送达",
-          "price": "₩2,000",
-          "orderNo": "20260310-0905",
-          "orderDate": "2026-03-10",
-          "orderTime": "09:05",
-          "deliveryTime": "09:05",
-          "merchant": "维拉早餐铺·汤包·粥·馄饨",
           "payment": "已付款"
         }
       }
