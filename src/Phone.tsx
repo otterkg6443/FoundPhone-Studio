@@ -1190,6 +1190,21 @@ function PhoneRuntime({
   }, [app, work.apps]);
   const displayTime = creator ? work.phone.time : s.time || work.phone.time;
   const plugin = getApp(app);
+  const musicPlugin = getApp("music");
+  const kakaoReadMessageIds = Array.isArray(s.ui?.kakao?.kakaoReadMessageIds)
+    ? s.ui.kakao.kakaoReadMessageIds.filter(
+        (id): id is string => typeof id === "string",
+      )
+    : [];
+  const kakaoUnreadCount = new Set(
+    [...(work.data.kakao ?? []), ...(s.messages.kakao ?? [])]
+      .filter(
+        (item) =>
+          item.meta.kakaoUnread === "true" &&
+          !kakaoReadMessageIds.includes(item.id),
+      )
+      .map((item) => item.id),
+  ).size;
   useEffect(() => {
     if (!ready) return;
     const count = s.notifications.length;
@@ -1340,7 +1355,7 @@ function PhoneRuntime({
                   open("camera");
                 }}
               />
-            ) : app && app !== "appstore" ? (
+            ) : app && app !== "appstore" && app !== "music" ? (
               <AppWindow
                 key={app}
                 className={`app-screen engine-${plugin.engine} skin-${app}`}
@@ -1404,7 +1419,7 @@ function PhoneRuntime({
                   work={work}
                 />
               </AppWindow>
-            ) : (
+            ) : app === "music" ? null : (
               <HomeLauncher
                 key={
                   "home-" + homeRequest + (app === "appstore" ? "store" : "")
@@ -1429,7 +1444,7 @@ function PhoneRuntime({
                     custom={a.icon}
                     date={s.date || work.phone.date}
                     time={s.time}
-                    badge={0}
+                    badge={a.id === "kakao" ? kakaoUnreadCount : 0}
                   />
                 )}
                 clearApp={(id) =>
@@ -1445,6 +1460,42 @@ function PhoneRuntime({
               />
             )}
           </AnimatePresence>
+          <div
+            className={`persistent-music-screen ${!locked && !quickCamera && app === "music" ? `app-screen engine-${musicPlugin.engine} skin-music is-active` : "is-hidden"}`}
+            aria-hidden={locked || quickCamera || app !== "music"}
+            inert={locked || quickCamera || app !== "music"}
+          >
+            <AppContent
+              app={musicPlugin}
+              name={work.apps.find((a) => a.id === "music")?.name ?? musicPlugin.name}
+              items={[...(work.data.music ?? []), ...(s.messages.music ?? [])]}
+              creator={creator}
+              state={s}
+              onRead={(id) => event("read", id)}
+              onEdit={(item) => onEdit?.("music", item)}
+              onAdd={() => onAdd?.("music")}
+              onBack={() => setApp("")}
+              onSettings={onSettings}
+              onUi={(key, value) => {
+                const current = runtimeRef.current;
+                update(
+                  dispatch(
+                    work,
+                    {
+                      ...current,
+                      ui: {
+                        ...current.ui,
+                        music: { ...current.ui?.music, [key]: value },
+                      },
+                    },
+                    "variable",
+                    `ui:music:${key}`,
+                  ),
+                );
+              }}
+              work={work}
+            />
+          </div>
           {folder && (
             <div className="folder-overlay" onClick={() => setFolder("")}>
               <h2>{folder}</h2>

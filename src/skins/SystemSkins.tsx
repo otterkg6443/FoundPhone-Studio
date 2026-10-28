@@ -897,7 +897,7 @@ export function MusicSkin(p: Props) {
             <YouTubeTrackPlayer key={song.id} item={song} videoId={youtubeId} musicSearchUrl={musicSearchUrl} autoPlay={autoPlayNext}
               onPrevious={goPrevious} onNext={goNext} onAutoPlayConsumed={() => setAutoPlayNext(false)} />
           ) : song.kind === "audio" && safeMedia(song.media) ? (
-            <AudioPlayer p={p} item={song} />
+            <AudioPlayer p={p} item={song} autoPlay={autoPlayNext} onPrevious={goPrevious} onNext={goNext} onAutoPlayConsumed={() => setAutoPlayNext(false)} />
           ) : (
             <div className="native-music-search-fallback">
               {meta(song, "artwork") ? <img className="plave-track-art" src={meta(song, "artwork")} alt="" referrerPolicy="no-referrer" /> : <Music size={22} />}

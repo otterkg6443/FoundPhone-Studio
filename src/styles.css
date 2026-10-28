@@ -5040,3 +5040,25 @@ label {
   background: #e34f58;
   transform: rotate(135deg);
 }
+
+/* Keep the music player's iframe mounted while the simulated phone changes apps. */
+.persistent-music-screen {
+  position: absolute;
+  inset: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 45px 0 20px;
+  background: #f5f5f3;
+  color: #252b27;
+}
+.persistent-music-screen.is-hidden {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+.persistent-music-screen.is-active {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}

@@ -251,9 +251,7 @@ export function MymyKakao(p: SkinProps) {
                     </div>
                   )}
                   {m.meta.kakaoGapDividerBefore === "true" && (
-                    <div className="kakao-time-gap-divider" role="separator" aria-label="剧情中间有时间间隔">
-                      <span>中间隔了一段时间</span>
-                    </div>
+                    <div className="kakao-time-gap-divider" role="separator" aria-label="时间间隔" />
                   )}
                   <div
                     className={
