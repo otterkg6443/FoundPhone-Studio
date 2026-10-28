@@ -585,12 +585,857 @@
     ],
     "music": [
       {
-        "id": "test-item-music",
-        "title": "测试内容",
-        "body": "这是一条测试内容。",
-        "sender": "测试用户",
+        "id": "plave-track-001",
+        "title": "기다릴게 (Wait for You)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2023-03-12 00:00",
         "kind": "text",
-        "meta": {}
+        "folder": "ASTERUM",
+        "meta": {
+          "album": "ASTERUM",
+          "releaseDate": "2023-03-12",
+          "artist": "PLAVE",
+          "sourceType": "Official M/V",
+          "youtubeId": "cFm8fTRW_so",
+          "youtubeSearch": "PLAVE 기다릴게 (Wait for You) ASTERUM official audio"
+        }
+      },
+      {
+        "id": "plave-track-002",
+        "title": "Pixel world",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2023-03-12 00:00",
+        "kind": "text",
+        "folder": "ASTERUM",
+        "meta": {
+          "album": "ASTERUM",
+          "releaseDate": "2023-03-12",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE Pixel world ASTERUM official audio"
+        }
+      },
+      {
+        "id": "plave-track-003",
+        "title": "기다릴게 (Wait for You) (Instrumental)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2023-03-12 00:00",
+        "kind": "text",
+        "folder": "ASTERUM",
+        "meta": {
+          "album": "ASTERUM",
+          "releaseDate": "2023-03-12",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE 기다릴게 (Wait for You) (Instrumental) ASTERUM official audio"
+        }
+      },
+      {
+        "id": "plave-track-004",
+        "title": "왜요 왜요 왜? (Why?)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2023-05-25 00:00",
+        "kind": "text",
+        "folder": "数字单曲 · Why?",
+        "meta": {
+          "album": "数字单曲 · Why?",
+          "releaseDate": "2023-05-25",
+          "artist": "PLAVE",
+          "sourceType": "Official Lyric Video",
+          "youtubeId": "Q_TzqcWKz00",
+          "youtubeSearch": "PLAVE 왜요 왜요 왜? (Why?) 数字单曲 · Why? official audio"
+        }
+      },
+      {
+        "id": "plave-track-005",
+        "title": "왜요 왜요 왜? (Why?)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2023-08-24 00:00",
+        "kind": "text",
+        "folder": "ASTERUM : The Shape of Things to Come",
+        "meta": {
+          "album": "ASTERUM : The Shape of Things to Come",
+          "releaseDate": "2023-08-24",
+          "artist": "PLAVE",
+          "sourceType": "Official Lyric Video",
+          "youtubeId": "Q_TzqcWKz00",
+          "youtubeSearch": "PLAVE 왜요 왜요 왜? (Why?) ASTERUM : The Shape of Things to Come official audio"
+        }
+      },
+      {
+        "id": "plave-track-006",
+        "title": "여섯 번째 여름 (The 6th Summer)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2023-08-24 00:00",
+        "kind": "text",
+        "folder": "ASTERUM : The Shape of Things to Come",
+        "meta": {
+          "album": "ASTERUM : The Shape of Things to Come",
+          "releaseDate": "2023-08-24",
+          "artist": "PLAVE",
+          "sourceType": "Official M/V",
+          "youtubeId": "c_yCRwh97M8",
+          "youtubeSearch": "PLAVE 여섯 번째 여름 (The 6th Summer) ASTERUM : The Shape of Things to Come official audio"
+        }
+      },
+      {
+        "id": "plave-track-007",
+        "title": "I Just Love Ya",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2023-08-24 00:00",
+        "kind": "text",
+        "folder": "ASTERUM : The Shape of Things to Come",
+        "meta": {
+          "album": "ASTERUM : The Shape of Things to Come",
+          "releaseDate": "2023-08-24",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE I Just Love Ya ASTERUM : The Shape of Things to Come official audio"
+        }
+      },
+      {
+        "id": "plave-track-008",
+        "title": "Dear.PLLI",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2023-08-24 00:00",
+        "kind": "text",
+        "folder": "ASTERUM : The Shape of Things to Come",
+        "meta": {
+          "album": "ASTERUM : The Shape of Things to Come",
+          "releaseDate": "2023-08-24",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE Dear.PLLI ASTERUM : The Shape of Things to Come official audio"
+        }
+      },
+      {
+        "id": "plave-track-009",
+        "title": "외계어 송 DEMO (CD Only)",
+        "body": "PLAVE 正式发行曲目。该曲标注为 CD Only，暂未确认有官方在线音源。",
+        "sender": "PLAVE",
+        "time": "2023-08-24 00:00",
+        "kind": "text",
+        "folder": "ASTERUM : The Shape of Things to Come",
+        "meta": {
+          "album": "ASTERUM : The Shape of Things to Come",
+          "releaseDate": "2023-08-24",
+          "artist": "PLAVE",
+          "sourceType": "CD Only",
+          "youtubeSearch": "PLAVE 외계어 송 DEMO (CD Only) ASTERUM : The Shape of Things to Come official audio"
+        }
+      },
+      {
+        "id": "plave-track-010",
+        "title": "Merry PLLIstmas",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2023-12-12 00:00",
+        "kind": "text",
+        "folder": "数字单曲 · Merry PLLIstmas",
+        "meta": {
+          "album": "数字单曲 · Merry PLLIstmas",
+          "releaseDate": "2023-12-12",
+          "artist": "PLAVE",
+          "sourceType": "Official Special Video",
+          "youtubeId": "KCT3ZagR9-M",
+          "youtubeSearch": "PLAVE Merry PLLIstmas 数字单曲 · Merry PLLIstmas official audio"
+        }
+      },
+      {
+        "id": "plave-track-011",
+        "title": "Watch Me Woo!",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2024-02-26 00:00",
+        "kind": "text",
+        "folder": "ASTERUM : 134-1",
+        "meta": {
+          "album": "ASTERUM : 134-1",
+          "releaseDate": "2024-02-26",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE Watch Me Woo! ASTERUM : 134-1 official audio"
+        }
+      },
+      {
+        "id": "plave-track-012",
+        "title": "WAY 4 LUV",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2024-02-26 00:00",
+        "kind": "text",
+        "folder": "ASTERUM : 134-1",
+        "meta": {
+          "album": "ASTERUM : 134-1",
+          "releaseDate": "2024-02-26",
+          "artist": "PLAVE",
+          "sourceType": "Official M/V",
+          "youtubeId": "FxB6_qaqHlY",
+          "youtubeSearch": "PLAVE WAY 4 LUV ASTERUM : 134-1 official audio"
+        }
+      },
+      {
+        "id": "plave-track-013",
+        "title": "버추얼 아이돌 (Virtual Idol)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2024-02-26 00:00",
+        "kind": "text",
+        "folder": "ASTERUM : 134-1",
+        "meta": {
+          "album": "ASTERUM : 134-1",
+          "releaseDate": "2024-02-26",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE 버추얼 아이돌 (Virtual Idol) ASTERUM : 134-1 official audio"
+        }
+      },
+      {
+        "id": "plave-track-014",
+        "title": "From",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2024-02-26 00:00",
+        "kind": "text",
+        "folder": "ASTERUM : 134-1",
+        "meta": {
+          "album": "ASTERUM : 134-1",
+          "releaseDate": "2024-02-26",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE From ASTERUM : 134-1 official audio"
+        }
+      },
+      {
+        "id": "plave-track-015",
+        "title": "우리 영화 (Our Movie)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2024-02-26 00:00",
+        "kind": "text",
+        "folder": "ASTERUM : 134-1",
+        "meta": {
+          "album": "ASTERUM : 134-1",
+          "releaseDate": "2024-02-26",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE 우리 영화 (Our Movie) ASTERUM : 134-1 official audio"
+        }
+      },
+      {
+        "id": "plave-track-016",
+        "title": "Merry PLLIstmas",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2024-02-26 00:00",
+        "kind": "text",
+        "folder": "ASTERUM : 134-1",
+        "meta": {
+          "album": "ASTERUM : 134-1",
+          "releaseDate": "2024-02-26",
+          "artist": "PLAVE",
+          "sourceType": "Official Special Video",
+          "youtubeId": "KCT3ZagR9-M",
+          "youtubeSearch": "PLAVE Merry PLLIstmas ASTERUM : 134-1 official audio"
+        }
+      },
+      {
+        "id": "plave-track-017",
+        "title": "Pump Up The Volume!",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2024-08-20 00:00",
+        "kind": "text",
+        "folder": "数字单曲 · Pump Up The Volume!",
+        "meta": {
+          "album": "数字单曲 · Pump Up The Volume!",
+          "releaseDate": "2024-08-20",
+          "artist": "PLAVE",
+          "sourceType": "Official M/V",
+          "youtubeId": "EYG4ROejmyI",
+          "youtubeSearch": "PLAVE Pump Up The Volume! 数字单曲 · Pump Up The Volume! official audio"
+        }
+      },
+      {
+        "id": "plave-track-018",
+        "title": "달랐을까 (What If)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2024-10-13 00:00",
+        "kind": "text",
+        "folder": "OST · What If",
+        "meta": {
+          "album": "OST · What If",
+          "releaseDate": "2024-10-13",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE 달랐을까 (What If) OST · What If official audio"
+        }
+      },
+      {
+        "id": "plave-track-019",
+        "title": "달랐을까 (What If) (Inst.)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2024-10-13 00:00",
+        "kind": "text",
+        "folder": "OST · What If",
+        "meta": {
+          "album": "OST · What If",
+          "releaseDate": "2024-10-13",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE 달랐을까 (What If) (Inst.) OST · What If official audio"
+        }
+      },
+      {
+        "id": "plave-track-020",
+        "title": "멈추지 않아 (We don’t stop)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2024-11-16 00:00",
+        "kind": "text",
+        "folder": "OST · We don’t stop",
+        "meta": {
+          "album": "OST · We don’t stop",
+          "releaseDate": "2024-11-16",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE 멈추지 않아 (We don’t stop) OST · We don’t stop official audio"
+        }
+      },
+      {
+        "id": "plave-track-021",
+        "title": "멈추지 않아 (We don’t stop) (Inst.)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2024-11-16 00:00",
+        "kind": "text",
+        "folder": "OST · We don’t stop",
+        "meta": {
+          "album": "OST · We don’t stop",
+          "releaseDate": "2024-11-16",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE 멈추지 않아 (We don’t stop) (Inst.) OST · We don’t stop official audio"
+        }
+      },
+      {
+        "id": "plave-track-022",
+        "title": "Chroma Drift",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2025-02-03 00:00",
+        "kind": "text",
+        "folder": "Caligo Pt.1",
+        "meta": {
+          "album": "Caligo Pt.1",
+          "releaseDate": "2025-02-03",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE Chroma Drift Caligo Pt.1 official audio"
+        }
+      },
+      {
+        "id": "plave-track-023",
+        "title": "Dash",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2025-02-03 00:00",
+        "kind": "text",
+        "folder": "Caligo Pt.1",
+        "meta": {
+          "album": "Caligo Pt.1",
+          "releaseDate": "2025-02-03",
+          "artist": "PLAVE",
+          "sourceType": "Official M/V",
+          "youtubeId": "b3GoZMfHJT4",
+          "youtubeSearch": "PLAVE Dash Caligo Pt.1 official audio"
+        }
+      },
+      {
+        "id": "plave-track-024",
+        "title": "RIZZ",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2025-02-03 00:00",
+        "kind": "text",
+        "folder": "Caligo Pt.1",
+        "meta": {
+          "album": "Caligo Pt.1",
+          "releaseDate": "2025-02-03",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE RIZZ Caligo Pt.1 official audio"
+        }
+      },
+      {
+        "id": "plave-track-025",
+        "title": "Island",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2025-02-03 00:00",
+        "kind": "text",
+        "folder": "Caligo Pt.1",
+        "meta": {
+          "album": "Caligo Pt.1",
+          "releaseDate": "2025-02-03",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE Island Caligo Pt.1 official audio"
+        }
+      },
+      {
+        "id": "plave-track-026",
+        "title": "12:32 (A to T)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2025-02-03 00:00",
+        "kind": "text",
+        "folder": "Caligo Pt.1",
+        "meta": {
+          "album": "Caligo Pt.1",
+          "releaseDate": "2025-02-03",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE 12:32 (A to T) Caligo Pt.1 official audio"
+        }
+      },
+      {
+        "id": "plave-track-027",
+        "title": "かくれんぼ (Hide and Seek)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2025-06-16 00:00",
+        "kind": "text",
+        "folder": "日本单曲 · かくれんぼ (Hide and Seek)",
+        "meta": {
+          "album": "日本单曲 · かくれんぼ (Hide and Seek)",
+          "releaseDate": "2025-06-16",
+          "artist": "PLAVE",
+          "sourceType": "Official M/V",
+          "youtubeId": "5eCFXT6Gnio",
+          "youtubeSearch": "PLAVE かくれんぼ (Hide and Seek) 日本单曲 · かくれんぼ (Hide and Seek) official audio"
+        }
+      },
+      {
+        "id": "plave-track-028",
+        "title": "RIZZ (Japanese ver.)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2025-06-16 00:00",
+        "kind": "text",
+        "folder": "日本单曲 · かくれんぼ (Hide and Seek)",
+        "meta": {
+          "album": "日本单曲 · かくれんぼ (Hide and Seek)",
+          "releaseDate": "2025-06-16",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE RIZZ (Japanese ver.) 日本单曲 · かくれんぼ (Hide and Seek) official audio"
+        }
+      },
+      {
+        "id": "plave-track-029",
+        "title": "Chroma Drift (Japanese ver.)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2025-06-16 00:00",
+        "kind": "text",
+        "folder": "日本单曲 · かくれんぼ (Hide and Seek)",
+        "meta": {
+          "album": "日本单曲 · かくれんぼ (Hide and Seek)",
+          "releaseDate": "2025-06-16",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE Chroma Drift (Japanese ver.) 日本单曲 · かくれんぼ (Hide and Seek) official audio"
+        }
+      },
+      {
+        "id": "plave-track-030",
+        "title": "숨바꼭질 (Hide and Seek) (Korean ver.)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2025-09-15 00:00",
+        "kind": "text",
+        "folder": "数字单曲 · 숨바꼭질 (Hide and Seek)",
+        "meta": {
+          "album": "数字单曲 · 숨바꼭질 (Hide and Seek)",
+          "releaseDate": "2025-09-15",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE 숨바꼭질 (Hide and Seek) (Korean ver.) 数字单曲 · 숨바꼭질 (Hide and Seek) official audio"
+        }
+      },
+      {
+        "id": "plave-track-031",
+        "title": "BBUU!",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2025-11-10 00:00",
+        "kind": "text",
+        "folder": "PLBBUU",
+        "meta": {
+          "album": "PLBBUU",
+          "releaseDate": "2025-11-10",
+          "artist": "PLAVE",
+          "sourceType": "Official M/V",
+          "youtubeId": "8L001YT4k6k",
+          "youtubeSearch": "PLAVE BBUU! PLBBUU official audio"
+        }
+      },
+      {
+        "id": "plave-track-032",
+        "title": "숨바꼭질 (Hide and Seek) (Korean ver.)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2025-11-10 00:00",
+        "kind": "text",
+        "folder": "PLBBUU",
+        "meta": {
+          "album": "PLBBUU",
+          "releaseDate": "2025-11-10",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE 숨바꼭질 (Hide and Seek) (Korean ver.) PLBBUU official audio"
+        }
+      },
+      {
+        "id": "plave-track-033",
+        "title": "봉숭아 (Bongsoong-a)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2025-11-10 00:00",
+        "kind": "text",
+        "folder": "PLBBUU",
+        "meta": {
+          "album": "PLBBUU",
+          "releaseDate": "2025-11-10",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE 봉숭아 (Bongsoong-a) PLBBUU official audio"
+        }
+      },
+      {
+        "id": "plave-track-034",
+        "title": "BBUU! (Christmas ver.)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2025-12-06 00:00",
+        "kind": "text",
+        "folder": "数字单曲 · BBUU! (Christmas ver.)",
+        "meta": {
+          "album": "数字单曲 · BBUU! (Christmas ver.)",
+          "releaseDate": "2025-12-06",
+          "artist": "PLAVE",
+          "sourceType": "Official Lyric Video",
+          "youtubeId": "HSO6D4F-ljw",
+          "youtubeSearch": "PLAVE BBUU! (Christmas ver.) 数字单曲 · BBUU! (Christmas ver.) official audio"
+        }
+      },
+      {
+        "id": "plave-track-035",
+        "title": "이 밤을 빌려 말해요 (Borrow your night)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2025-12-29 00:00",
+        "kind": "text",
+        "folder": "OST · Borrow your night",
+        "meta": {
+          "album": "OST · Borrow your night",
+          "releaseDate": "2025-12-29",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE 이 밤을 빌려 말해요 (Borrow your night) OST · Borrow your night official audio"
+        }
+      },
+      {
+        "id": "plave-track-036",
+        "title": "이 밤을 빌려 말해요 (Borrow your night) (Inst.)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2025-12-29 00:00",
+        "kind": "text",
+        "folder": "OST · Borrow your night",
+        "meta": {
+          "album": "OST · Borrow your night",
+          "releaseDate": "2025-12-29",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE 이 밤을 빌려 말해요 (Borrow your night) (Inst.) OST · Borrow your night official audio"
+        }
+      },
+      {
+        "id": "plave-track-037",
+        "title": "흥흥흥 (HMPH!) (feat. SOLE)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2026-04-03 00:00",
+        "kind": "text",
+        "folder": "数字单曲 · HMPH!",
+        "meta": {
+          "album": "数字单曲 · HMPH!",
+          "releaseDate": "2026-04-03",
+          "artist": "PLAVE",
+          "sourceType": "Official Special Video",
+          "youtubeId": "K-F7906Jq9U",
+          "youtubeSearch": "PLAVE 흥흥흥 (HMPH!) (feat. SOLE) 数字单曲 · HMPH! official audio"
+        }
+      },
+      {
+        "id": "plave-track-038",
+        "title": "꽃송이들의 퍼레이드 (Blossom Parade)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2026-04-13 00:00",
+        "kind": "text",
+        "folder": "Caligo Pt.2",
+        "meta": {
+          "album": "Caligo Pt.2",
+          "releaseDate": "2026-04-13",
+          "artist": "PLAVE",
+          "sourceType": "Official Audio",
+          "youtubeId": "Ofuw0t7mtQw",
+          "youtubeSearch": "PLAVE 꽃송이들의 퍼레이드 (Blossom Parade) Caligo Pt.2 official audio"
+        }
+      },
+      {
+        "id": "plave-track-039",
+        "title": "흥흥흥 (HMPH!) (feat. SOLE)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2026-04-13 00:00",
+        "kind": "text",
+        "folder": "Caligo Pt.2",
+        "meta": {
+          "album": "Caligo Pt.2",
+          "releaseDate": "2026-04-13",
+          "artist": "PLAVE",
+          "sourceType": "Official Special Video",
+          "youtubeId": "K-F7906Jq9U",
+          "youtubeSearch": "PLAVE 흥흥흥 (HMPH!) (feat. SOLE) Caligo Pt.2 official audio"
+        }
+      },
+      {
+        "id": "plave-track-040",
+        "title": "Born Savage",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2026-04-13 00:00",
+        "kind": "text",
+        "folder": "Caligo Pt.2",
+        "meta": {
+          "album": "Caligo Pt.2",
+          "releaseDate": "2026-04-13",
+          "artist": "PLAVE",
+          "sourceType": "Official M/V",
+          "youtubeId": "XukB7ZG8CDQ",
+          "youtubeSearch": "PLAVE Born Savage Caligo Pt.2 official audio"
+        }
+      },
+      {
+        "id": "plave-track-041",
+        "title": "Lunar Hearts",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2026-04-13 00:00",
+        "kind": "text",
+        "folder": "Caligo Pt.2",
+        "meta": {
+          "album": "Caligo Pt.2",
+          "releaseDate": "2026-04-13",
+          "artist": "PLAVE",
+          "sourceType": "Official Audio",
+          "youtubeId": "HzABxw3MoJ0",
+          "youtubeSearch": "PLAVE Lunar Hearts Caligo Pt.2 official audio"
+        }
+      },
+      {
+        "id": "plave-track-042",
+        "title": "그런 것 같아 (Think I Am)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2026-04-13 00:00",
+        "kind": "text",
+        "folder": "Caligo Pt.2",
+        "meta": {
+          "album": "Caligo Pt.2",
+          "releaseDate": "2026-04-13",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE 그런 것 같아 (Think I Am) Caligo Pt.2 official audio"
+        }
+      },
+      {
+        "id": "plave-track-043",
+        "title": "괜찮아 사랑이니까 (Love Is Enough)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2026-05-20 00:00",
+        "kind": "text",
+        "folder": "OST · Love Is Enough",
+        "meta": {
+          "album": "OST · Love Is Enough",
+          "releaseDate": "2026-05-20",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE 괜찮아 사랑이니까 (Love Is Enough) OST · Love Is Enough official audio"
+        }
+      },
+      {
+        "id": "plave-track-044",
+        "title": "괜찮아 사랑이니까 (Love Is Enough) (Inst.)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2026-05-20 00:00",
+        "kind": "text",
+        "folder": "OST · Love Is Enough",
+        "meta": {
+          "album": "OST · Love Is Enough",
+          "releaseDate": "2026-05-20",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE 괜찮아 사랑이니까 (Love Is Enough) (Inst.) OST · Love Is Enough official audio"
+        }
+      },
+      {
+        "id": "plave-track-045",
+        "title": "Flame (feat. milet)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2026-09-03 00:00",
+        "kind": "text",
+        "folder": "日本数字单曲 · Flame",
+        "meta": {
+          "album": "日本数字单曲 · Flame",
+          "releaseDate": "2026-09-03",
+          "artist": "PLAVE",
+          "sourceType": "Official M/V",
+          "youtubeId": "pOmJ65UnPEY",
+          "youtubeSearch": "PLAVE Flame (feat. milet) 日本数字单曲 · Flame official audio"
+        }
+      },
+      {
+        "id": "plave-track-046",
+        "title": "Heart Stage",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2026-09-21 00:00",
+        "kind": "text",
+        "folder": "OST · Heart Stage",
+        "meta": {
+          "album": "OST · Heart Stage",
+          "releaseDate": "2026-09-21",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE Heart Stage OST · Heart Stage official audio"
+        }
+      },
+      {
+        "id": "plave-track-047",
+        "title": "Heart Stage (Inst.)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2026-09-21 00:00",
+        "kind": "text",
+        "folder": "OST · Heart Stage",
+        "meta": {
+          "album": "OST · Heart Stage",
+          "releaseDate": "2026-09-21",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE Heart Stage (Inst.) OST · Heart Stage official audio"
+        }
+      },
+      {
+        "id": "plave-track-048",
+        "title": "꾼 (GGUN)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2026-10-13 00:00",
+        "kind": "text",
+        "folder": "HYPERDRIVE",
+        "meta": {
+          "album": "HYPERDRIVE",
+          "releaseDate": "2026-10-13",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE 꾼 (GGUN) HYPERDRIVE official audio"
+        }
+      },
+      {
+        "id": "plave-track-049",
+        "title": "푸른 하늘에 단비 (Sweet Rain)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2026-10-13 00:00",
+        "kind": "text",
+        "folder": "HYPERDRIVE",
+        "meta": {
+          "album": "HYPERDRIVE",
+          "releaseDate": "2026-10-13",
+          "artist": "PLAVE",
+          "sourceType": "Official Audio",
+          "youtubeId": "E7CSVaczMJU",
+          "youtubeSearch": "PLAVE 푸른 하늘에 단비 (Sweet Rain) HYPERDRIVE official audio"
+        }
+      },
+      {
+        "id": "plave-track-050",
+        "title": "Star Trace",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2026-10-13 00:00",
+        "kind": "text",
+        "folder": "HYPERDRIVE",
+        "meta": {
+          "album": "HYPERDRIVE",
+          "releaseDate": "2026-10-13",
+          "artist": "PLAVE",
+          "sourceType": "Official M/V",
+          "youtubeId": "TBmE7m0yEwY",
+          "youtubeSearch": "PLAVE Star Trace HYPERDRIVE official audio"
+        }
+      },
+      {
+        "id": "plave-track-051",
+        "title": "The Answer Is Yes",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2026-10-13 00:00",
+        "kind": "text",
+        "folder": "HYPERDRIVE",
+        "meta": {
+          "album": "HYPERDRIVE",
+          "releaseDate": "2026-10-13",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE The Answer Is Yes HYPERDRIVE official audio"
+        }
+      },
+      {
+        "id": "plave-track-052",
+        "title": "Rewind",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2026-10-13 00:00",
+        "kind": "text",
+        "folder": "HYPERDRIVE",
+        "meta": {
+          "album": "HYPERDRIVE",
+          "releaseDate": "2026-10-13",
+          "artist": "PLAVE",
+          "sourceType": "Official Audio",
+          "youtubeId": "GBRzoOeHV9c",
+          "youtubeSearch": "PLAVE Rewind HYPERDRIVE official audio"
+        }
       }
     ],
     "maps": [
