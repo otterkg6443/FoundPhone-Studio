@@ -174,6 +174,7 @@ function PhoneRuntime({
 }) {
   const [sessionInitial] = useState(() => readPhoneSession(work, creator));
   const [app, setApp] = useState(sessionInitial.app);
+  const [forumTargetId, setForumTargetId] = useState<string | null>(null);
   const [homeRequest, setHomeRequest] = useState(0);
   const [locked, setLocked] = useState(sessionInitial.locked);
   const [pinOpen, setPinOpen] = useState(false);
@@ -1394,6 +1395,12 @@ function PhoneRuntime({
                     );
                   }}
                   onSendChat={app === "wechat" ? sendWeChatMessage : app === "kakao" ? sendKakaoMessage : undefined}
+                  onNavigateToForum={(postId) => {
+                    setForumTargetId(postId);
+                    open("forum");
+                  }}
+                  openForumItemId={app === "forum" ? forumTargetId : null}
+                  onForumItemOpened={() => setForumTargetId(null)}
                   work={work}
                 />
               </AppWindow>
@@ -1812,6 +1819,9 @@ function AppContent({
   onSettings,
   onUi,
   onSendChat,
+  onNavigateToForum,
+  openForumItemId,
+  onForumItemOpened,
   work,
 }: {
   app: AppPlugin;
@@ -1826,6 +1836,9 @@ function AppContent({
   onSettings?: () => void;
   onUi?: (key: string, value: UiValue) => void;
   onSendChat?: (message: string) => void;
+  onNavigateToForum?: (postId: string) => void;
+  openForumItemId?: string | null;
+  onForumItemOpened?: () => void;
   work: Work;
 }) {
   const [detail, setDetail] = useState<Item | null>(null);
@@ -1855,6 +1868,14 @@ function AppContent({
       : tab === app.tabs[0]
         ? shown
         : shown.filter((i) => i.folder === tab);
+  useEffect(() => {
+    if (app.id !== "forum" || !openForumItemId) return;
+    const target = shown.find((item) => item.id === openForumItemId);
+    if (!target) return;
+    setForumDetailStack([]);
+    setDetail(target);
+    onForumItemOpened?.();
+  }, [app.id, openForumItemId, shown, onForumItemOpened]);
   const read = (i: Item) => {
     if (creator) {
       onEdit(i);
@@ -1957,6 +1978,7 @@ function AppContent({
               thread={thread}
               onThread={changeThread}
               onSendChat={app.id === "wechat" || app.id === "kakao" ? onSendChat : undefined}
+              onNavigateToForum={onNavigateToForum}
             />
           </Suspense>
         </div>
