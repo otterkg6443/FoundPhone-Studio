@@ -3,7 +3,7 @@
   "id": "eunho-phone",
   "title": "EUNHO 的手机",
   "description": "机主 EUNHO。锁屏密码 4399；壁纸为 EUNHO 与 BAMBY 的咖啡馆双人合照。相册记录 BAMBY 的两张单人照和一张双人合照。",
-  "revision": 28,
+  "revision": 29,
   "phone": {
     "owner": "EUNHO",
     "date": "2026-10-25",
@@ -1497,6 +1497,55 @@
           "sourceType": "Official Audio",
           "youtubeId": "GBRzoOeHV9c",
           "youtubeSearch": "PLAVE Rewind HYPERDRIVE official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/1cb327138c5142408c90f2cac7358b73.png"
+        }
+      },
+      {
+        "id": "plave-track-053",
+        "title": "Star Trace (Future House Remix by jeonghyeon)",
+        "body": "PLAVE 官方 Star Trace Remix 曲目。暂未确认可直接嵌入的官方视频 ID，可从 YouTube Music 打开官方搜索结果播放。",
+        "sender": "PLAVE",
+        "time": "2026-10-21 00:00",
+        "kind": "text",
+        "folder": "Star Trace Remixes",
+        "meta": {
+          "album": "Star Trace (Future House Remix by jeonghyeon) - Single",
+          "releaseDate": "2026-10-21",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE Star Trace Future House Remix by jeonghyeon official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/1cb327138c5142408c90f2cac7358b73.png"
+        }
+      },
+      {
+        "id": "plave-track-054",
+        "title": "Star Trace (Afro Remix by IMLAY)",
+        "body": "PLAVE 官方 Star Trace Remix 曲目。暂未确认可直接嵌入的官方视频 ID，可从 YouTube Music 打开官方搜索结果播放。",
+        "sender": "PLAVE",
+        "time": "2026-10-21 00:00",
+        "kind": "text",
+        "folder": "Star Trace Remixes",
+        "meta": {
+          "album": "Star Trace (Afro Remix by IMLAY) - Single",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE Star Trace Afro Remix by IMLAY official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/1cb327138c5142408c90f2cac7358b73.png"
+        }
+      },
+      {
+        "id": "plave-track-055",
+        "title": "Star Trace (UK Garage Remix by IMLAY)",
+        "body": "PLAVE 官方 Star Trace Remix 曲目。暂未确认可直接嵌入的官方视频 ID，可从 YouTube Music 打开官方搜索结果播放。",
+        "sender": "PLAVE",
+        "time": "2026-10-21 00:00",
+        "kind": "text",
+        "folder": "Star Trace Remixes",
+        "meta": {
+          "album": "Star Trace (UK Garage Remix by IMLAY) - Single",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE Star Trace UK Garage Remix by IMLAY official audio",
           "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/1cb327138c5142408c90f2cac7358b73.png"
         }
       }
