@@ -14,17 +14,34 @@ type ForumThread = { floor: number; body: string; time: string; replies: ForumTh
 
 function readForumThreads(item: Item): ForumThread[] {
   const raw = item.richText || item.meta?.forumCommentThreads;
-  if (typeof raw !== "string") return [];
+  if (typeof raw !== "string" || !raw.trim()) return [];
   try {
     const parsed: unknown = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
-    return (parsed as ForumThread[]).filter(
-      (thread) =>
-        typeof thread.floor === "number" &&
-        typeof thread.body === "string" &&
-        typeof thread.time === "string" &&
-        Array.isArray(thread.replies),
-    ).sort((a, b) => a.time.localeCompare(b.time));
+    return (parsed as unknown[])
+      .filter((value): value is ForumThread => {
+        if (typeof value !== "object" || value === null) return false;
+        const thread = value as Partial<ForumThread>;
+        return (
+          typeof thread.floor === "number" &&
+          typeof thread.body === "string" &&
+          typeof thread.time === "string" &&
+          Array.isArray(thread.replies)
+        );
+      })
+      .map((thread) => ({
+        ...thread,
+        replies: thread.replies.filter((value): value is ForumThreadReply => {
+          if (typeof value !== "object" || value === null) return false;
+          const reply = value as Partial<ForumThreadReply>;
+          return (
+            typeof reply.author === "string" &&
+            typeof reply.body === "string" &&
+            typeof reply.time === "string"
+          );
+        }),
+      }))
+      .sort((a, b) => a.time.localeCompare(b.time));
   } catch {
     return [];
   }
@@ -80,6 +97,8 @@ export function ForumDetail({
   back,
   onOpenItem,
 }: ForumDetailProps) {
+  const threads = readForumThreads(item);
+  const commentCount = item.meta?.commentCount || String(item.comments?.length ?? 0);
   return (
     <section className="forum-detail-ui" aria-label="论坛帖子详情">
       <header className="forum-detail-nav">
@@ -116,7 +135,7 @@ export function ForumDetail({
           </div>
           <p className="forum-thread-body">{item.body}</p>
           <div className="forum-thread-stats">
-            <span>{item.meta?.commentCount || item.comments.length} 条回复</span>
+            <span>{commentCount} 条回复</span>
             <span>浏览 {item.meta?.views || "0"}</span>
             <span>校园闲聊</span>
           </div>
@@ -125,11 +144,11 @@ export function ForumDetail({
         <section className="forum-replies-card">
           <header className="forum-replies-heading">
             <strong>全部回复</strong>
-            <span>{item.comments.length} 条</span>
+            <span>{commentCount} 条</span>
           </header>
-          {readForumThreads(item).length ? (
+          {threads.length ? (
             <div className="forum-threaded-list">
-              {readForumThreads(item).map((thread) => (
+              {threads.map((thread) => (
                 <article className="forum-threaded-floor" key={thread.floor}>
                   <div className="forum-threaded-main">
                     <div className="forum-floor-number">{thread.floor}L</div>
