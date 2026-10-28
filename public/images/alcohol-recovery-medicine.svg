@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="210" viewBox="0 0 280 210">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#faf8f3"/><stop offset="1" stop-color="#e7e0d6"/></linearGradient>
+    <linearGradient id="box" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#e9f0f6"/></linearGradient>
+  </defs>
+  <rect width="280" height="210" rx="16" fill="url(#bg)"/>
+  <ellipse cx="136" cy="169" rx="86" ry="13" fill="#c8bfae" opacity=".45"/>
+  <g transform="translate(38 36)">
+    <path d="M9 13 L128 1 L180 25 L180 121 L9 129 Z" fill="#ccd8e4" opacity=".7"/>
+    <path d="M0 15 L119 4 L168 27 L168 120 L0 126 Z" fill="url(#box)" stroke="#c7d4e1" stroke-width="2"/>
+    <path d="M0 15 L119 4 L119 26 L0 36 Z" fill="#2c7da8"/>
+    <path d="M119 4 L168 27 L168 49 L119 26 Z" fill="#75a9c6"/>
+    <rect x="13" y="47" width="101" height="5" rx="2.5" fill="#8abbd0"/>
+    <text x="14" y="74" font-family="sans-serif" font-size="20" font-weight="700" fill="#285c7d">醒酒药</text>
+    <text x="14" y="91" font-family="sans-serif" font-size="9" fill="#6b8799">DAILY CARE</text>
+    <rect x="14" y="101" width="70" height="9" rx="4.5" fill="#b5d3e2"/>
+    <circle cx="139" cy="79" r="19" fill="#d7e5ed"/>
+    <path d="M128 69 A15 15 0 0 1 150 88 L139 94 L128 88 A15 15 0 0 1 128 69Z" fill="#fff" stroke="#6aa3c1" stroke-width="1.8"/>
+    <path d="M139 66 L139 92" stroke="#6aa3c1" stroke-width="1.6"/>
+  </g>
+  <g transform="translate(190 151) rotate(-25)">
+    <rect x="-25" y="-8" width="52" height="18" rx="9" fill="#f8fafb" stroke="#b7cedd" stroke-width="1.5"/>
+    <path d="M1 -8 H18 Q27 -8 27 1 Q27 10 18 10 H1Z" fill="#6da9c9"/>
+  </g>
+</svg>

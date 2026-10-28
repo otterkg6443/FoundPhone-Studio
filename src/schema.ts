@@ -207,6 +207,8 @@ export function safeMedia(value: string) {
     "./images/kakao-woodpecker-chat-screenshot.svg",
     "./images/tong-spicy-burger-set.svg",
     "./images/smoke-chipotle-wrap.svg",
+    "./images/alcohol-recovery-medicine.svg",
+    "./images/comfort-porridge.svg",
   ].includes(value);
   return embeddedMedia || localRasterImage || approvedStaticSvg ? value : "";
 }
