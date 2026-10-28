@@ -928,11 +928,77 @@ function PhoneRuntime({
         ...latest,
         ui: { ...latest.ui, kakao: { ...ui, kakaoSequenceStage: stage, kakaoSequenceSchedule: JSON.stringify(remaining) } },
         messages: { ...latest.messages, kakao: [...(latest.messages.kakao ?? []), ...additions] },
+        variables:
+          source.id === "kakao-woodpecker-2047-in-10" &&
+          latest.variables.instagramBambyPostNoticeShown !== true &&
+          typeof latest.variables.instagramBambyPostNoticeDueAt !== "number"
+            ? {
+                ...latest.variables,
+                instagramBambyPostNoticeDueAt: Date.now() + 5000,
+              }
+            : latest.variables,
         notifications: [...latest.notifications, `KakaoTalk：${source.title || source.sender || "未知联系人"}：${item.media ? "发送了一张照片" : item.body}`],
       });
     }, Math.max(0, next.dueAt - Date.now()));
     return () => window.clearTimeout(timer);
   }, [creator, external, ready, work.id, work.updatedAt, work.data.kakao, kakaoSequenceScheduleValue, s.messages.kakao]);
+  useEffect(() => {
+    if (
+      creator ||
+      external ||
+      !ready ||
+      s.variables.instagramBambyPostNoticeShown === true
+    ) {
+      return;
+    }
+    const triggerDelivered = (s.messages.kakao ?? []).some(
+      (item) =>
+        item.meta.scheduledSourceId === "kakao-woodpecker-2047-in-10" ||
+        item.id === "scheduled-kakao-woodpecker-2047-in-10",
+    );
+    if (!triggerDelivered) return;
+
+    const storedDueAt = s.variables.instagramBambyPostNoticeDueAt;
+    if (typeof storedDueAt !== "number" || !Number.isFinite(storedDueAt)) {
+      const latest = runtimeRef.current;
+      update({
+        ...latest,
+        variables: {
+          ...latest.variables,
+          instagramBambyPostNoticeDueAt: Date.now() + 5000,
+        },
+      });
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      const latest = runtimeRef.current;
+      if (latest.variables.instagramBambyPostNoticeShown === true) return;
+      const notice = "Instagram：特别关注发帖通知";
+      update({
+        ...latest,
+        variables: {
+          ...latest.variables,
+          instagramBambyPostNoticeShown: true,
+        },
+        notifications: latest.notifications.includes(notice)
+          ? latest.notifications
+          : [...latest.notifications, notice],
+      });
+    }, Math.max(0, storedDueAt - Date.now()));
+
+    return () => window.clearTimeout(timer);
+  }, [
+    creator,
+    external,
+    ready,
+    work.id,
+    work.updatedAt,
+    s.messages.kakao,
+    s.variables.instagramBambyPostNoticeDueAt,
+    s.variables.instagramBambyPostNoticeShown,
+  ]);
+
   useEffect(() => {
     if (creator || !ready) return;
     try {
