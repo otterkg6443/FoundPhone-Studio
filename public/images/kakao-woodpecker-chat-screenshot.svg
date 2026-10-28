@@ -1,6 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="640" height="540" viewBox="0 0 640 540">
   <defs>
-    <clipPath id="avatarClip"><circle cx="48" cy="244" r="25"/></clipPath>
+    <clipPath id="avatarClipTop"><circle cx="48" cy="292" r="25"/></clipPath>
+    <clipPath id="avatarClipBottom"><circle cx="48" cy="421" r="25"/></clipPath>
     <filter id="shadow" x="-15%" y="-15%" width="130%" height="130%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#748f9d" flood-opacity=".16"/></filter>
   </defs>
   <rect width="640" height="540" rx="18" fill="#abc3d2"/>
@@ -21,7 +22,7 @@
   <text x="150" y="227" font-family="Arial,sans-serif" font-size="17" fill="#5a707c">19:01</text>
   <g filter="url(#shadow)">
     <circle cx="48" cy="292" r="25" fill="#d3dbe0"/>
-    <image href="kakao-pink-maltese-avatar.jpg" x="23" y="267" width="50" height="50" preserveAspectRatio="xMidYMid slice" clip-path="url(#avatarClip)"/>
+    <image href="kakao-pink-maltese-avatar.jpg" x="23" y="267" width="50" height="50" preserveAspectRatio="xMidYMid slice" clip-path="url(#avatarClipTop)"/>
     <text x="85" y="283" font-family="Arial,'Noto Sans CJK SC',sans-serif" font-size="17" font-weight="700" fill="#53636c">啄木鸟</text>
     <path d="M93 294 Q93 284 105 284 H543 Q565 284 565 306 V342 Q565 360 544 360 H107 Q93 360 93 344 Z" fill="#fff"/>
     <path d="M96 297 L82 290 L96 314 Z" fill="#fff"/>
@@ -29,7 +30,7 @@
     <text x="112" y="346" font-family="Arial,'Noto Sans CJK SC',sans-serif" font-size="22" fill="#2b3032">谢谢</text>
     <text x="572" y="359" font-family="Arial,sans-serif" font-size="16" fill="#5a707c">19:02</text>
     <circle cx="48" cy="421" r="25" fill="#d3dbe0"/>
-    <image href="kakao-pink-maltese-avatar.jpg" x="23" y="396" width="50" height="50" preserveAspectRatio="xMidYMid slice" clip-path="url(#avatarClip)"/>
+    <image href="kakao-pink-maltese-avatar.jpg" x="23" y="396" width="50" height="50" preserveAspectRatio="xMidYMid slice" clip-path="url(#avatarClipBottom)"/>
     <text x="85" y="412" font-family="Arial,'Noto Sans CJK SC',sans-serif" font-size="17" font-weight="700" fill="#53636c">啄木鸟</text>
     <path d="M93 422 Q93 413 106 413 H494 Q516 413 516 435 V470 Q516 488 496 488 H107 Q93 488 93 473 Z" fill="#fff"/>
     <path d="M96 425 L82 418 L96 442 Z" fill="#fff"/>
