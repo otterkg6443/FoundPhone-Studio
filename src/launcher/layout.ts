@@ -54,7 +54,7 @@ export function ensureAppStore(work: Work): Work {
 }
 function migrateEunhoSecondHomePage(layout: DeviceLayout) {
   const keepOnSecondPage = new Set(["kakao", "instagram", "forum", "delivery"]);
-  const hideFromFirstPage = new Set(["weibo", "redbook", "alipay", "qq"]);
+  const hideFromFirstPage = new Set(["weibo", "redbook", "alipay", "qq", "bilibili"]);
   const secondPage = packHome(homeEntries(layout), layout.positions)[1] ?? [];
   for (const id of hideFromFirstPage) {
     const app = layout.apps.find((candidate) => candidate.id === id);
@@ -83,7 +83,7 @@ function migrateEunhoSecondHomePage(layout: DeviceLayout) {
     app.dock = false;
     layout.positions[id] = { page: 1, x: index, y: 0 };
   });
-  layout.previewLayoutRevision = 2;
+  layout.previewLayoutRevision = 3;
 }
 export function defaultLayout(input: Work): DeviceLayout {
   const w = ensureAppStore(input);
@@ -153,7 +153,7 @@ export function validateLayout(raw: unknown, input: Work) {
     ];
     layout.previewLayoutRevision = 1;
   }
-  if (w.id === "eunho-phone" && layout.previewLayoutRevision < 2) {
+  if (w.id === "eunho-phone" && layout.previewLayoutRevision < 3) {
     migrateEunhoSecondHomePage(layout);
   }
   const entries = homeEntries(layout),
