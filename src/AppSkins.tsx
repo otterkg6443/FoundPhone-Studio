@@ -49,6 +49,7 @@ export type SkinProps = {
   onThread: (s: string) => void;
   onIncoming?: (message: string) => void;
   onSendChat?: (message: string) => void;
+  onNavigateToForum?: (postId: string) => void;
 };
 function avatarSource(src: string) {
   const media = safeMedia(src);
