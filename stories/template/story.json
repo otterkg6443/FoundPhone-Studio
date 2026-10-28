@@ -3,7 +3,7 @@
   "id": "eunho-phone",
   "title": "EUNHO 的手机",
   "description": "机主 EUNHO。锁屏密码 4399；壁纸为 EUNHO 与 BAMBY 的咖啡馆双人合照。相册记录 BAMBY 的两张单人照和一张双人合照。",
-  "revision": 30,
+  "revision": 31,
   "phone": {
     "owner": "EUNHO",
     "date": "2026-10-25",
@@ -899,9 +899,10 @@
           "album": "OST · What If",
           "releaseDate": "2024-10-13",
           "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE 달랐을까 (What If) OST · What If official audio",
-          "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/5e/0d/ad/5e0dad11-31a2-e607-ce58-01a933de189e/888272141511.jpg/3000x3000bb.jpg"
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE 달랐을까 (What If) official audio",
+          "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/5e/0d/ad/5e0dad11-31a2-e607-ce58-01a933de189e/888272141511.jpg/3000x3000bb.jpg",
+          "youtubeId": "8ybkTOe4UIQ"
         }
       },
       {
@@ -916,9 +917,10 @@
           "album": "OST · What If",
           "releaseDate": "2024-10-13",
           "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE 달랐을까 (What If) (Inst.) OST · What If official audio",
-          "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/5e/0d/ad/5e0dad11-31a2-e607-ce58-01a933de189e/888272141511.jpg/3000x3000bb.jpg"
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE 달랐을까 (What If) (Inst.) official audio",
+          "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/5e/0d/ad/5e0dad11-31a2-e607-ce58-01a933de189e/888272141511.jpg/3000x3000bb.jpg",
+          "youtubeId": "CPoN_hP_Vmc"
         }
       },
       {
@@ -933,9 +935,10 @@
           "album": "OST · We don’t stop",
           "releaseDate": "2024-11-16",
           "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE 멈추지 않아 (We don’t stop) OST · We don’t stop official audio",
-          "artwork": "https://cgeimage.commutil.kr/phpwas/restmb_allidxmake.php?idx=3&nmt=29&pp=002&simg=2024111508163401546d3244b4fed58141237106.jpg"
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE 멈추지 않아 (We don’t stop) official audio",
+          "artwork": "https://cgeimage.commutil.kr/phpwas/restmb_allidxmake.php?idx=3&nmt=29&pp=002&simg=2024111508163401546d3244b4fed58141237106.jpg",
+          "youtubeId": "cNEC8t-sNnY"
         }
       },
       {
@@ -950,9 +953,10 @@
           "album": "OST · We don’t stop",
           "releaseDate": "2024-11-16",
           "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE 멈추지 않아 (We don’t stop) (Inst.) OST · We don’t stop official audio",
-          "artwork": "https://cgeimage.commutil.kr/phpwas/restmb_allidxmake.php?idx=3&nmt=29&pp=002&simg=2024111508163401546d3244b4fed58141237106.jpg"
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE 멈추지 않아 (We don’t stop) (Inst.) official audio",
+          "artwork": "https://cgeimage.commutil.kr/phpwas/restmb_allidxmake.php?idx=3&nmt=29&pp=002&simg=2024111508163401546d3244b4fed58141237106.jpg",
+          "youtubeId": "1x37HIi9PBA"
         }
       },
       {
@@ -1021,9 +1025,10 @@
           "album": "Caligo Pt.1",
           "releaseDate": "2025-02-03",
           "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE Island Caligo Pt.1 official audio",
-          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/187eabeffb564747896995789d7a0a6a.jpg"
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE Island official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/187eabeffb564747896995789d7a0a6a.jpg",
+          "youtubeId": "-CsFI3l1nX0"
         }
       },
       {
@@ -1110,9 +1115,10 @@
           "album": "数字单曲 · 숨바꼭질 (Hide and Seek)",
           "releaseDate": "2025-09-15",
           "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE 숨바꼭질 (Hide and Seek) (Korean ver.) 数字单曲 · 숨바꼭질 (Hide and Seek) official audio",
-          "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/25/8c/e7/258ce738-083d-20cf-0ab6-4d1d9f38e36f/8800331139415_cover.jpg/1200x1200bb.jpg"
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE 숨바꼭질 (Hide and Seek) (Korean ver.) official audio",
+          "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/25/8c/e7/258ce738-083d-20cf-0ab6-4d1d9f38e36f/8800331139415_cover.jpg/1200x1200bb.jpg",
+          "youtubeId": "v79reBX5JfE"
         }
       },
       {
@@ -1145,9 +1151,10 @@
           "album": "PLBBUU",
           "releaseDate": "2025-11-10",
           "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE 숨바꼭질 (Hide and Seek) (Korean ver.) PLBBUU official audio",
-          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/3e38db66d04a4a71ae61a7404d2934ac.png"
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE 숨바꼭질 (Hide and Seek) (Korean ver.) official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/3e38db66d04a4a71ae61a7404d2934ac.png",
+          "youtubeId": "v79reBX5JfE"
         }
       },
       {
@@ -1198,9 +1205,10 @@
           "album": "OST · Borrow your night",
           "releaseDate": "2025-12-29",
           "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE 이 밤을 빌려 말해요 (Borrow your night) OST · Borrow your night official audio",
-          "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f7/b1/bf/f7b1bf56-468f-1f75-a22c-0998553ea40e/cover_KM0024035_1.jpg/1200x1200bb.jpg"
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE 이 밤을 빌려 말해요 (Borrow your night) official audio",
+          "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f7/b1/bf/f7b1bf56-468f-1f75-a22c-0998553ea40e/cover_KM0024035_1.jpg/1200x1200bb.jpg",
+          "youtubeId": "eDlYB_e5k3c"
         }
       },
       {
@@ -1215,9 +1223,10 @@
           "album": "OST · Borrow your night",
           "releaseDate": "2025-12-29",
           "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE 이 밤을 빌려 말해요 (Borrow your night) (Inst.) OST · Borrow your night official audio",
-          "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f7/b1/bf/f7b1bf56-468f-1f75-a22c-0998553ea40e/cover_KM0024035_1.jpg/1200x1200bb.jpg"
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE 이 밤을 빌려 말해요 (Borrow your night) (Inst.) official audio",
+          "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f7/b1/bf/f7b1bf56-468f-1f75-a22c-0998553ea40e/cover_KM0024035_1.jpg/1200x1200bb.jpg",
+          "youtubeId": "hiTM-xLqGMI"
         }
       },
       {
@@ -1329,6 +1338,41 @@
         }
       },
       {
+        "id": "plave-track-043",
+        "title": "괜찮아 사랑이니까 (Love Is Enough)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2026-05-20 00:00",
+        "kind": "text",
+        "folder": "OST · Love Is Enough",
+        "meta": {
+          "album": "OST · Love Is Enough",
+          "releaseDate": "2026-05-20",
+          "artist": "PLAVE",
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE 괜찮아 사랑이니까 (Love Is Enough) official audio",
+          "youtubeId": "QjZ6yzhqD-c",
+          "artwork": "https://i.ytimg.com/vi/QjZ6yzhqD-c/hqdefault.jpg"
+        }
+      },
+      {
+        "id": "plave-track-044",
+        "title": "괜찮아 사랑이니까 (Love Is Enough) (Inst.)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2026-05-20 00:00",
+        "kind": "text",
+        "folder": "OST · Love Is Enough",
+        "meta": {
+          "album": "OST · Love Is Enough",
+          "releaseDate": "2026-05-20",
+          "artist": "PLAVE",
+          "sourceType": "YouTube Music 搜索",
+          "youtubeSearch": "PLAVE 괜찮아 사랑이니까 (Love Is Enough) (Inst.) OST · Love Is Enough official audio",
+          "artwork": "https://i.ytimg.com/vi/QjZ6yzhqD-c/hqdefault.jpg"
+        }
+      },
+      {
         "id": "plave-track-045",
         "title": "Flame (feat. milet)",
         "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
@@ -1344,6 +1388,42 @@
           "youtubeId": "pOmJ65UnPEY",
           "youtubeSearch": "PLAVE Flame (feat. milet) 日本数字单曲 · Flame official audio",
           "artwork": "https://i.ytimg.com/vi/pOmJ65UnPEY/hqdefault.jpg"
+        }
+      },
+      {
+        "id": "plave-track-046",
+        "title": "Heart Stage",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2026-09-21 00:00",
+        "kind": "text",
+        "folder": "OST · Heart Stage",
+        "meta": {
+          "album": "OST · Heart Stage",
+          "releaseDate": "2026-09-21",
+          "artist": "PLAVE",
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE Heart Stage official audio",
+          "youtubeId": "wbz0Vquh3fM",
+          "artwork": "https://i.ytimg.com/vi/wbz0Vquh3fM/hqdefault.jpg"
+        }
+      },
+      {
+        "id": "plave-track-047",
+        "title": "Heart Stage (Inst.)",
+        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "sender": "PLAVE",
+        "time": "2026-09-21 00:00",
+        "kind": "text",
+        "folder": "OST · Heart Stage",
+        "meta": {
+          "album": "OST · Heart Stage",
+          "releaseDate": "2026-09-21",
+          "artist": "PLAVE",
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE Heart Stage (Inst.) official audio",
+          "youtubeId": "5ZLb_y-Mios",
+          "artwork": "https://i.ytimg.com/vi/wbz0Vquh3fM/hqdefault.jpg"
         }
       },
       {
@@ -1412,9 +1492,9 @@
           "album": "HYPERDRIVE",
           "releaseDate": "2026-10-13",
           "artist": "PLAVE",
-          "sourceType": "Official Audio",
+          "sourceType": "Official M/V",
           "youtubeSearch": "PLAVE The Answer Is Yes HYPERDRIVE official M/V",
-          "youtubeId": "vXeI6GkYgk4",
+          "youtubeId": "ll-Uefui-SI",
           "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/1cb327138c5142408c90f2cac7358b73.png"
         }
       },
