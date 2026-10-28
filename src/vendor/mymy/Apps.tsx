@@ -561,7 +561,9 @@ export function MymyInstagram(p: SkinProps) {
     ),
     stories = p.items.filter((i) => i.meta.story === "true"),
     dms = p.items.filter((i) => i.folder === "私信"),
-    active = stories[story - 1];
+    active = stories[story - 1],
+    ownerPosts = posts.filter((i) => i.sender === p.owner),
+    ownerPost = ownerPosts[0];
   const toggle = (id: string, values: string[], set: (v: string[]) => void) =>
     set(values.includes(id) ? values.filter((v) => v !== id) : [...values, id]);
   useEffect(() => {
@@ -708,18 +710,18 @@ export function MymyInstagram(p: SkinProps) {
           {!selected && tab === "个人主页" && (
             <>
               <div className="pf">
-                <Avatar name={p.owner || "机主"} />
+                <Avatar name={p.owner || "机主"} src={ownerPost?.avatar || ""} />
                 <div className="ps">
                   <div>
-                    <b>{posts.length}</b>
+                    <b>{ownerPosts.length}</b>
                     <small>帖子</small>
                   </div>
                   <div>
-                    <b>—</b>
+                    <b>{ownerPost?.meta.instagramFollowers || "—"}</b>
                     <small>粉丝</small>
                   </div>
                   <div>
-                    <b>—</b>
+                    <b>{ownerPost?.meta.instagramFollowing || "—"}</b>
                     <small>关注</small>
                   </div>
                 </div>
@@ -731,7 +733,7 @@ export function MymyInstagram(p: SkinProps) {
                 </div>
               </div>
               <div className="pg2">
-                {posts.map((i) => (
+                {ownerPosts.map((i) => (
                   <button key={i.id} onClick={() => openPost(i)}>
                     <Media item={i} />
                   </button>
