@@ -182,6 +182,33 @@ export function ContactsSkin(p: Props) {
     </div>
   );
 }
+const galleryPhotoOrder = [
+  "photo-bamby3",
+  "photo-eat-2",
+  "photo-e4",
+  "photo-bamby-uniform",
+  "photo-eb3",
+  "photo-pai-2",
+  "photo-e1",
+  "photo-takeout",
+  "photo-bamby4",
+  "photo-eb1",
+  "photo-eat-4",
+  "photo-e3",
+  "photo-pai",
+  "photo-eb5",
+  "photo-bamby-hoodie",
+  "photo-e5",
+  "photo-eat-1",
+  "photo-eb2",
+  "photo-eunho-bamby-cafe",
+  "photo-e2",
+  "photo-eb4",
+  "photo-eat-3",
+];
+const galleryPhotoRank = new Map(
+  galleryPhotoOrder.map((id, index) => [id, index]),
+);
 export function PhotosSkin(p: Props) {
   const { tab, setTab, q, setQ, items } = useContent(p, "图库");
   const [album, setAlbum] = useState("");
@@ -191,6 +218,14 @@ export function PhotosSkin(p: Props) {
       : album
         ? items.filter((i) => (i.folder || "未分类") === album)
         : items;
+  const displayList =
+    tab === "图库" && !album
+      ? [...list].sort(
+          (a, b) =>
+            (galleryPhotoRank.get(a.id) ?? Number.MAX_SAFE_INTEGER) -
+            (galleryPhotoRank.get(b.id) ?? Number.MAX_SAFE_INTEGER),
+        )
+      : list;
   return (
     <div className="catalog-skin native-photos">
       <Header p={p} />
@@ -214,7 +249,7 @@ export function PhotosSkin(p: Props) {
           <>
             <SearchBox value={q} set={setQ} />
             <div className="photo-mosaic">
-              {list.map((i) => (
+              {displayList.map((i) => (
                 <button
                   aria-label={`查看${i.title}`}
                   key={i.id}
