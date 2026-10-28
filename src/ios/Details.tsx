@@ -101,7 +101,7 @@ export function NativeDetail({
             >
               <Heart fill={favorite ? "#007aff" : "none"} />
             </button>
-            <span>{copied ? "已复制" : item.title}</span>
+            <span>{copied ? "已复制" : ""}</span>
           </footer>
         </>
       ) : app === "contacts" || app === "phone" ? (
