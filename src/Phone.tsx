@@ -929,12 +929,14 @@ function PhoneRuntime({
         ui: { ...latest.ui, kakao: { ...ui, kakaoSequenceStage: stage, kakaoSequenceSchedule: JSON.stringify(remaining) } },
         messages: { ...latest.messages, kakao: [...(latest.messages.kakao ?? []), ...additions] },
         variables:
-          source.id === "kakao-woodpecker-2047-in-10" &&
-          latest.variables.instagramBambyPostNoticeShown !== true &&
-          typeof latest.variables.instagramBambyPostNoticeDueAt !== "number"
+          source.id === "kakao-woodpecker-2047-in-10"
             ? {
                 ...latest.variables,
-                instagramBambyPostNoticeDueAt: Date.now() + 5000,
+                instagramPostsUnlocked: true,
+                ...(latest.variables.instagramBambyPostNoticeShown !== true &&
+                typeof latest.variables.instagramBambyPostNoticeDueAt !== "number"
+                  ? { instagramBambyPostNoticeDueAt: Date.now() + 5000 }
+                  : {}),
               }
             : latest.variables,
         notifications: [...latest.notifications, `KakaoTalk：${source.title || source.sender || "未知联系人"}：${item.media ? "发送了一张照片" : item.body}`],
@@ -1438,7 +1440,16 @@ function PhoneRuntime({
                   items={[
                     ...(work.data[app] ?? []),
                     ...(s.messages[app] ?? []),
-                  ].map((item) => {
+                  ].filter(
+                    (item) =>
+                      creator ||
+                      app !== "instagram" ||
+                      s.variables.instagramPostsUnlocked === true ||
+                      ![
+                        "instagram-bamby-post-20260316-2100",
+                        "instagram-owner-post-20260316-2100",
+                      ].includes(item.id),
+                  ).map((item) => {
                     if (
                       app !== "kakao" ||
                       s.variables.kakaoContactRenamed !== true
