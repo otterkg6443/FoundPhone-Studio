@@ -1777,19 +1777,6 @@
         }
       },
       {
-        "id": "kakao-contact-ryu-hamin",
-        "title": "柳河玟",
-        "body": "好友",
-        "sender": "柳河玟",
-        "avatar": "./images/kakao-ryu-hamin-avatar.jpg",
-        "kind": "text",
-        "time": "2026-10-25 09:41",
-        "folder": "好友",
-        "meta": {
-          "kakaoContact": "true"
-        }
-      },
-      {
         "id": "kakao-yejun-chat-01",
         "title": "艺俊哥",
         "body": "哥，我有一个朋友，他被从小玩到大的好兄弟喝醉酒后抱着亲了，但他是直的，他兄弟看着也是直男，我这个朋友该假装无事发生吗?",
