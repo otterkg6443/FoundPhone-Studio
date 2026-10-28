@@ -52,9 +52,33 @@ export function ensureAppStore(work: Work): Work {
         ],
       };
 }
+function migrateEunhoSecondHomePage(layout: DeviceLayout) {
+  const keepOnSecondPage = new Set(["kakao", "instagram", "forum", "delivery"]);
+  const secondPage = packHome(homeEntries(layout), layout.positions)[1] ?? [];
+  for (const cell of secondPage) {
+    if (cell.entry.kind !== "app" || keepOnSecondPage.has(cell.entry.key)) continue;
+    const app = layout.apps.find((candidate) => candidate.id === cell.entry.key);
+    if (!app) continue;
+    app.visible = false;
+    app.folder = "";
+    app.dock = false;
+    delete layout.positions[app.id];
+  }
+  const secondPageSlots = ["kakao", "instagram", "forum", "delivery"];
+  secondPageSlots.forEach((id, index) => {
+    const app = layout.apps.find((candidate) => candidate.id === id);
+    if (!app) return;
+    app.installed = true;
+    app.visible = true;
+    app.folder = "";
+    app.dock = false;
+    layout.positions[id] = { page: 1, x: index, y: 0 };
+  });
+  layout.previewLayoutRevision = 1;
+}
 export function defaultLayout(input: Work): DeviceLayout {
   const w = ensureAppStore(input);
-  return {
+  const layout: DeviceLayout = {
     version: 1,
     workId: w.id,
     previewLayoutRevision: w.id === "ui-test-phone-v2" ? 1 : 0,
@@ -70,6 +94,8 @@ export function defaultLayout(input: Work): DeviceLayout {
     cleared: [],
     positions: {},
   };
+  if (w.id === "eunho-phone") migrateEunhoSecondHomePage(layout);
+  return layout;
 }
 export function validateLayout(raw: unknown, input: Work) {
   const w = ensureAppStore(input);
@@ -117,6 +143,9 @@ export function validateLayout(raw: unknown, input: Work) {
       ...layout.order.filter((id) => !visibleApps.includes(id)),
     ];
     layout.previewLayoutRevision = 1;
+  }
+  if (w.id === "eunho-phone" && layout.previewLayoutRevision < 1) {
+    migrateEunhoSecondHomePage(layout);
   }
   const entries = homeEntries(layout),
     packed = packHome(entries, layout.positions);
