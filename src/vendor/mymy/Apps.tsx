@@ -556,6 +556,7 @@ function parseInstagramComment(value: string) {
   };
 }
 export function MymyInstagram(p: SkinProps) {
+  const igAvatar = "./images/ig-avatar.jpg";
   const [tab, setTab] = useSkinState<string>(p, "mymyTab", "主页"),
     [liked, setLiked] = useSkinState<string[]>(p, "mymyLiked", []),
     [saved, setSaved] = useSkinState<string[]>(p, "mymySaved", []),
@@ -605,7 +606,7 @@ export function MymyInstagram(p: SkinProps) {
   const post = (i: Item) => (
     <article className="igp" key={i.id}>
       <header className="igph">
-        <Avatar name={i.sender} src={i.avatar} />
+        <Avatar name={i.sender} src={igAvatar} />
         <div className="igpn">
           <button onClick={() => setTab("个人主页")}>
             <b>{i.sender}</b>
@@ -716,7 +717,7 @@ export function MymyInstagram(p: SkinProps) {
                     <span
                       className={"sr on " + (seen.includes(s.id) ? "seen" : "")}
                     >
-                      <Avatar name={s.sender} src={s.avatar} />
+                      <Avatar name={s.sender} src={igAvatar} />
                     </span>
                     <small>{s.sender}</small>
                   </button>
@@ -729,7 +730,7 @@ export function MymyInstagram(p: SkinProps) {
           {!selected && tab === "个人主页" && (
             <>
               <div className="pf">
-                <Avatar name={p.owner || "机主"} src={ownerPost?.avatar || ""} />
+                <Avatar name={p.owner || "机主"} src={igAvatar} />
                 <div className="ps">
                   <div>
                     <b>{ownerPosts.length}</b>
@@ -764,7 +765,7 @@ export function MymyInstagram(p: SkinProps) {
             <>
               {dms.map((i) => (
                 <button className="kzkr" key={i.id} onClick={() => openPost(i)}>
-                  <Avatar name={i.sender} src={i.avatar} />
+                  <Avatar name={i.sender} src={igAvatar} />
                   <span className="kzkn">
                     <b>{i.title}</b>
                     <small>{i.body}</small>
@@ -834,7 +835,7 @@ export function MymyInstagram(p: SkinProps) {
                   <p key={n}>
                     <Avatar
                       name={parsed?.sender ?? c.split(":")[0]}
-                      src={parsed?.avatar ?? ""}
+                      src={igAvatar}
                     />
                     {parsed ? (
                       <span>
@@ -890,7 +891,7 @@ export function MymyInstagram(p: SkinProps) {
             ))}
           </div>
           <header>
-            <Avatar name={active.sender} src={active.avatar} />
+            <Avatar name={active.sender} src={igAvatar} />
             <b>{active.sender}</b>
             <button
               aria-label="关闭快拍"
