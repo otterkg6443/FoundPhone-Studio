@@ -158,6 +158,54 @@ export function MymyKakao(p: SkinProps) {
     const weekdays = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
     return `${year}年${month}月${day}日 ${weekdays[date.getDay()]}`;
   };
+  const stage = Number(p.ui?.kakaoSequenceStage ?? 0);
+  const suggestionText = (() => {
+    if (stage === 0 && activeThread === "啄木鸟") return "好";
+    if (stage === 2 && activeThread === "艺俊哥") return "叽里咕噜说啥呢";
+    if (stage === 4 && activeThread === "艺俊哥") return "他好像没跟我讲过这个朋友";
+    if (stage === 6 && activeThread === "啄木鸟") return "没听你提起过你的新饭搭子诶";
+    if (stage === 7 && activeThread === "啄木鸟") return "是你男朋友吗";
+    if (stage === 9 && activeThread === "啄木鸟") return "不是说舞社有事情?";
+    if (stage === 11 && activeThread === "啄木鸟") return "哥还会主动交新朋友呢";
+    if (stage === 12 && activeThread === "啄木鸟") return "还以为只会和植物说话";
+    if (stage === 15 && activeThread === "艺俊哥") return "好像惹他生气了🥹";
+    if (stage === 16 && activeThread === "艺俊哥") return "其实自从他坦白性取向后我就在想我们要不要适当保持点距离 毕竟我是直男啊";
+    if (stage === 18 && activeThread === "艺俊哥") return "我这几天都在避免和他接触来着😞";
+    if (stage === 20 && activeThread === "艺俊哥") return "....";
+    if (stage === 22 && activeThread === "艺俊哥") return "可是我又想凭什么呢🥹明明斑比哥才是和我一起长大的 哪个男的敢拱这一棵白菜我都会把它连根拔起扔到外太空";
+    if (stage === 24 && activeThread === "艺俊哥") return "离开我谁陪他吃烫出鸟的平冷泡水没过刻度线的泡面陪他看几十次楚门的世界";
+    if (stage === 25 && activeThread === "艺俊哥") return "啊…蔡斑比太烦人了";
+    if (stage === 26 && activeThread === "艺俊哥") return "我不管了我要去找他";
+    return "";
+  })();
+  const composerPlaceholder = suggestionText
+    ? "点上方提示填入消息，也可以直接输入"
+    : (() => {
+        if ([1, 3, 5].includes(stage)) return "等待艺俊哥回复…";
+        if (stage === 8 || stage === 10 || stage === 13) return "等待啄木鸟回复…";
+        if (stage === 15 && activeThread === "啄木鸟") return "截图已发给艺俊哥，去找他聊聊…";
+        if ([17, 19, 21, 23, 27].includes(stage) && activeThread === "艺俊哥") return "等待艺俊哥回复…";
+        if (stage === 28 && activeThread === "艺俊哥") return "对话已结束";
+        return "输入消息";
+      })();
+  const composerInputRef = useRef<HTMLInputElement>(null);
+  const [copiedHintText, setCopiedHintText] = useState("");
+  const fillSuggestion = () => {
+    setDraft(suggestionText);
+    composerInputRef.current?.focus();
+  };
+  const copySuggestion = async () => {
+    try {
+      if (!navigator.clipboard?.writeText) throw new Error("Clipboard unavailable");
+      await navigator.clipboard.writeText(suggestionText);
+      setCopiedHintText(suggestionText);
+    } catch {
+      // Clipboard permission can be blocked in embedded/mobile browsers.
+      // Filling the composer is a reliable fallback and still requires manual send.
+      fillSuggestion();
+      setCopiedHintText("");
+    }
+  };
   return (
     <div className="mymy-ui mymy-kakao" data-mymy="kakao">
       {activeThread ? (
@@ -243,6 +291,30 @@ export function MymyKakao(p: SkinProps) {
             })}
             {!messages.length && <Blank />}
           </div>
+          {!p.creator && suggestionText && (
+            <div className="kakao-hint-card">
+              <div className="kakao-hint-copy">
+                <div className="kakao-hint-label">建议回复 · 可长按选中复制</div>
+                <div className="kakao-hint-text">{suggestionText}</div>
+              </div>
+              <div className="kakao-hint-actions">
+                <button
+                  type="button"
+                  aria-label="复制建议回复"
+                  onClick={copySuggestion}
+                >
+                  {copiedHintText === suggestionText ? "已复制" : "复制"}
+                </button>
+                <button
+                  type="button"
+                  aria-label="填入建议回复"
+                  onClick={fillSuggestion}
+                >
+                  填入
+                </button>
+              </div>
+            </div>
+          )}
           <form
             className="kzinp"
             onSubmit={(e) => {
@@ -272,39 +344,9 @@ export function MymyKakao(p: SkinProps) {
               <Plus size={21} />
             </button>
             <input
+              ref={composerInputRef}
               aria-label="KKT消息"
-              placeholder={(() => {
-                const stage = Number(p.ui?.kakaoSequenceStage ?? 0);
-                if (stage === 0 && activeThread === "啄木鸟") return "输入：好";
-                if (stage === 2 && activeThread === "艺俊哥") return "输入：叽里咕噜说啥呢";
-                if (stage === 4 && activeThread === "艺俊哥") return "输入：他好像没跟我讲过这个朋友";
-                if (stage === 6 && activeThread === "啄木鸟") return "输入：没听你提起过你的新饭搭子诶";
-                if (stage === 7 && activeThread === "啄木鸟") return "输入：是你男朋友吗";
-                if (stage === 8 && activeThread === "啄木鸟") return "等待啄木鸟回复…";
-                if (stage === 9 && activeThread === "啄木鸟") return "输入：不是说舞社有事情?";
-                if (stage === 10 && activeThread === "啄木鸟") return "等待啄木鸟回复…";
-                if (stage === 11 && activeThread === "啄木鸟") return "输入：哥还会主动交新朋友呢";
-                if (stage === 12 && activeThread === "啄木鸟") return "输入：还以为只会和植物说话";
-                if (stage === 13 && activeThread === "啄木鸟") return "等待啄木鸟回复…";
-                if (stage === 15 && activeThread === "啄木鸟") return "截图已发给艺俊哥，去找他聊聊…";
-                if (stage === 15 && activeThread === "艺俊哥") return "输入：好像惹他生气了🥹";
-                if (stage === 16 && activeThread === "艺俊哥") return "输入：其实自从他坦白性取向后我就在想我们要不要适当保持点距离 毕竟我是直男啊";
-                if (stage === 17 && activeThread === "艺俊哥") return "等待艺俊哥回复…";
-                if (stage === 18 && activeThread === "艺俊哥") return "输入：我这几天都在避免和他接触来着😞";
-                if (stage === 19 && activeThread === "艺俊哥") return "等待艺俊哥回复…";
-                if (stage === 20 && activeThread === "艺俊哥") return "输入：....";
-                if (stage === 21 && activeThread === "艺俊哥") return "等待艺俊哥回复…";
-                if (stage === 22 && activeThread === "艺俊哥") return "输入：可是我又想凭什么呢🥹明明斑比哥才是和我一起长大的 哪个男的敢拱这一棵白菜我都会把它连根拔起扔到外太空";
-                if (stage === 23 && activeThread === "艺俊哥") return "等待艺俊哥回复…";
-                if (stage === 24 && activeThread === "艺俊哥") return "输入：离开我谁陪他吃烫出鸟的平冷泡水没过刻度线的泡面陪他看几十次楚门的世界";
-                if (stage === 25 && activeThread === "艺俊哥") return "输入：啊…蔡斑比太烦人了";
-                if (stage === 26 && activeThread === "艺俊哥") return "输入：我不管了我要去找他";
-                if (stage === 27 && activeThread === "艺俊哥") return "等待艺俊哥回复…";
-                if (stage === 28 && activeThread === "艺俊哥") return "对话已结束";
-                if (stage === 1 && activeThread === "啄木鸟") return "已发送，等待艺俊哥消息…";
-                if ([1, 3, 5].includes(stage)) return "等待艺俊哥回复…";
-                return "输入消息";
-              })()}
+              placeholder={composerPlaceholder}
               value={draft}
               maxLength={2000}
               onChange={(e) => setDraft(e.target.value)}
