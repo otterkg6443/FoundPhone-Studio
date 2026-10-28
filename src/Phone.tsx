@@ -1196,8 +1196,10 @@ function PhoneRuntime({
         (id): id is string => typeof id === "string",
       )
     : [];
+  // Count only delivered runtime messages. work.data.kakao also contains
+  // hidden templates for future messages, which are not unread yet.
   const kakaoUnreadCount = new Set(
-    [...(work.data.kakao ?? []), ...(s.messages.kakao ?? [])]
+    (s.messages.kakao ?? [])
       .filter(
         (item) =>
           item.meta.kakaoUnread === "true" &&
