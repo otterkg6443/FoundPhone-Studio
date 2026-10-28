@@ -176,6 +176,23 @@ export function MymyKakao(p: SkinProps) {
     if (stage === 24 && activeThread === "艺俊哥") return "离开我谁陪他吃烫出鸟的平冷泡水没过刻度线的泡面陪他看几十次楚门的世界";
     if (stage === 25 && activeThread === "艺俊哥") return "啊…蔡斑比太烦人了";
     if (stage === 26 && activeThread === "艺俊哥") return "我不管了我要去找他";
+    if (stage === 28 && activeThread === "艺俊哥") return "我给他一顿解释我不是歧视同性恋我只是觉得他坦白之后我们关系有点尴尬绝对不是故意躲着他我们还是最好的朋友";
+    if (stage === 29 && activeThread === "艺俊哥") return "他听完啥也没说就站在那里看脚尖沉默";
+    if (stage === 30 && activeThread === "艺俊哥") return "问我说完了吗说完他要回宿舍洗澡了";
+    if (stage === 31 && activeThread === "艺俊哥") return "我啥也没想本能地把他拉回来亲了";
+    if (stage === 33 && activeThread === "艺俊哥") return "啊然后就是这样那样亲了几次之后他跑回宿舍了";
+    if (stage === 35 && activeThread === "艺俊哥") return "可是我们现在算什么关系啊......好乱🥹";
+    if (stage === 38 && activeThread === "啄木鸟") return "亲友";
+    if (stage === 39 && activeThread === "啄木鸟") return "可以亲嘴的朋友";
+    if (stage === 41 && activeThread === "啄木鸟") return "我想争取一个拱白菜的机会";
+    if (stage === 43 && activeThread === "啄木鸟") return "窝边草先抱着我啃的";
+    if (stage === 45 && activeThread === "啄木鸟") return "不敢不敢";
+    if (stage === 47 && activeThread === "啄木鸟") return "敢问鄙人初始成绩多少分";
+    if (stage === 49 && activeThread === "啄木鸟") return "那你现在下楼";
+    if (stage === 51 && activeThread === "啄木鸟") return "练习一下";
+    if (stage === 52 && activeThread === "啄木鸟") return "早日转正";
+    if (stage === 55 && activeThread === "啄木鸟") return "因为你喝醉酒在我身上拔火罐的时候很像啄木鸟在啄我";
+    if (stage === 56 && activeThread === "啄木鸟") return "👉🏻👈🏻";
     return "";
   })();
   const composerPlaceholder = suggestionText
@@ -184,8 +201,10 @@ export function MymyKakao(p: SkinProps) {
         if ([1, 3, 5].includes(stage)) return "等待艺俊哥回复…";
         if (stage === 8 || stage === 10 || stage === 13) return "等待啄木鸟回复…";
         if (stage === 15 && activeThread === "啄木鸟") return "截图已发给艺俊哥，去找他聊聊…";
-        if ([17, 19, 21, 23, 27].includes(stage) && activeThread === "艺俊哥") return "等待艺俊哥回复…";
-        if (stage === 28 && activeThread === "艺俊哥") return "对话已结束";
+        if ([17, 19, 21, 23, 27, 32, 34, 36].includes(stage) && activeThread === "艺俊哥") return "等待艺俊哥回复…";
+        if (stage === 37 && activeThread === "艺俊哥") return "啄木鸟有新消息，切换会话继续…";
+        if ([37, 40, 42, 44, 46, 48, 50, 53, 54, 57].includes(stage) && activeThread === "啄木鸟") return "等待啄木鸟回复…";
+        if (stage === 58 && activeThread === "啄木鸟") return "对话已结束";
         return "输入消息";
       })();
   const composerInputRef = useRef<HTMLInputElement>(null);
