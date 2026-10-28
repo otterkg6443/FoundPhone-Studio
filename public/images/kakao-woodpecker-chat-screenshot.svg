@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="540" viewBox="0 0 640 540">
+  <defs>
+    <clipPath id="avatarClip"><circle cx="48" cy="244" r="25"/></clipPath>
+    <filter id="shadow" x="-15%" y="-15%" width="130%" height="130%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#748f9d" flood-opacity=".16"/></filter>
+  </defs>
+  <rect width="640" height="540" rx="18" fill="#abc3d2"/>
+  <rect x="0" y="0" width="640" height="76" fill="#b0c7d5"/>
+  <path d="M36 27 L20 39 L36 51" fill="none" stroke="#1f292d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="320" y="47" text-anchor="middle" font-family="Arial,'Noto Sans CJK SC',sans-serif" font-size="27" font-weight="700" fill="#20292d">啄木鸟</text>
+  <circle cx="555" cy="37" r="13" fill="none" stroke="#20292d" stroke-width="3"/>
+  <line x1="565" y1="47" x2="576" y2="58" stroke="#20292d" stroke-width="3" stroke-linecap="round"/>
+  <path d="M600 27 H626 M600 38 H626 M600 49 H626" stroke="#20292d" stroke-width="3" stroke-linecap="round"/>
+  <g filter="url(#shadow)">
+    <rect x="205" y="104" width="400" height="61" rx="19" fill="#ffeb35"/>
+    <path d="M582 106 L611 105 L600 123 Z" fill="#ffeb35"/>
+    <text x="224" y="141" font-family="Arial,'Noto Sans CJK SC',sans-serif" font-size="23" fill="#252b2e">哥还会主动交新朋友呢</text>
+    <rect x="247" y="178" width="358" height="61" rx="19" fill="#ffeb35"/>
+    <path d="M582 180 L611 179 L600 197 Z" fill="#ffeb35"/>
+    <text x="265" y="215" font-family="Arial,'Noto Sans CJK SC',sans-serif" font-size="23" fill="#252b2e">还以为只会和植物说话</text>
+  </g>
+  <text x="150" y="227" font-family="Arial,sans-serif" font-size="17" fill="#5a707c">19:01</text>
+  <g filter="url(#shadow)">
+    <circle cx="48" cy="292" r="25" fill="#d3dbe0"/>
+    <image href="kakao-pink-maltese-avatar.jpg" x="23" y="267" width="50" height="50" preserveAspectRatio="xMidYMid slice" clip-path="url(#avatarClip)"/>
+    <text x="85" y="283" font-family="Arial,'Noto Sans CJK SC',sans-serif" font-size="17" font-weight="700" fill="#53636c">啄木鸟</text>
+    <path d="M93 294 Q93 284 105 284 H543 Q565 284 565 306 V342 Q565 360 544 360 H107 Q93 360 93 344 Z" fill="#fff"/>
+    <path d="M96 297 L82 290 L96 314 Z" fill="#fff"/>
+    <text x="112" y="319" font-family="Arial,'Noto Sans CJK SC',sans-serif" font-size="22" fill="#2b3032">男同也有交普通男性朋友的权利</text>
+    <text x="112" y="346" font-family="Arial,'Noto Sans CJK SC',sans-serif" font-size="22" fill="#2b3032">谢谢</text>
+    <text x="572" y="359" font-family="Arial,sans-serif" font-size="16" fill="#5a707c">19:02</text>
+    <circle cx="48" cy="421" r="25" fill="#d3dbe0"/>
+    <image href="kakao-pink-maltese-avatar.jpg" x="23" y="396" width="50" height="50" preserveAspectRatio="xMidYMid slice" clip-path="url(#avatarClip)"/>
+    <text x="85" y="412" font-family="Arial,'Noto Sans CJK SC',sans-serif" font-size="17" font-weight="700" fill="#53636c">啄木鸟</text>
+    <path d="M93 422 Q93 413 106 413 H494 Q516 413 516 435 V470 Q516 488 496 488 H107 Q93 488 93 473 Z" fill="#fff"/>
+    <path d="M96 425 L82 418 L96 442 Z" fill="#fff"/>
+    <text x="112" y="452" font-family="Arial,'Noto Sans CJK SC',sans-serif" font-size="23" fill="#2b3032">没啥事我继续吃饭了</text>
+    <text x="523" y="487" font-family="Arial,sans-serif" font-size="16" fill="#5a707c">19:02</text>
+  </g>
+</svg>
