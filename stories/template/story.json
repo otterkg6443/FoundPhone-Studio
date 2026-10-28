@@ -605,12 +605,37 @@
     ],
     "weather": [
       {
-        "id": "test-item-weather",
-        "title": "测试内容",
-        "body": "这是一条测试内容。",
-        "sender": "测试用户",
+        "id": "weather-seoul",
+        "title": "首尔",
+        "body": "首尔特别市天气。连接网络时自动获取实时天气、空气质量、逐小时与未来七天预报；网络暂不可用时显示备用数据。",
+        "sender": "天气服务",
+        "time": "2026-10-28 20:00",
         "kind": "text",
-        "meta": {}
+        "meta": {
+          "locationLabel": "韩国 · 首尔特别市",
+          "latitude": "37.5665",
+          "longitude": "126.9780",
+          "temperature": "8",
+          "feelsLike": "8",
+          "high": "13",
+          "low": "4",
+          "condition": "晴朗",
+          "weatherCode": "0",
+          "humidity": "40",
+          "windSpeed": "8",
+          "windDirection": "270",
+          "pressure": "1026",
+          "rainfall": "0",
+          "rain": "0",
+          "aqi": "25",
+          "aqiLabel": "优",
+          "uv": "1",
+          "sunrise": "06:52",
+          "sunset": "17:39",
+          "updatedAt": "20:00",
+          "hourly": "[{\"time\":\"现在\",\"temperature\":\"8\",\"precipitationProbability\":\"0\",\"windSpeed\":\"8\",\"weatherCode\":\"0\"},{\"time\":\"2026-10-28T21:00\",\"temperature\":\"8\",\"precipitationProbability\":\"0\",\"windSpeed\":\"7\",\"weatherCode\":\"0\"},{\"time\":\"2026-10-28T22:00\",\"temperature\":\"7\",\"precipitationProbability\":\"0\",\"windSpeed\":\"6\",\"weatherCode\":\"0\"},{\"time\":\"2026-10-28T23:00\",\"temperature\":\"6\",\"precipitationProbability\":\"0\",\"windSpeed\":\"6\",\"weatherCode\":\"0\"},{\"time\":\"2026-10-29T00:00\",\"temperature\":\"6\",\"precipitationProbability\":\"0\",\"windSpeed\":\"5\",\"weatherCode\":\"0\"},{\"time\":\"2026-10-29T01:00\",\"temperature\":\"5\",\"precipitationProbability\":\"0\",\"windSpeed\":\"5\",\"weatherCode\":\"0\"}]",
+          "daily": "[{\"label\":\"今天\",\"low\":\"4\",\"high\":\"13\",\"weatherCode\":\"0\",\"precipitationProbability\":\"0\"},{\"label\":\"明天\",\"low\":\"8\",\"high\":\"13\",\"weatherCode\":\"61\",\"precipitationProbability\":\"60\"},{\"label\":\"周五\",\"low\":\"9\",\"high\":\"17\",\"weatherCode\":\"1\",\"precipitationProbability\":\"10\"},{\"label\":\"周六\",\"low\":\"7\",\"high\":\"14\",\"weatherCode\":\"0\",\"precipitationProbability\":\"10\"},{\"label\":\"周日\",\"low\":\"6\",\"high\":\"12\",\"weatherCode\":\"2\",\"precipitationProbability\":\"25\"},{\"label\":\"周一\",\"low\":\"5\",\"high\":\"11\",\"weatherCode\":\"3\",\"precipitationProbability\":\"35\"},{\"label\":\"周二\",\"low\":\"6\",\"high\":\"13\",\"weatherCode\":\"2\",\"precipitationProbability\":\"20\"}]"
+        }
       }
     ],
     "wallet": [
