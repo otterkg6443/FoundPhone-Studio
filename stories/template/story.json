@@ -3,7 +3,7 @@
   "id": "eunho-phone",
   "title": "EUNHO 的手机",
   "description": "机主 EUNHO。锁屏密码 4399；壁纸为 EUNHO 与 BAMBY 的咖啡馆双人合照。相册记录 BAMBY 的两张单人照和一张双人合照。",
-  "revision": 29,
+  "revision": 30,
   "phone": {
     "owner": "EUNHO",
     "date": "2026-10-25",
@@ -1329,38 +1329,6 @@
         }
       },
       {
-        "id": "plave-track-043",
-        "title": "괜찮아 사랑이니까 (Love Is Enough)",
-        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
-        "sender": "PLAVE",
-        "time": "2026-05-20 00:00",
-        "kind": "text",
-        "folder": "OST · Love Is Enough",
-        "meta": {
-          "album": "OST · Love Is Enough",
-          "releaseDate": "2026-05-20",
-          "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE 괜찮아 사랑이니까 (Love Is Enough) OST · Love Is Enough official audio"
-        }
-      },
-      {
-        "id": "plave-track-044",
-        "title": "괜찮아 사랑이니까 (Love Is Enough) (Inst.)",
-        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
-        "sender": "PLAVE",
-        "time": "2026-05-20 00:00",
-        "kind": "text",
-        "folder": "OST · Love Is Enough",
-        "meta": {
-          "album": "OST · Love Is Enough",
-          "releaseDate": "2026-05-20",
-          "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE 괜찮아 사랑이니까 (Love Is Enough) (Inst.) OST · Love Is Enough official audio"
-        }
-      },
-      {
         "id": "plave-track-045",
         "title": "Flame (feat. milet)",
         "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
@@ -1376,38 +1344,6 @@
           "youtubeId": "pOmJ65UnPEY",
           "youtubeSearch": "PLAVE Flame (feat. milet) 日本数字单曲 · Flame official audio",
           "artwork": "https://i.ytimg.com/vi/pOmJ65UnPEY/hqdefault.jpg"
-        }
-      },
-      {
-        "id": "plave-track-046",
-        "title": "Heart Stage",
-        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
-        "sender": "PLAVE",
-        "time": "2026-09-21 00:00",
-        "kind": "text",
-        "folder": "OST · Heart Stage",
-        "meta": {
-          "album": "OST · Heart Stage",
-          "releaseDate": "2026-09-21",
-          "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE Heart Stage OST · Heart Stage official audio"
-        }
-      },
-      {
-        "id": "plave-track-047",
-        "title": "Heart Stage (Inst.)",
-        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
-        "sender": "PLAVE",
-        "time": "2026-09-21 00:00",
-        "kind": "text",
-        "folder": "OST · Heart Stage",
-        "meta": {
-          "album": "OST · Heart Stage",
-          "releaseDate": "2026-09-21",
-          "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE Heart Stage (Inst.) OST · Heart Stage official audio"
         }
       },
       {
