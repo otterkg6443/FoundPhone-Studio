@@ -39,24 +39,55 @@ function TrackPlayer({
   p: Props;
   onNext: () => void;
 }) {
+  const rawVideoId = meta(item, "youtubeId");
+  const youtubeId = /^[A-Za-z0-9_-]{11}$/.test(rawVideoId) ? rawVideoId : "";
+  const searchQuery = meta(
+    item,
+    "youtubeSearch",
+    \`PLAVE \${item.title} official audio\`,
+  );
+  const musicSearchUrl = \`https://music.youtube.com/search?q=\${encodeURIComponent(searchQuery)}\`;
   return (
-    <div className="track-player">
-      <button onClick={() => p.onItem(item)}>
-        <Music size={20} />
-        <span>
-          {item.title}
-          <small>{item.sender}</small>
-        </span>
-      </button>
-      {item.kind === "audio" && safeMedia(item.media) ? (
-        <AudioPlayer p={p} item={item} />
+    <section className="track-player" aria-label="正在播放">
+      <div className="track-player-header">
+        <div className="track-player-current">
+          <Music size={19} />
+          <span>
+            <strong>{item.title}</strong>
+            <small>{item.sender} · {meta(item, "album", item.folder || "PLAVE")}</small>
+          </span>
+        </div>
+        <button aria-label="下一首" onClick={onNext}>
+          <SkipForward size={19} />
+        </button>
+      </div>
+      {youtubeId ? (
+        <iframe
+          className="track-player-iframe"
+          title={\`播放 PLAVE - \${item.title}\`}
+          src={\`https://www.youtube-nocookie.com/embed/\${youtubeId}?rel=0&playsinline=1\`}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+        />
       ) : (
-        <button onClick={() => p.onItem(item)}>查看</button>
+        <div className="track-player-search-fallback">
+          <Music size={28} />
+          <div>
+            <strong>{meta(item, "sourceType", "官方音源搜索")}</strong>
+            <p>暂未收录可直接内嵌的官方视频，可从 YouTube Music 搜索并播放官方音源。</p>
+          </div>
+        </div>
       )}
-      <button aria-label="下一首" onClick={onNext}>
-        <SkipForward size={19} />
-      </button>
-    </div>
+      <a
+        className="track-player-open-source"
+        href={musicSearchUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        在 YouTube Music 打开音源
+      </a>
+    </section>
   );
 }
 export function SpotifySkin(p: Props) {
@@ -71,7 +102,7 @@ export function SpotifySkin(p: Props) {
       <Header p={p} />
       <div className="catalog-scroll">
         <div className="spotify-heading">
-          <Avatar name={p.owner ?? "我"} />
+          <Avatar name={p.owner ?? "PLAVE"} />
           <button
             className={tab === "首页" ? "selected" : ""}
             onClick={() => setTab("首页")}
@@ -86,8 +117,8 @@ export function SpotifySkin(p: Props) {
           </button>
         </div>
         {tab === "搜索" && <SearchBox value={q} set={setQ} />}
-        <h1>{playlist || (tab === "音乐库" ? "音乐库" : "为你收藏")}</h1>
-        {!playlist && (
+        <h1>{playlist || (tab === "音乐库" ? "音乐库" : tab === "搜索" ? "搜索结果" : "PLAVE 音乐库")}</h1>
+        {!playlist && tab !== "搜索" && (
           <div className="spotify-playlists">
             {groupItems(items, "我的音乐").map((g) => (
               <button key={g} onClick={() => setPlaylist(g)}>
@@ -96,6 +127,9 @@ export function SpotifySkin(p: Props) {
               </button>
             ))}
           </div>
+        )}
+        {!playlist && tab !== "搜索" && (
+          <p className="spotify-library-count">{items.length} 首曲目 · 按发行专辑整理</p>
         )}
         {playlist && (
           <button className="playlist-back" onClick={() => setPlaylist("")}>
@@ -106,18 +140,18 @@ export function SpotifySkin(p: Props) {
           {list.map((i, n) => (
             <button
               key={i.id}
-              onClick={() => {
-                setTrack(i);
-              }}
+              className={track?.id === i.id ? "selected-track" : ""}
+              aria-pressed={track?.id === i.id}
+              onClick={() => setTrack(i)}
             >
-              <span>{n + 1}</span>
+              <span>{track?.id === i.id ? <Play size={14} fill="currentColor" /> : n + 1}</span>
               <div>
                 <strong>{i.title}</strong>
                 <small>
-                  {i.sender} · {meta(i, "album")}
+                  {i.sender} · {meta(i, "album", i.folder || "PLAVE")}
                 </small>
               </div>
-              <small>{meta(i, "duration")}</small>
+              <small>{meta(i, "sourceType", "YouTube Music")}</small>
             </button>
           ))}
         </div>
@@ -127,13 +161,11 @@ export function SpotifySkin(p: Props) {
         <TrackPlayer
           item={track}
           p={p}
-          onNext={() =>
-            setTrack(
-              items[
-                (items.findIndex((i) => i.id === track.id) + 1) % items.length
-              ],
-            )
-          }
+          onNext={() => {
+            if (!list.length) return;
+            const currentIndex = list.findIndex((i) => i.id === track.id);
+            setTrack(list[(currentIndex + 1 + list.length) % list.length]);
+          }}
         />
       )}
       <Tabs
