@@ -574,7 +574,7 @@ export function ForumSkin(p: Props) {
                     {i.sender} · {i.time.slice(5, 16)}
                   </span>
                   <span>
-                    {meta(i, "views", "—")} 浏览 · {i.comments.length} 回复
+                    {meta(i, "views", "—")} 浏览 · {meta(i, "commentCount", String(i.comments.length))} 回复
                   </span>
                 </div>
               </button>
