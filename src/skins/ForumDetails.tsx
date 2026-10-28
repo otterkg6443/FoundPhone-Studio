@@ -13,7 +13,7 @@ type ForumThreadReply = { author: string; body: string; time: string };
 type ForumThread = { floor: number; body: string; time: string; replies: ForumThreadReply[] };
 
 function readForumThreads(item: Item): ForumThread[] {
-  const raw = item.meta?.forumCommentThreads;
+  const raw = item.richText || item.meta?.forumCommentThreads;
   if (typeof raw !== "string") return [];
   try {
     const parsed: unknown = JSON.parse(raw);
