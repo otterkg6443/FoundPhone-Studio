@@ -44,9 +44,9 @@ function TrackPlayer({
   const searchQuery = meta(
     item,
     "youtubeSearch",
-    \`PLAVE \${item.title} official audio\`,
+    `PLAVE ${item.title} official audio`,
   );
-  const musicSearchUrl = \`https://music.youtube.com/search?q=\${encodeURIComponent(searchQuery)}\`;
+  const musicSearchUrl = `https://music.youtube.com/search?q=${encodeURIComponent(searchQuery)}`;
   return (
     <section className="track-player" aria-label="正在播放">
       <div className="track-player-header">
@@ -64,8 +64,8 @@ function TrackPlayer({
       {youtubeId ? (
         <iframe
           className="track-player-iframe"
-          title={\`播放 PLAVE - \${item.title}\`}
-          src={\`https://www.youtube-nocookie.com/embed/\${youtubeId}?rel=0&playsinline=1\`}
+          title={`播放 PLAVE - ${item.title}`}
+          src={`https://www.youtube-nocookie.com/embed/${youtubeId}?rel=0&playsinline=1`}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerPolicy="strict-origin-when-cross-origin"
           allowFullScreen
