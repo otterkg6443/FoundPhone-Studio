@@ -733,7 +733,7 @@ export function MymyInstagram(p: SkinProps) {
                 <Avatar name={p.owner || "机主"} src={igAvatar} />
                 <div className="ps">
                   <div>
-                    <b>{ownerPosts.length}</b>
+                    <b>{visibleOwnerPosts.length}</b>
                     <small>帖子</small>
                   </div>
                   <div>
