@@ -196,9 +196,15 @@ export function validateWork(input: unknown): Work {
   return workSchema.parse(input);
 }
 export function safeMedia(value: string) {
-  return /^data:(image\/(png|jpeg|webp|gif)|audio\/(mpeg|mp3|wav|ogg|webm|mp4)|video\/(mp4|webm));base64,[a-zA-Z0-9+/=\s]+$/.test(
-    value,
-  ) || /^\.\/images\/[a-zA-Z0-9._-]+\.(png|jpe?g|webp|gif)$/i.test(value)
-    ? value
-    : "";
+  const embeddedMedia =
+    /^data:(image\/(png|jpeg|webp|gif)|audio\/(mpeg|mp3|wav|ogg|webm|mp4)|video\/(mp4|webm));base64,[a-zA-Z0-9+/=\s]+$/.test(
+      value,
+    );
+  const localRasterImage =
+    /^\.\/images\/[a-zA-Z0-9._-]+\.(png|jpe?g|webp|gif)$/i.test(value);
+  // This one checked-in SVG is a static, locally-authored chat screenshot.
+  // Keep SVG support narrowly scoped instead of allowing arbitrary SVG files.
+  const approvedStaticSvg =
+    value === "./images/kakao-woodpecker-chat-screenshot.svg";
+  return embeddedMedia || localRasterImage || approvedStaticSvg ? value : "";
 }
