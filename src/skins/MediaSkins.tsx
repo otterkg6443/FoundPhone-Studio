@@ -247,7 +247,6 @@ export function NeteaseSkin(p: Props) {
       {track && (
         <TrackPlayer
           item={track}
-          p={p}
           onNext={() =>
             setTrack(
               items[
