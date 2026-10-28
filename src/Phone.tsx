@@ -1,5 +1,6 @@
 import { StatusGlyph } from "./ios/StatusGlyph";
 import { SocialDetail, socialDetailApps } from "./skins/SocialDetails";
+import { ForumDetail } from "./skins/ForumDetails";
 import { NativeCalculator } from "./ios/Calculator";
 import { HomeLauncher } from "./launcher/HomeLauncher";
 import { useDeviceLayout } from "./launcher/layout";
@@ -1821,6 +1822,7 @@ function AppContent({
   work: Work;
 }) {
   const [detail, setDetail] = useState<Item | null>(null);
+  const [forumDetailStack, setForumDetailStack] = useState<Item[]>([]);
   const [thread, setThread] = useState(() => {
     const savedThread = state.ui?.[app.id]?.currentThread;
     return typeof savedThread === "string" ? savedThread : "";
@@ -1851,6 +1853,7 @@ function AppContent({
       onEdit(i);
       return;
     }
+    if (app.id === "forum") setForumDetailStack([]);
     setDetail(i);
     if (!i.password || unlocks.includes(i.id)) onRead(i.id);
   };
@@ -1951,7 +1954,29 @@ function AppContent({
           </Suspense>
         </div>
         {detail &&
-          (socialDetailApps.has(app.id) &&
+          (app.id === "forum" &&
+          (!detail.password || unlocks.includes(detail.id)) ? (
+            <ForumDetail
+              item={detail}
+              items={shown}
+              back={() => {
+                const previous = forumDetailStack[forumDetailStack.length - 1];
+                if (previous) {
+                  setForumDetailStack((stack) => stack.slice(0, -1));
+                  setDetail(previous);
+                } else {
+                  setForumDetailStack([]);
+                  back();
+                }
+              }}
+              onOpenItem={(next) => {
+                const current = detail;
+                if (!current || current.id === next.id) return;
+                setForumDetailStack((stack) => [...stack, current]);
+                setDetail(next);
+              }}
+            />
+          ) : socialDetailApps.has(app.id) &&
           (!detail.password || unlocks.includes(detail.id)) ? (
             <SocialDetail
               app={app.id}
