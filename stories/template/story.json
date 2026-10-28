@@ -3,7 +3,7 @@
   "id": "eunho-phone",
   "title": "EUNHO 的手机",
   "description": "机主 EUNHO。锁屏密码 4399；壁纸为 EUNHO 与 BAMBY 的咖啡馆双人合照。相册记录 BAMBY 的两张单人照和一张双人合照。",
-  "revision": 48,
+  "revision": 49,
   "phone": {
     "owner": "EUNHO",
     "date": "2026-03-16",
@@ -2070,12 +2070,33 @@
     ],
     "instagram": [
       {
-        "id": "test-item-instagram",
-        "title": "测试内容",
-        "body": "这是一条测试内容。",
-        "sender": "测试用户",
-        "kind": "text",
+        "id": "instagram-bamby-post-20260316-2100",
+        "title": "BAMBY",
+        "body": "the answer is yes",
+        "time": "2026-03-16 21:00",
+        "sender": "BAMBY",
+        "avatar": "./images/ig-bamby.jpg",
+        "kind": "image",
+        "media": "./images/ig-eb2.jpg",
+        "likes": 0,
+        "comments": [],
         "meta": {}
+      },
+      {
+        "id": "instagram-owner-post-20260316-2100",
+        "title": "EUNHO",
+        "body": "因为是你握住了我的手",
+        "time": "2026-03-16 21:00",
+        "sender": "EUNHO",
+        "avatar": "./images/ig-owner.jpg",
+        "kind": "image",
+        "media": "./images/ig-eb1.jpg",
+        "likes": 0,
+        "comments": [],
+        "meta": {
+          "instagramFollowers": "43",
+          "instagramFollowing": "99"
+        }
       }
     ],
     "tiktok": [
@@ -5805,7 +5826,7 @@
       {
         "id": "kakao-woodpecker-2047-in-10",
         "title": "啄木鸟",
-        "body": "实习生不能啃上司嘴",
+        "body": "实习生不能啵上司嘴",
         "richText": "",
         "meta": {
           "kakaoUnread": "true",
