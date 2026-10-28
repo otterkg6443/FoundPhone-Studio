@@ -904,7 +904,8 @@ function PhoneRuntime({
           { id: "kakao-woodpecker-2045-in-02", dueAt: Date.now() + 1700 },
         ];
       } else if (source.id === "kakao-woodpecker-2047-in-10") {
-        const nextStoryStartsAt = Date.now() + 10000;
+        // The Instagram special-follow banner is scheduled 5s after this trigger; start the April 3 KakaoTalk segment 20s after that banner (25s after the trigger).
+        const nextStoryStartsAt = Date.now() + 25000;
         remaining = [
           { id: "kakao-woodpecker-20260403-in-01", dueAt: nextStoryStartsAt },
           { id: "kakao-woodpecker-20260403-in-02", dueAt: nextStoryStartsAt + 900 },
