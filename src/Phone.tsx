@@ -973,12 +973,53 @@ function PhoneRuntime({
       .get(work.id)
       .then((saved) => {
         if (!active) return;
-        if (saved && saved.state.revision === work.updatedAt)
+        if (saved && saved.state.revision === work.updatedAt) {
           setOwn({
             ...saved.state,
             ui: { ...saved.state.ui, ...sessionInitial.ui },
           });
-        else {
+        } else if (
+          saved &&
+          work.updatedAt === 25 &&
+          saved.state.revision === 24
+        ) {
+          // One-time, targeted migration: clear WeChat history and its old notices,
+          // while preserving KakaoTalk and all other app progress.
+          const oldUi = saved.state.ui ?? {};
+          const oldWechatUi = oldUi.wechat ?? {};
+          const migrated: Runtime = {
+            ...saved.state,
+            revision: work.updatedAt,
+            ui: {
+              ...oldUi,
+              wechat: {
+                ...oldWechatUi,
+                currentThread: "",
+                wechatInteractionVersion: "manual-send-v2",
+                wechatChatStarted: false,
+                wechatSentMessageIds: [],
+                wechatRevealedChatIds: [],
+                wechatReadMessageIds: [],
+                wechatSchedule: "[]",
+              },
+            },
+            messages: {
+              ...saved.state.messages,
+              wechat: [],
+            },
+            notifications: saved.state.notifications.filter(
+              (notice) =>
+                !notice.startsWith("당신：") &&
+                !notice.startsWith("微信：") &&
+                !notice.startsWith("WeChat:"),
+            ),
+          };
+          setOwn({
+            ...migrated,
+            ui: { ...migrated.ui, ...sessionInitial.ui },
+          });
+          setLoadError("已清空微信聊天和相关通知，其他应用进度已保留。");
+        } else {
           const started = dispatch(work, initialRuntime(work), "start");
           setOwn({ ...started, ui: sessionInitial.ui ?? started.ui });
           if (saved) setLoadError("作品已更新，已开始新的进度。");
