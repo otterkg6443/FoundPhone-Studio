@@ -522,7 +522,17 @@ function PhoneRuntime({
         ? templates.find((item) => item.meta.kakaoSequenceOutgoing === "reply-1")
         : stage === 4 && thread === "艺俊哥" && body === "他好像没跟我讲过这个朋友"
           ? templates.find((item) => item.meta.kakaoSequenceOutgoing === "reply-2")
-          : undefined;
+          : stage === 6 && thread === "啄木鸟" && body === "没听你提起过你的新饭搭子诶"
+            ? templates.find((item) => item.meta.kakaoSequenceOutgoing === "woodpecker-1")
+            : stage === 7 && thread === "啄木鸟" && body === "是你男朋友吗"
+              ? templates.find((item) => item.meta.kakaoSequenceOutgoing === "woodpecker-2")
+              : stage === 9 && thread === "啄木鸟" && body === "不是说舞社有事情?"
+                ? templates.find((item) => item.meta.kakaoSequenceOutgoing === "woodpecker-3")
+                : stage === 11 && thread === "啄木鸟" && body === "哥还会主动交新朋友呢"
+                  ? templates.find((item) => item.meta.kakaoSequenceOutgoing === "woodpecker-4")
+                  : stage === 12 && thread === "啄木鸟" && body === "还以为只会和植物说话"
+                    ? templates.find((item) => item.meta.kakaoSequenceOutgoing === "woodpecker-5")
+                    : undefined;
     const message = makeItem({
       ...(template ?? {}),
       id: template ? `sent-${template.id}` : `kakao-user-${Date.now()}-${(latest.messages.kakao ?? []).length}`,
@@ -556,6 +566,27 @@ function PhoneRuntime({
       queue = JSON.stringify([
         { id: "kakao-yejun-20260316-1854-04", dueAt: now + 800 },
         { id: "kakao-yejun-20260316-1854-05", dueAt: now + 1700 },
+      ]);
+    } else if (template?.meta.kakaoSequenceOutgoing === "woodpecker-1") {
+      nextStage = 7;
+    } else if (template?.meta.kakaoSequenceOutgoing === "woodpecker-2") {
+      nextStage = 8;
+      queue = JSON.stringify([
+        { id: "kakao-woodpecker-20260316-in-01", dueAt: now + 800 },
+      ]);
+    } else if (template?.meta.kakaoSequenceOutgoing === "woodpecker-3") {
+      nextStage = 10;
+      queue = JSON.stringify([
+        { id: "kakao-woodpecker-20260316-in-02", dueAt: now + 800 },
+        { id: "kakao-woodpecker-20260316-in-03", dueAt: now + 1900 },
+      ]);
+    } else if (template?.meta.kakaoSequenceOutgoing === "woodpecker-4") {
+      nextStage = 12;
+    } else if (template?.meta.kakaoSequenceOutgoing === "woodpecker-5") {
+      nextStage = 13;
+      queue = JSON.stringify([
+        { id: "kakao-woodpecker-20260316-in-04", dueAt: now + 800 },
+        { id: "kakao-woodpecker-20260316-in-05", dueAt: now + 1700 },
       ]);
     }
     update({
@@ -743,7 +774,7 @@ function PhoneRuntime({
         ...latest,
         ui: { ...latest.ui, kakao: { ...ui, kakaoSequenceStage: stage, kakaoSequenceSchedule: JSON.stringify(remaining) } },
         messages: { ...latest.messages, kakao: [...(latest.messages.kakao ?? []), item] },
-        notifications: [...latest.notifications, `KakaoTalk：艺俊哥：${item.media ? "发送了一张照片" : item.body}`],
+        notifications: [...latest.notifications, `KakaoTalk：${source.title || source.sender || "未知联系人"}：${item.media ? "发送了一张照片" : item.body}`],
       });
     }, Math.max(0, next.dueAt - Date.now()));
     return () => window.clearTimeout(timer);
