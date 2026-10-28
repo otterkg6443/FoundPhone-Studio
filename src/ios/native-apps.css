@@ -566,6 +566,105 @@
   right: 10px;
   opacity: 0.4;
 }
+.ios18 .weather-refresh {
+  position: absolute;
+  top: 16px;
+  right: 2px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid #ffffff36;
+  border-radius: 50%;
+  color: #fff;
+  background: #ffffff12;
+}
+.ios18 .weather-refresh .is-spinning {
+  animation: weather-refresh-spin 1s linear infinite;
+}
+@keyframes weather-refresh-spin {
+  to { transform: rotate(360deg); }
+}
+.ios18 .weather-native-current > .weather-update-label {
+  font-size: 10px;
+  font-weight: 400;
+  opacity: 0.68;
+  margin-top: 5px;
+  line-height: 14px;
+}
+.ios18 .weather-weather-details {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 17px 8px;
+  padding: 16px 12px;
+}
+.ios18 .weather-stat {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+}
+.ios18 .weather-stat > div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #d4dced;
+  font-size: 11px;
+  white-space: nowrap;
+}
+.ios18 .weather-stat > div svg {
+  flex: 0 0 auto;
+  opacity: 0.8;
+}
+.ios18 .weather-stat > strong {
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.ios18 .weather-stat > strong small {
+  font-size: 9px;
+  font-weight: 400;
+  opacity: 0.72;
+}
+.ios18 .weather-days-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  margin-bottom: 5px;
+}
+.ios18 .weather-days-header > strong {
+  font-size: 17px;
+  font-weight: 500;
+}
+.ios18 .weather-days-header > small {
+  font-size: 11px;
+  opacity: 0.62;
+}
+.ios18 .weather-days > button > small {
+  min-width: 26px;
+  text-align: right;
+  font-size: 10px;
+  opacity: 0.62;
+}
+.ios18 .weather-map-empty > h2 {
+  margin: 22px 0 6px;
+  font-size: 20px;
+  font-weight: 500;
+}
+.ios18 .weather-map-empty > p {
+  margin: 0 0 8px;
+  font-size: 13px;
+}
+.ios18 .weather-map-empty > small {
+  max-width: 230px;
+  font-size: 11px;
+  line-height: 1.6;
+  text-align: center;
+  opacity: 0.7;
+}
 .ios18 .weather-native-card {
   display: block;
   width: 100%;
