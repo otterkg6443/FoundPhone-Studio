@@ -235,32 +235,6 @@ function PhoneRuntime({
     };
   }, [creator, ready]);
   const s = external ?? own;
-  const readWechatValue = s.ui?.wechat?.wechatReadMessageIds;
-  const readWechatMessageIds = Array.isArray(readWechatValue)
-    ? readWechatValue
-    : [];
-  const arrivedIncomingWechat = [
-    ...(work.data.wechat ?? []).filter(
-      (item) =>
-        item.title === "당신" &&
-        !item.outgoing &&
-        (!item.meta?.stage || /^opening-[12]$/.test(item.meta.stage)),
-    ),
-    ...(s.messages.wechat ?? []).filter(
-      (item) => item.title === "당신" && !item.outgoing,
-    ),
-  ].filter(
-    (item, index, items) =>
-      items.findIndex(
-        (other) =>
-          other.title === item.title &&
-          other.body.trim() === item.body.trim() &&
-          other.kind === item.kind,
-      ) === index,
-  );
-  const unreadWechatCount = arrivedIncomingWechat.filter(
-    (item) => !item.read && !readWechatMessageIds.includes(item.id),
-  ).length;
   const openingWechatItems = (work.data.wechat ?? [])
     .filter(
       (item) =>
@@ -1440,7 +1414,7 @@ function PhoneRuntime({
                     custom={a.icon}
                     date={s.date || work.phone.date}
                     time={s.time}
-                    badge={a.id === "wechat" ? unreadWechatCount : 0}
+                    badge={0}
                   />
                 )}
                 clearApp={(id) =>
