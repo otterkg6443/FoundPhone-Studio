@@ -921,9 +921,10 @@ function PhoneRuntime({
           { id: "kakao-woodpecker-2045-in-02", dueAt: Date.now() + 1700 },
         ];
       } else if (source.id === "kakao-woodpecker-2047-in-10") {
+        const nextStoryStartsAt = Date.now() + 10000;
         remaining = [
-          { id: "kakao-woodpecker-20260403-in-01", dueAt: Date.now() + 800 },
-          { id: "kakao-woodpecker-20260403-in-02", dueAt: Date.now() + 1700 },
+          { id: "kakao-woodpecker-20260403-in-01", dueAt: nextStoryStartsAt },
+          { id: "kakao-woodpecker-20260403-in-02", dueAt: nextStoryStartsAt + 900 },
         ];
       }
       if (source.id === "kakao-woodpecker-20260316-in-05") {
