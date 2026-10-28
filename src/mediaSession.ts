@@ -42,7 +42,9 @@ function applyPlaybackState() {
 }
 export function getNowPlayingSnapshot(): NowPlayingSnapshot { return { ...snapshot }; }
 export function subscribeMediaSession(listener:(state:NowPlayingSnapshot)=>void):()=>void {
-  subscribers.add(listener); listener({ ...snapshot }); return () => subscribers.delete(listener);
+  subscribers.add(listener);
+  listener({ ...snapshot });
+  return () => { subscribers.delete(listener); };
 }
 export function setNowPlayingTrack(track:{trackKey:string;title:string;artist:string;album:string;artwork?:string}) {
   const changedTrack = snapshot.trackKey !== track.trackKey;
