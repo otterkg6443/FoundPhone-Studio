@@ -3,7 +3,7 @@
   "id": "eunho-phone",
   "title": "EUNHO 的手机",
   "description": "机主 EUNHO。锁屏密码 4399；壁纸为 EUNHO 与 BAMBY 的咖啡馆双人合照。相册记录 BAMBY 的两张单人照和一张双人合照。",
-  "revision": 26,
+  "revision": 27,
   "phone": {
     "owner": "EUNHO",
     "date": "2026-10-25",
@@ -1407,7 +1407,7 @@
       {
         "id": "plave-track-051",
         "title": "The Answer Is Yes",
-        "body": "PLAVE 正式发行曲目。点击可播放已确认的官方 YouTube 视频，或打开 YouTube Music 搜索官方音源。",
+        "body": "PLAVE《HYPERDRIVE》收录曲。已接入官方 MV 内嵌播放器，可直接在音乐 App 内播放。",
         "sender": "PLAVE",
         "time": "2026-10-13 00:00",
         "kind": "text",
@@ -1416,8 +1416,9 @@
           "album": "HYPERDRIVE",
           "releaseDate": "2026-10-13",
           "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE The Answer Is Yes HYPERDRIVE official audio"
+          "sourceType": "Official M/V",
+          "youtubeSearch": "PLAVE The Answer Is Yes HYPERDRIVE official M/V",
+          "youtubeId": "ll-Uefui-SI"
         }
       },
       {
