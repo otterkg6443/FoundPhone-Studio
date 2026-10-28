@@ -201,7 +201,7 @@ export function safeMedia(value: string) {
       value,
     );
   const localRasterImage =
-    /^\.\/images\/[a-zA-Z0-9._-]+\.(png|jpe?g|webp|gif)$/i.test(value);
+    /^\.\/images\/[\p{L}\p{N}._-]+\.(png|jpe?g|webp|gif)$/iu.test(value);
   // This one checked-in SVG is a static, locally-authored chat screenshot.
   // Keep SVG support narrowly scoped instead of allowing arbitrary SVG files.
   const approvedStaticSvg =
