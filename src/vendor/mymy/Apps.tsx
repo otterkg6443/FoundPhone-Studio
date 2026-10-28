@@ -566,16 +566,19 @@ export function MymyInstagram(p: SkinProps) {
     [story, setStory] = useState(0),
     [draft, setDraft] = useState(""),
     [pop, setPop] = useState("");
-  const posts = p.items.filter(
-      (i) => i.folder !== "私信" && i.meta.story !== "true",
-    ),
-    stories = p.items.filter((i) => i.meta.story === "true"),
-    dms = p.items.filter((i) => i.folder === "私信"),
-    active = stories[story - 1],
-    ownerPosts = posts.filter((i) => i.sender === p.owner),
-    ownerPost =
-      ownerPosts.find((i) => i.meta.instagramProfileAvatar === "true") ??
-      ownerPosts[0];
+  const allPosts = p.items.filter(
+    (i) => i.folder !== "私信" && i.meta.story !== "true",
+  );
+  const postsUnlocked = p.ui?.instagramPostsUnlocked === true;
+  const posts = postsUnlocked ? allPosts : [];
+  const stories = p.items.filter((i) => i.meta.story === "true");
+  const dms = p.items.filter((i) => i.folder === "私信");
+  const active = stories[story - 1];
+  const ownerPosts = allPosts.filter((i) => i.sender === p.owner);
+  const ownerPost =
+    ownerPosts.find((i) => i.meta.instagramProfileAvatar === "true") ??
+    ownerPosts[0];
+  const visibleOwnerPosts = postsUnlocked ? ownerPosts : [];
   const toggle = (id: string, values: string[], set: (v: string[]) => void) =>
     set(values.includes(id) ? values.filter((v) => v !== id) : [...values, id]);
   useEffect(() => {
@@ -749,7 +752,7 @@ export function MymyInstagram(p: SkinProps) {
                 </div>
               </div>
               <div className="pg2">
-                {ownerPosts.map((i) => (
+                {visibleOwnerPosts.map((i) => (
                   <button key={i.id} onClick={() => openPost(i)}>
                     <Media item={i} />
                   </button>
