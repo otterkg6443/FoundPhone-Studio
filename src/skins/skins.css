@@ -4298,3 +4298,321 @@
 }
 .plave-player-shell { display:flex; flex-direction:column; gap:6px; }
 .plave-player-status { margin:0; color:#9a646f; font-size:9px; line-height:1.5; }
+
+
+/* Native iOS Calendar */
+.apple-calendar {
+  background: #fff;
+  --app-accent: #ff3b30;
+}
+.apple-calendar .catalog-nav {
+  background: #fff;
+  color: #ff3b30;
+  border-bottom-color: #efeff4;
+}
+.apple-calendar .catalog-nav strong {
+  color: #1c1c1e;
+  font-size: 15px;
+}
+.calendar-today-button {
+  color: #ff3b30;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 7px;
+  border: 1px solid #ffb4ad;
+  border-radius: 7px;
+}
+.calendar-month-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 16px 11px;
+  background: #fff;
+}
+.calendar-month-toolbar h1 {
+  margin: 0;
+  color: #1c1c1e;
+  font-size: 27px;
+  line-height: 1.2;
+  letter-spacing: -.8px;
+  font-weight: 750;
+}
+.calendar-month-toolbar > div {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.calendar-month-toolbar button {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  color: #ff3b30;
+  background: #f2f2f7;
+  border-radius: 50%;
+}
+.apple-calendar .calendar-grid {
+  gap: 3px 2px;
+  padding: 2px 11px 16px;
+  background: #fff;
+  border-bottom: 1px solid #e5e5ea;
+}
+.apple-calendar .calendar-grid > small {
+  color: #8e8e93;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 6px 0 8px;
+}
+.apple-calendar .calendar-grid button {
+  height: 34px;
+  width: 34px;
+  justify-self: center;
+  margin: 0;
+  color: #1c1c1e;
+  font-size: 12px;
+  border-radius: 50%;
+}
+.apple-calendar .calendar-grid button.selected {
+  background: #ff3b30;
+  color: #fff;
+  font-weight: 700;
+}
+.apple-calendar .calendar-grid button > i {
+  width: 4px;
+  height: 4px;
+  bottom: 3px;
+  background: #0a84ff;
+}
+.apple-calendar .calendar-grid button.selected > i {
+  background: #fff;
+}
+.calendar-agenda-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 17px 15px 8px;
+}
+.calendar-agenda-heading h2 {
+  margin: 0;
+  color: #1c1c1e;
+  font-size: 17px;
+  font-weight: 700;
+}
+.calendar-agenda-heading > span {
+  color: #8e8e93;
+  font-size: 10px;
+}
+.apple-calendar .calendar-agenda-list {
+  background: #fff;
+  padding: 0 12px;
+}
+.apple-calendar .calendar-event {
+  gap: 12px;
+  padding: 12px 3px;
+  border-bottom: 1px solid #efeff4;
+}
+.apple-calendar .calendar-event > time {
+  flex: 0 0 42px;
+  padding-top: 2px;
+  color: #8e8e93;
+  font-size: 10px;
+  white-space: nowrap;
+}
+.apple-calendar .calendar-event > div {
+  border-left: 3px solid #0a84ff;
+  padding-left: 9px;
+}
+.apple-calendar .calendar-event strong {
+  color: #1c1c1e;
+  font-size: 12px;
+  font-weight: 600;
+}
+.apple-calendar .calendar-event p {
+  color: #8e8e93;
+  font-size: 10px;
+  margin-top: 4px;
+}
+.calendar-empty {
+  min-height: 105px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  color: #8e8e93;
+  font-size: 11px;
+}
+
+/* Native iOS Reminders */
+.apple-reminders {
+  background: #f2f2f7;
+  --app-accent: #0a84ff;
+}
+.apple-reminders .catalog-nav {
+  background: #f2f2f7;
+  border-bottom-color: transparent;
+}
+.apple-reminders .catalog-nav strong {
+  font-size: 15px;
+  color: #0a84ff;
+}
+.reminders-scroll {
+  padding: 0 0 12px;
+  background: #f2f2f7;
+}
+.reminders-large-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px 15px;
+}
+.reminders-large-title h1 {
+  margin: 0;
+  font-size: 30px;
+  line-height: 1.2;
+  font-weight: 750;
+  letter-spacing: -.7px;
+  color: #1c1c1e;
+}
+.reminders-large-title button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: #0a84ff;
+  background: #e4e4e9;
+}
+.apple-reminders .reminder-categories {
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  padding: 0 13px 20px;
+}
+.apple-reminders .reminder-categories > button {
+  min-height: 88px;
+  position: relative;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: 26px auto;
+  align-items: center;
+  padding: 12px 12px 10px;
+  border: 1px solid transparent;
+  border-radius: 13px;
+  background: #fff;
+  color: var(--reminder-color);
+  box-shadow: 0 1px 2px #00000008;
+}
+.apple-reminders .reminder-categories > button.active {
+  border-color: var(--reminder-color);
+  box-shadow: 0 0 0 1px var(--reminder-color) inset;
+}
+.apple-reminders .reminder-categories strong {
+  color: #1c1c1e;
+  align-self: start;
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 700;
+}
+.apple-reminders .reminder-categories span {
+  grid-column: 1 / -1;
+  margin-top: 6px;
+  color: #6d6d72;
+  font-size: 12px;
+  font-weight: 600;
+}
+.reminders-search {
+  padding: 0 13px 12px;
+}
+.apple-reminders .reminders-search .catalog-search {
+  margin: 0;
+  height: 33px;
+  border-radius: 9px;
+  background: #e5e5ea;
+}
+.reminders-list-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0 15px 8px;
+}
+.reminders-list-heading h2 {
+  margin: 0;
+  color: #0a84ff;
+  font-size: 17px;
+  font-weight: 700;
+}
+.reminders-list-heading span {
+  color: #8e8e93;
+  font-size: 10px;
+}
+.apple-reminders .reminders-list {
+  margin: 0 12px;
+  padding: 0 12px;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.apple-reminders .reminder-row {
+  gap: 11px;
+  padding: 12px 0;
+  border-bottom: 1px solid #e9e9ee;
+  align-items: flex-start;
+}
+.apple-reminders .reminder-row:last-child {
+  border-bottom: 0;
+}
+.apple-reminders .reminder-row > button:first-child {
+  flex: 0 0 22px;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 24px;
+  color: #c7c7cc;
+  margin-top: 1px;
+}
+.apple-reminders .reminder-row > button[aria-checked="true"] {
+  color: #0a84ff;
+}
+.apple-reminders .reminder-row > button[aria-checked="true"] svg {
+  fill: #0a84ff;
+  color: #0a84ff;
+  stroke: #fff;
+}
+.apple-reminders .reminder-detail {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  padding: 0;
+  text-align: left;
+}
+.apple-reminders .reminder-detail strong {
+  font-size: 12px;
+  line-height: 1.45;
+  color: #1c1c1e;
+  font-weight: 550;
+}
+.apple-reminders .reminder-detail small {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: #8e8e93;
+}
+.apple-reminders .reminder-detail p {
+  margin: 0;
+  color: #6d6d72;
+  font-size: 10px;
+}
+.apple-reminders .reminder-row.is-complete .reminder-detail strong {
+  text-decoration: line-through;
+  color: #8e8e93;
+}
+.reminders-empty {
+  padding: 26px 12px;
+  color: #8e8e93;
+  font-size: 12px;
+  text-align: center;
+}

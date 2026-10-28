@@ -891,10 +891,11 @@ function PhoneRuntime({
       const additions = [item];
       // Continue the cross-chat story after each segment's final incoming reply.
       if (source.id === "kakao-yejun-followup-in-08") {
+        const followupStart = Date.now() + 10000;
         remaining = [
-          { id: "kakao-yejun-followup-in-09", dueAt: Date.now() + 800 },
-          { id: "kakao-yejun-followup-in-10", dueAt: Date.now() + 1600 },
-          { id: "kakao-yejun-followup-in-11", dueAt: Date.now() + 2600 },
+          { id: "kakao-yejun-followup-in-09", dueAt: followupStart },
+          { id: "kakao-yejun-followup-in-10", dueAt: followupStart + 1000 },
+          { id: "kakao-yejun-followup-in-11", dueAt: followupStart + 2500 },
         ];
       } else if (source.id === "kakao-yejun-2031-in-06") {
         remaining = [
@@ -1222,7 +1223,7 @@ function PhoneRuntime({
       <KeyboardContext.Provider value={openKeyboard}>
         <div
           className={`phone-screen wallpaper-${work.phone.wallpaper} ${locked ? "is-locked" : ""} ${app ? "in-app" : ""} ${keyboard ? "keyboard-open" : ""}`}
-          style={work.phone.wallpaper === "bamby-eunho-cafe" ? { backgroundImage: 'url("./images/eunho-bamby-wallpaper.jpg")', backgroundPosition: "center", backgroundSize: "cover" } : undefined}
+          style={{ backgroundImage: 'url("./images/wallpaper.jpg")', backgroundPosition: "center", backgroundSize: "cover" }}
           data-app={app}
           onDragStart={(e) => e.preventDefault()}
           onPointerDown={(e) => {
@@ -1771,7 +1772,7 @@ function Media({ item }: { item: Item }) {
       : item.id === "photo-bamby-hoodie"
         ? "./images/bamby-hoodie.jpg"
         : item.id === "photo-eunho-bamby-cafe"
-          ? "./images/eunho-bamby-wallpaper.jpg"
+          ? "./images/wallpaper.jpg"
           : "";
   const src = safeMedia(item.media) || safeMedia(fallbackMedia);
   return src ? (

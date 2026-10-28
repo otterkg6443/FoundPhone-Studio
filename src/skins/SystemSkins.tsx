@@ -21,6 +21,7 @@ import {
   MapPin,
   Music,
   Phone,
+  Plus,
   Search,
   SkipForward,
   Star,
@@ -446,75 +447,78 @@ export function NotesSkin(p: Props) {
   );
 }
 export function CalendarSkin(p: Props) {
-  const [month, setMonth] = useState(8),
+  const [month, setMonth] = useState(2),
     [year, setYear] = useState(2026),
-    [day, setDay] = useState(1);
+    [day, setDay] = useState(16);
   const prefix = `${year}-${String(month + 1).padStart(2, "0")}`;
-  const list = p.items.filter((i) =>
-    i.time.startsWith(`${prefix}-${String(day).padStart(2, "0")}`),
-  );
-  const move = (d: number) => {
-    const date = new Date(Date.UTC(year, month + d, 1));
+  const selectedDate = `${prefix}-${String(day).padStart(2, "0")}`;
+  const list = p.items
+    .filter((item) => item.time.startsWith(selectedDate))
+    .sort((a, b) => a.time.localeCompare(b.time));
+  const eventsOnDate = (date: string) => p.items.filter((item) => item.time.startsWith(date));
+  const move = (delta: number) => {
+    const date = new Date(Date.UTC(year, month + delta, 1));
     setYear(date.getUTCFullYear());
     setMonth(date.getUTCMonth());
     setDay(1);
   };
-  const first = new Date(Date.UTC(year, month, 1)).getUTCDay(),
-    days = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+  const first = new Date(Date.UTC(year, month, 1)).getUTCDay();
+  const days = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+  const weekdays = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+  const selectedDateLabel = `${month + 1}月${day}日 ${weekdays[new Date(Date.UTC(year, month, day, 12)).getUTCDay()]}`;
   return (
-    <div className="catalog-skin native-calendar">
-      <Header p={p} />
+    <div className="catalog-skin native-calendar apple-calendar">
+      <Header p={p}>
+        <button type="button" aria-label="今天" className="calendar-today-button" onClick={() => { setYear(2026); setMonth(2); setDay(16); }}>今天</button>
+        <button type="button" aria-label="添加日程" onClick={p.onAdd}><Plus size={20} /></button>
+      </Header>
       <div className="catalog-scroll">
-        <div className="month-title">
-          <button aria-label="上个月" onClick={() => move(-1)}>
-            <ChevronLeft />
-          </button>
-          <h2>
-            {year} 年 {month + 1} 月
-          </h2>
-          <button aria-label="下个月" onClick={() => move(1)}>
-            <ChevronRight />
-          </button>
+        <div className="calendar-month-toolbar">
+          <h1>{year}年{month + 1}月</h1>
+          <div>
+            <button type="button" aria-label="上个月" onClick={() => move(-1)}><ChevronLeft size={21} /></button>
+            <button type="button" aria-label="下个月" onClick={() => move(1)}><ChevronRight size={21} /></button>
+          </div>
         </div>
         <div className="calendar-grid">
-          {["日", "一", "二", "三", "四", "五", "六"].map((t) => (
-            <small key={t}>{t}</small>
+          {["日", "一", "二", "三", "四", "五", "六"].map((weekday) => (
+            <small key={weekday}>{weekday}</small>
           ))}
-          {Array.from({ length: first }, (_, i) => (
-            <span key={"blank" + i} />
-          ))}
-          {Array.from({ length: days }, (_, i) => (
-            <button
-              className={day === i + 1 ? "selected" : ""}
-              key={i}
-              onClick={() => setDay(i + 1)}
-            >
-              {i + 1}
-              {p.items.some((x) =>
-                x.time.startsWith(
-                  `${prefix}-${String(i + 1).padStart(2, "0")}`,
-                ),
-              ) && <i />}
+          {Array.from({ length: first }, (_, index) => <span key={"blank-" + index} />)}
+          {Array.from({ length: days }, (_, index) => {
+            const date = `${prefix}-${String(index + 1).padStart(2, "0")}`;
+            const dayEvents = eventsOnDate(date);
+            return (
+              <button
+                type="button"
+                className={day === index + 1 ? "selected" : ""}
+                key={date}
+                onClick={() => setDay(index + 1)}
+                aria-label={`${month + 1}月${index + 1}日${dayEvents.length ? "，有日程" : ""}`}
+              >
+                {index + 1}
+                {dayEvents.length > 0 && <i style={{ backgroundColor: dayEvents[0].meta.calendarColor || "#0a84ff" }} />}
+              </button>
+            );
+          })}
+        </div>
+        <div className="calendar-agenda-heading">
+          <h2>{selectedDateLabel}</h2>
+          <span>{list.length ? `${list.length}项日程` : "无日程"}</span>
+        </div>
+        <div className="calendar-agenda-list">
+          {list.map((item) => (
+            <button className="calendar-event" key={item.id} onClick={() => p.onItem(item)}>
+              <time>{item.meta.allDay === "true" ? "全天" : item.time.slice(-5)}</time>
+              <div style={{ borderLeftColor: item.meta.calendarColor || "#0a84ff" }}>
+                <strong>{item.title}</strong>
+                {item.body && <p>{item.body}</p>}
+                {item.meta.location && <p>{item.meta.location}</p>}
+              </div>
             </button>
           ))}
+          {!list.length && <div className="calendar-empty"><Calendar size={24} /><span>这一天没有日程</span></div>}
         </div>
-        <h4 className="native-section">
-          {month + 1} 月 {day} 日
-        </h4>
-        {list.map((i) => (
-          <button
-            className="calendar-event"
-            key={i.id}
-            onClick={() => p.onItem(i)}
-          >
-            <time>{i.time.slice(-5)}</time>
-            <div>
-              <strong>{i.title}</strong>
-              <p>{meta(i, "location", i.body)}</p>
-            </div>
-          </button>
-        ))}
-        <Empty items={list} label="当天没有日程" />
         <Add p={p} label="添加日程" />
       </div>
     </div>
@@ -646,54 +650,95 @@ export function ClockSkin(p: Props) {
     </div>
   );
 }
+function reminderDateLabel(value: string) {
+  const match = /^(\\d{4})-(\\d{2})-(\\d{2})/.exec(value);
+  if (!match) return value;
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const weekday = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"][new Date(Date.UTC(year, month - 1, day, 12)).getUTCDay()];
+  return `${month}月${day}日 ${weekday}`;
+}
+
 export function RemindersSkin(p: Props) {
-  const { tab, setTab, q, setQ, items } = useContent(p, "全部");
+  const { q, setQ, items } = useContent(p, "提醒事项");
   const [checked, setChecked] = useSkinState<string[]>(p, "checked", []);
-  const list =
-    tab === "已完成"
-      ? items.filter((i) => checked.includes(i.id))
-      : items.filter((i) => !checked.includes(i.id));
+  const [view, setView] = useState("已计划");
+  const today = "2026-03-16";
+  const openItems = items.filter((item) => !checked.includes(item.id));
+  const todayItems = openItems.filter((item) => item.time.startsWith(today));
+  const list = view === "已完成"
+    ? items.filter((item) => checked.includes(item.id))
+    : view === "今天"
+      ? todayItems
+      : view === "全部"
+        ? items
+        : openItems;
+  const categories = [
+    { title: "今天", count: todayItems.length, icon: Calendar, color: "#ff3b30" },
+    { title: "已计划", count: openItems.length, icon: Calendar, color: "#0a84ff" },
+    { title: "全部", count: items.length, icon: List, color: "#8e8e93" },
+    { title: "已完成", count: checked.length, icon: CheckCircle, color: "#34c759" },
+  ];
   return (
-    <div className="catalog-skin native-reminders">
-      <Header p={p} />
-      <div className="catalog-scroll">
-        <SearchBox value={q} set={setQ} />
-        <div className="reminder-categories">
-          {["全部", "已完成"].map((t) => (
-            <button key={t} onClick={() => setTab(t)}>
-              <Calendar size={22} />
-              <strong>
-                {t === "全部" ? items.length - checked.length : checked.length}
-              </strong>
-              <span>{t}</span>
-            </button>
-          ))}
+    <div className="catalog-skin native-reminders apple-reminders">
+      <Header p={p}>
+        <button type="button" aria-label="新提醒事项" onClick={p.onAdd}><Plus size={20} /></button>
+      </Header>
+      <div className="catalog-scroll reminders-scroll">
+        <div className="reminders-large-title">
+          <h1>提醒事项</h1>
+          <button type="button" aria-label="搜索提醒事项" onClick={() => setQ(q ? "" : " ")}><Search size={21} /></button>
         </div>
-        <h1>{tab}</h1>
-        {list.map((i) => (
-          <div className="reminder-row" key={i.id}>
-            <button
-              aria-label={`完成${i.title}`}
-              role="checkbox"
-              aria-checked={checked.includes(i.id)}
-              onClick={() =>
-                setChecked(
-                  checked.includes(i.id)
-                    ? checked.filter((x) => x !== i.id)
-                    : [...checked, i.id],
-                )
-              }
-            >
-              <CheckCircle size={21} />
-            </button>
-            <button onClick={() => p.onItem(i)}>
-              <strong>{i.title}</strong>
-              <small>
-                {i.time} · {i.folder}
-              </small>
-            </button>
-          </div>
-        ))}
+        <div className="reminder-categories">
+          {categories.map((category) => {
+            const Icon = category.icon;
+            return (
+              <button
+                type="button"
+                key={category.title}
+                className={view === category.title ? "active" : ""}
+                onClick={() => setView(category.title)}
+                style={{ "--reminder-color": category.color } as React.CSSProperties}
+              >
+                <Icon size={24} strokeWidth={2.4} />
+                <strong>{category.count}</strong>
+                <span>{category.title}</span>
+              </button>
+            );
+          })}
+        </div>
+        <div className="reminders-search">
+          <SearchBox value={q} set={setQ} placeholder="搜索提醒事项" />
+        </div>
+        <div className="reminders-list-heading">
+          <h2>{view}</h2>
+          <span>{list.length}项</span>
+        </div>
+        <div className="reminders-list">
+          {list.map((item) => {
+            const done = checked.includes(item.id);
+            return (
+              <div className={"reminder-row " + (done ? "is-complete" : "")} key={item.id}>
+                <button
+                  type="button"
+                  aria-label={done ? `取消完成${item.title}` : `完成${item.title}`}
+                  role="checkbox"
+                  aria-checked={done}
+                  onClick={() => setChecked(done ? checked.filter((id) => id !== item.id) : [...checked, item.id])}
+                >
+                  <CheckCircle size={22} />
+                </button>
+                <button type="button" className="reminder-detail" onClick={() => p.onItem(item)}>
+                  <strong>{item.title}</strong>
+                  <small><Calendar size={12} /> {reminderDateLabel(item.time)}{item.meta.allDay === "true" ? " · 全天" : ""}</small>
+                  {item.body && <p>{item.body}</p>}
+                </button>
+              </div>
+            );
+          })}
+          {!list.length && <div className="reminders-empty">没有提醒事项</div>}
+        </div>
         <Add p={p} label="新提醒事项" />
       </div>
     </div>

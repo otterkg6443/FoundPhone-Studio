@@ -3,14 +3,14 @@
   "id": "eunho-phone",
   "title": "EUNHO 的手机",
   "description": "机主 EUNHO。锁屏密码 4399；壁纸为 EUNHO 与 BAMBY 的咖啡馆双人合照。相册记录 BAMBY 的两张单人照和一张双人合照。",
-  "revision": 41,
+  "revision": 42,
   "phone": {
     "owner": "EUNHO",
     "date": "2026-03-16",
     "time": "18:10",
     "battery": 94,
     "network": "5G",
-    "wallpaper": "bamby-eunho-cafe",
+    "wallpaper": "wallpaper",
     "passcode": "4399"
   },
   "installedApps": [
@@ -303,7 +303,7 @@
         "body": "EUNHO 与 BAMBY 在咖啡馆里的双人合照，也是手机壁纸。",
         "sender": "EUNHO",
         "kind": "image",
-        "media": "./images/eunho-bamby-wallpaper.jpg",
+        "media": "./images/wallpaper.jpg",
         "time": "",
         "favorite": true,
         "meta": {
@@ -542,12 +542,99 @@
     ],
     "calendar": [
       {
-        "id": "test-item-calendar",
-        "title": "测试内容",
-        "body": "这是一条测试内容。",
-        "sender": "测试用户",
-        "kind": "text",
-        "meta": {}
+        "id": "calendar-20260131-gapyeong",
+        "title": "跟斑比哥去加平",
+        "body": "",
+        "sender": "EUNHO",
+        "time": "2026-01-31 00:00",
+        "folder": "日历",
+        "kind": "event",
+        "meta": {
+          "allDay": "true",
+          "calendarColor": "#0a84ff",
+          "syncedReminderId": "reminder-20260131-gapyeong"
+        }
+      },
+      {
+        "id": "calendar-20260203-movie",
+        "title": "带斑比哥看电影",
+        "body": "",
+        "sender": "EUNHO",
+        "time": "2026-02-03 00:00",
+        "folder": "日历",
+        "kind": "event",
+        "meta": {
+          "allDay": "true",
+          "calendarColor": "#0a84ff",
+          "syncedReminderId": "reminder-20260203-movie"
+        }
+      },
+      {
+        "id": "calendar-20260309-student-union",
+        "title": "学生会聚会",
+        "body": "接斑比哥一起去学生会聚餐",
+        "sender": "EUNHO",
+        "time": "2026-03-09 00:00",
+        "folder": "日历",
+        "kind": "event",
+        "meta": {
+          "allDay": "true",
+          "calendarColor": "#0a84ff",
+          "syncedReminderId": "reminder-20260309-student-union"
+        }
+      },
+      {
+        "id": "calendar-20260310-movie",
+        "title": "和斑比哥看电影",
+        "body": "",
+        "sender": "EUNHO",
+        "time": "2026-03-10 00:00",
+        "folder": "日历",
+        "kind": "event",
+        "meta": {
+          "allDay": "true",
+          "calendarColor": "#0a84ff",
+          "syncedReminderId": "reminder-20260310-movie"
+        }
+      },
+      {
+        "id": "calendar-20260316-anniversary",
+        "title": "纪念日",
+        "body": "",
+        "sender": "EUNHO",
+        "time": "2026-03-16 00:00",
+        "folder": "日历",
+        "kind": "event",
+        "meta": {
+          "allDay": "true",
+          "calendarColor": "#ff375f"
+        }
+      },
+      {
+        "id": "calendar-20260524-birthday",
+        "title": "生日",
+        "body": "",
+        "sender": "EUNHO",
+        "time": "2026-05-24 00:00",
+        "folder": "日历",
+        "kind": "event",
+        "meta": {
+          "allDay": "true",
+          "calendarColor": "#ff375f"
+        }
+      },
+      {
+        "id": "calendar-20260715-bamby-birthday",
+        "title": "斑比哥生日",
+        "body": "",
+        "sender": "EUNHO",
+        "time": "2026-07-15 00:00",
+        "folder": "日历",
+        "kind": "event",
+        "meta": {
+          "allDay": "true",
+          "calendarColor": "#ff375f"
+        }
       }
     ],
     "mail": [
@@ -572,12 +659,56 @@
     ],
     "reminders": [
       {
-        "id": "test-item-reminders",
-        "title": "测试内容",
-        "body": "这是一条测试内容。",
-        "sender": "测试用户",
-        "kind": "text",
-        "meta": {}
+        "id": "reminder-20260131-gapyeong",
+        "title": "跟斑比哥去加平",
+        "body": "",
+        "sender": "EUNHO",
+        "time": "2026-01-31 00:00",
+        "folder": "个人",
+        "kind": "event",
+        "meta": {
+          "allDay": "true",
+          "list": "个人"
+        }
+      },
+      {
+        "id": "reminder-20260203-movie",
+        "title": "带斑比哥看电影",
+        "body": "",
+        "sender": "EUNHO",
+        "time": "2026-02-03 00:00",
+        "folder": "个人",
+        "kind": "event",
+        "meta": {
+          "allDay": "true",
+          "list": "个人"
+        }
+      },
+      {
+        "id": "reminder-20260309-student-union",
+        "title": "接斑比哥一起去学生会聚餐",
+        "body": "",
+        "sender": "EUNHO",
+        "time": "2026-03-09 00:00",
+        "folder": "个人",
+        "kind": "event",
+        "meta": {
+          "allDay": "true",
+          "list": "个人"
+        }
+      },
+      {
+        "id": "reminder-20260310-movie",
+        "title": "和斑比哥看电影",
+        "body": "",
+        "sender": "EUNHO",
+        "time": "2026-03-10 00:00",
+        "folder": "个人",
+        "kind": "event",
+        "meta": {
+          "allDay": "true",
+          "list": "个人"
+        }
       }
     ],
     "files": [
