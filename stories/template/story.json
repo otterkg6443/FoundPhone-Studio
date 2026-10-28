@@ -3,7 +3,7 @@
   "id": "eunho-phone",
   "title": "EUNHO 的手机",
   "description": "机主 EUNHO。锁屏密码 4399；壁纸为 EUNHO 与 BAMBY 的咖啡馆双人合照。相册记录 BAMBY 的两张单人照和一张双人合照。",
-  "revision": 50,
+  "revision": 51,
   "phone": {
     "owner": "EUNHO",
     "date": "2026-03-16",
@@ -2078,8 +2078,38 @@
         "avatar": "./images/ig-bamby.jpg",
         "kind": "image",
         "media": "./images/ig-eb2.jpg",
-        "likes": 0,
-        "comments": [],
+        "likes": 4,
+        "comments": [
+          {
+            "id": "ig-comment-eunho-bamby-2100",
+            "sender": "EUNHO",
+            "body": "我转正咯👏",
+            "time": "2026-03-16 21:00",
+            "avatar": "./images/ig-owner.jpg"
+          },
+          {
+            "id": "ig-reply-bamby-eunho-2100",
+            "sender": "BAMBY",
+            "body": "🦮",
+            "time": "2026-03-16 21:00",
+            "avatar": "./images/ig-bamby.jpg",
+            "replyTo": "EUNHO"
+          },
+          {
+            "id": "ig-comment-noah-bamby-2101",
+            "sender": "NOAH",
+            "body": "#国产浪漫",
+            "time": "2026-03-16 21:01",
+            "avatar": "./images/ig-noah.jpg"
+          },
+          {
+            "id": "ig-comment-hamin-bamby-2101",
+            "sender": "HAMIN",
+            "body": "#国产浪漫",
+            "time": "2026-03-16 21:01",
+            "avatar": "./images/ig-hamin.jpg"
+          }
+        ],
         "meta": {}
       },
       {
@@ -2091,8 +2121,16 @@
         "avatar": "./images/ig-owner.jpg",
         "kind": "image",
         "media": "./images/ig-eb1.jpg",
-        "likes": 0,
-        "comments": [],
+        "likes": 4,
+        "comments": [
+          {
+            "id": "ig-comment-yejun-owner-2101",
+            "sender": "YEJUN",
+            "body": "开智了",
+            "time": "2026-03-16 21:01",
+            "avatar": "./images/kakao-yejun-avatar.jpg"
+          }
+        ],
         "meta": {
           "instagramFollowers": "43",
           "instagramFollowing": "99"
