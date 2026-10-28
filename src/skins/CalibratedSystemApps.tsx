@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Heart,
   Users,
@@ -12,7 +12,14 @@ import {
   Plus,
   MoonStar,
   Sunrise,
+  Sunset,
+  Sun,
   CloudSun,
+  CloudDrizzle,
+  CloudFog,
+  CloudLightning,
+  CloudRain,
+  CloudSnow,
   Droplet,
   Wind,
   Map,
@@ -20,6 +27,8 @@ import {
   Cloud,
   Activity,
   Search,
+  RefreshCw,
+  Thermometer,
 } from "lucide-react";
 import { useSkinState } from "../skinState";
 import type { Item } from "../schema";
@@ -345,16 +354,58 @@ export function HealthSkin(p: Props) {
     </div>
   );
 }
-function listMeta(
-  item: Item | undefined,
-  key: string,
-): {
+type WeatherMetaPoint = {
   time?: string;
   temperature?: string;
   low?: string;
   high?: string;
   label?: string;
-}[] {
+  precipitationProbability?: string;
+  windSpeed?: string;
+  weatherCode?: string;
+  sunrise?: string;
+  sunset?: string;
+  uv?: string;
+};
+type LiveWeatherData = {
+  current?: {
+    time: string;
+    temperature_2m: number;
+    relative_humidity_2m: number;
+    apparent_temperature: number;
+    is_day: number;
+    precipitation: number;
+    weather_code: number;
+    wind_speed_10m: number;
+    wind_direction_10m: number;
+    surface_pressure: number;
+  };
+  hourly?: {
+    time: string[];
+    temperature_2m: number[];
+    precipitation_probability: number[];
+    wind_speed_10m: number[];
+    weather_code: number[];
+  };
+  daily?: {
+    time: string[];
+    weather_code: number[];
+    temperature_2m_max: number[];
+    temperature_2m_min: number[];
+    sunrise: string[];
+    sunset: string[];
+    uv_index_max: number[];
+    precipitation_probability_max: number[];
+  };
+};
+type LiveAirQualityData = {
+  current?: {
+    us_aqi: number;
+    pm2_5: number;
+    pm10: number;
+  };
+};
+function listMeta(item: Item | undefined, key: string): WeatherMetaPoint[] {
   try {
     const v = JSON.parse(meta(item, key, "[]"));
     return Array.isArray(v)
@@ -373,20 +424,224 @@ function listMeta(
     return [];
   }
 }
+function weatherDescription(code: number) {
+  if (code === 0) return "晴朗";
+  if (code === 1) return "大致晴朗";
+  if (code === 2) return "局部多云";
+  if (code === 3) return "阴天";
+  if (code === 45 || code === 48) return "有雾";
+  if ([51, 53, 55, 56, 57].includes(code)) return "毛毛雨";
+  if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return "降雨";
+  if ([71, 73, 75, 77, 85, 86].includes(code)) return "降雪";
+  if ([95, 96, 99].includes(code)) return "雷暴";
+  return "多云";
+}
+function WeatherGlyph({
+  code,
+  isDay = true,
+  size = 28,
+  className,
+}: {
+  code: number;
+  isDay?: boolean;
+  size?: number;
+  className?: string;
+}) {
+  if (code === 0 || code === 1)
+    return isDay ? (
+      <Sun className={className} size={size} />
+    ) : (
+      <MoonStar className={className} size={size} />
+    );
+  if (code === 2) return <CloudSun className={className} size={size} />;
+  if (code === 3) return <Cloud className={className} size={size} />;
+  if (code === 45 || code === 48)
+    return <CloudFog className={className} size={size} />;
+  if ([51, 53, 55, 56, 57].includes(code))
+    return <CloudDrizzle className={className} size={size} />;
+  if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code))
+    return <CloudRain className={className} size={size} />;
+  if ([71, 73, 75, 77, 85, 86].includes(code))
+    return <CloudSnow className={className} size={size} />;
+  if ([95, 96, 99].includes(code))
+    return <CloudLightning className={className} size={size} />;
+  return <CloudSun className={className} size={size} />;
+}
+function aqiLabel(value: number) {
+  if (!Number.isFinite(value)) return "暂无数据";
+  if (value <= 50) return "优";
+  if (value <= 100) return "良";
+  if (value <= 150) return "轻度污染";
+  if (value <= 200) return "中度污染";
+  if (value <= 300) return "重度污染";
+  return "严重污染";
+}
+function windDirection(degrees: number) {
+  const directions = ["北风", "东北风", "东风", "东南风", "南风", "西南风", "西风", "西北风"];
+  return directions[Math.round(degrees / 45) % 8];
+}
+function weatherHour(time?: string) {
+  if (!time) return "—";
+  if (time === "现在") return time;
+  const match = time.match(/T(\d{2}):/);
+  if (match) return Number(match[1]) + "时";
+  return time;
+}
+function weatherDay(date: string, index: number) {
+  if (index === 0) return "今天";
+  if (index === 1) return "明天";
+  const parsed = new Date(date + "T12:00:00+09:00");
+  return Number.isNaN(parsed.getTime())
+    ? date.slice(5)
+    : parsed.toLocaleDateString("zh-CN", {
+        weekday: "short",
+        timeZone: "Asia/Seoul",
+      });
+}
 export function WeatherSkin(p: Props) {
   const [index, setIndex] = useSkinState<number>(p, "city", 0),
     [mode, setMode] = useState("temperature"),
     [sheet, setSheet] = useState(""),
     [query, setQuery] = useState("");
-  const item = p.items[index] || p.items[0],
-    hourly = listMeta(item, "hourly"),
-    daily = listMeta(item, "daily");
+  const [liveWeather, setLiveWeather] = useState<LiveWeatherData | null>(null);
+  const [liveAirQuality, setLiveAirQuality] = useState<LiveAirQualityData | null>(null);
+  const [weatherLoading, setWeatherLoading] = useState(true);
+  const [weatherError, setWeatherError] = useState(false);
+  const [refreshToken, setRefreshToken] = useState(0);
+  const item = p.items[index] || p.items[0];
+  const isSeoulCity = Boolean(
+    item && (/首尔|seoul/i.test(item.title) || meta(item, "latitude") === "37.5665"),
+  );
+  useEffect(() => {
+    if (!isSeoulCity) return;
+    const controller = new AbortController();
+    const forecastUrl =
+      "https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.9780&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_speed_10m,wind_direction_10m,surface_pressure&hourly=temperature_2m,precipitation_probability,wind_speed_10m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_probability_max&timezone=Asia%2FSeoul&forecast_days=7";
+    const airQualityUrl =
+      "https://air-quality-api.open-meteo.com/v1/air-quality?latitude=37.5665&longitude=126.9780&current=us_aqi,pm2_5,pm10&timezone=Asia%2FSeoul";
+    const forecastRequest = fetch(forecastUrl, { signal: controller.signal }).then(
+      (response) => {
+        if (!response.ok) throw new Error("天气服务暂时不可用");
+        return response.json() as Promise<LiveWeatherData>;
+      },
+    );
+    const airRequest = fetch(airQualityUrl, { signal: controller.signal })
+      .then((response) => {
+        if (!response.ok) return null;
+        return response.json() as Promise<LiveAirQualityData>;
+      })
+      .catch((error: unknown) => {
+        if (error instanceof Error && error.name === "AbortError") throw error;
+        return null;
+      });
+    Promise.all([forecastRequest, airRequest])
+      .then(([forecast, air]) => {
+        setLiveWeather(forecast);
+        setLiveAirQuality(air);
+        setWeatherError(false);
+      })
+      .catch((error: unknown) => {
+        if (error instanceof Error && error.name === "AbortError") return;
+        setWeatherError(true);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setWeatherLoading(false);
+      });
+    return () => controller.abort();
+  }, [isSeoulCity, refreshToken]);
+
+  const current = liveWeather?.current;
+  const fallbackCode = Number(meta(item, "weatherCode", "0"));
+  const currentCode = current?.weather_code ?? (Number.isFinite(fallbackCode) ? fallbackCode : 0);
+  const isDay = current ? current.is_day === 1 : true;
+  const currentTemperature = current
+    ? String(Math.round(current.temperature_2m))
+    : meta(item, "temperature", "8");
+  const highTemperature = liveWeather?.daily?.temperature_2m_max?.[0] !== undefined
+    ? String(Math.round(liveWeather.daily.temperature_2m_max[0]))
+    : meta(item, "high", "13");
+  const lowTemperature = liveWeather?.daily?.temperature_2m_min?.[0] !== undefined
+    ? String(Math.round(liveWeather.daily.temperature_2m_min[0]))
+    : meta(item, "low", "4");
+  const humidity = current?.relative_humidity_2m ?? Number(meta(item, "humidity", "32"));
+  const windSpeed = current?.wind_speed_10m ?? Number(meta(item, "windSpeed", "8"));
+  const apparentTemperature = current
+    ? Math.round(current.apparent_temperature)
+    : Number(meta(item, "feelsLike", "8"));
+  const pressure = current?.surface_pressure ?? Number(meta(item, "pressure", "1026"));
+  const rainfall = current?.precipitation ?? Number(meta(item, "rainfall", "0"));
+  const uvIndex = liveWeather?.daily?.uv_index_max?.[0] ?? Number(meta(item, "uv", "2"));
+  const airQualityIndex =
+    liveAirQuality?.current?.us_aqi ?? Number(meta(item, "aqi", "25"));
+  const currentTime = current?.time ?? "";
+  const lastUpdated =
+    currentTime.length >= 16
+      ? currentTime.slice(11, 16)
+      : meta(item, "updatedAt", "20:00");
+  const condition = current
+    ? weatherDescription(current.weather_code)
+    : meta(item, "condition", "晴朗");
+  const hourly = listMeta(item, "hourly");
+  const daily = listMeta(item, "daily");
+  const apiHourly = liveWeather?.hourly;
+  const hourlyView: WeatherMetaPoint[] = apiHourly
+    ? (() => {
+        const match = currentTime
+          ? apiHourly.time.findIndex((time) => time.slice(0, 13) === currentTime.slice(0, 13))
+          : -1;
+        const firstIndex = match >= 0 ? match : 0;
+        return Array.from({ length: 6 }, (_, n) => {
+          const i = Math.min(firstIndex + n, apiHourly.time.length - 1);
+          return {
+            time: n === 0 ? "现在" : apiHourly.time[i]?.slice(0, 16),
+            temperature: String(Math.round(apiHourly.temperature_2m[i] ?? 0)),
+            precipitationProbability: String(apiHourly.precipitation_probability[i] ?? 0),
+            windSpeed: String(Math.round(apiHourly.wind_speed_10m[i] ?? 0)),
+            weatherCode: String(apiHourly.weather_code[i] ?? currentCode),
+          };
+        });
+      })()
+    : hourly.length
+      ? hourly
+      : [
+          { time: "现在", temperature: currentTemperature, precipitationProbability: "0", windSpeed: "8", weatherCode: String(currentCode) },
+          { time: "21时", temperature: "7", precipitationProbability: "0", windSpeed: "7", weatherCode: String(currentCode) },
+          { time: "22时", temperature: "7", precipitationProbability: "0", windSpeed: "6", weatherCode: String(currentCode) },
+          { time: "23时", temperature: "6", precipitationProbability: "0", windSpeed: "6", weatherCode: String(currentCode) },
+          { time: "0时", temperature: "6", precipitationProbability: "0", windSpeed: "5", weatherCode: String(currentCode) },
+          { time: "1时", temperature: "5", precipitationProbability: "0", windSpeed: "5", weatherCode: String(currentCode) },
+        ];
+  const apiDaily = liveWeather?.daily;
+  const dailyView: WeatherMetaPoint[] = apiDaily
+    ? apiDaily.time.map((date, i) => ({
+        label: weatherDay(date, i),
+        low: String(Math.round(apiDaily.temperature_2m_min[i] ?? 0)),
+        high: String(Math.round(apiDaily.temperature_2m_max[i] ?? 0)),
+        weatherCode: String(apiDaily.weather_code[i] ?? currentCode),
+        precipitationProbability: String(apiDaily.precipitation_probability_max[i] ?? 0),
+      }))
+    : daily.length
+      ? daily
+      : [
+          { label: "今天", low: lowTemperature, high: highTemperature, weatherCode: String(currentCode) },
+          { label: "明天", low: "8", high: "13", weatherCode: "3", precipitationProbability: "60" },
+          { label: "周五", low: "9", high: "17", weatherCode: "1", precipitationProbability: "10" },
+          { label: "周六", low: "7", high: "14", weatherCode: "0", precipitationProbability: "10" },
+          { label: "周日", low: "6", high: "12", weatherCode: "2", precipitationProbability: "25" },
+          { label: "周一", low: "5", high: "11", weatherCode: "3", precipitationProbability: "35" },
+          { label: "周二", low: "6", high: "13", weatherCode: "2", precipitationProbability: "20" },
+        ];
   const read = () => {
     if (item) {
       if (p.creator || item.password) p.onItem(item);
       else p.onRead(item.id);
     }
   };
+  const updateLabel = weatherLoading
+    ? "正在更新天气…"
+    : weatherError && !liveWeather
+      ? "网络暂不可用 · 显示备用天气"
+      : "更新于 " + lastUpdated + "（首尔时间）";
   return (
     <div
       className="catalog-skin native-weather calibrated-weather"
@@ -395,16 +650,61 @@ export function WeatherSkin(p: Props) {
       <div className="weather-stars" aria-hidden="true" />
       <div className="weather-native-scroll">
         <section className="weather-native-current">
-          <small>{item ? meta(item, "locationLabel", "城市") : "天气"}</small>
+          <small>{item ? meta(item, "locationLabel", "韩国 · 首尔") : "天气"}</small>
           <h1>{item?.title || "未添加城市"}</h1>
-          <output>{meta(item, "temperature", "—")}°</output>
+          <button
+            className="weather-refresh"
+            aria-label="刷新首尔天气"
+            onClick={() => {
+              setWeatherLoading(true);
+              setWeatherError(false);
+              setRefreshToken((value) => value + 1);
+            }}
+          >
+            <RefreshCw size={16} className={weatherLoading ? "is-spinning" : ""} />
+          </button>
+          <output>{currentTemperature}°</output>
           <div className="weather-high-low">
-            <span>最高 {meta(item, "high", "—")}°</span>
-            <span>最低 {meta(item, "low", "—")}°</span>
+            <span>最高 {highTemperature}°</span>
+            <span>最低 {lowTemperature}°</span>
           </div>
-          <p>{meta(item, "condition", "暂无天气数据")}</p>
-          <MoonStar className="weather-moon-art" size={55} />
+          <p>{condition}</p>
+          <small className="weather-update-label" aria-live="polite">{updateLabel}</small>
+          <WeatherGlyph
+            code={currentCode}
+            isDay={isDay}
+            size={55}
+            className="weather-moon-art"
+          />
         </section>
+
+        <section className="weather-native-card weather-weather-details" aria-label="天气详情">
+          <div className="weather-stat">
+            <div><Thermometer size={16} /><span>体感温度</span></div>
+            <strong>{apparentTemperature}°</strong>
+          </div>
+          <div className="weather-stat">
+            <div><Droplet size={16} /><span>湿度</span></div>
+            <strong>{Number.isFinite(humidity) ? Math.round(humidity) : "—"}%</strong>
+          </div>
+          <div className="weather-stat">
+            <div><Wind size={16} /><span>风速</span></div>
+            <strong>{Number.isFinite(windSpeed) ? Math.round(windSpeed) : "—"}<small> km/h</small></strong>
+          </div>
+          <div className="weather-stat">
+            <div><Droplet size={16} /><span>降水量</span></div>
+            <strong>{Number.isFinite(rainfall) ? rainfall.toFixed(1) : "—"}<small> mm</small></strong>
+          </div>
+          <div className="weather-stat">
+            <div><Sun size={16} /><span>紫外线</span></div>
+            <strong>{Number.isFinite(uvIndex) ? uvIndex.toFixed(1) : "—"}</strong>
+          </div>
+          <div className="weather-stat">
+            <div><Activity size={16} /><span>气压</span></div>
+            <strong>{Number.isFinite(pressure) ? Math.round(pressure) : "—"}<small> hPa</small></strong>
+          </div>
+        </section>
+
         <button
           className="weather-native-card weather-air-quality"
           onClick={() => {
@@ -413,34 +713,38 @@ export function WeatherSkin(p: Props) {
           }}
         >
           <strong>
-            {meta(item, "aqi", "—")} · {meta(item, "aqiLabel", "空气质量")}
+            {Number.isFinite(airQualityIndex)
+              ? airQualityIndex + " · " + aqiLabel(airQualityIndex)
+              : "暂无空气质量数据"}
           </strong>
           <div className="weather-aqi-scale">
             <i
               style={{
-                left: Number.isFinite(Number(meta(item, "aqi")))
-                  ? Math.max(0, Math.min(95, Number(meta(item, "aqi")) / 5)) +
-                    "%"
+                left: Number.isFinite(airQualityIndex)
+                  ? Math.max(0, Math.min(95, airQualityIndex / 5)) + "%"
                   : "0%",
               }}
             />
           </div>
           <p>
-            {item?.meta.aqi
-              ? `当前 AQI (CN) 为 ${item.meta.aqi}。`
-              : "暂无空气质量数据"}
+            {liveAirQuality?.current
+              ? "PM2.5 " + liveAirQuality.current.pm2_5.toFixed(1) + " μg/m³ · PM10 " + liveAirQuality.current.pm10.toFixed(1) + " μg/m³"
+              : Number.isFinite(airQualityIndex)
+                ? "当前空气质量指数（US AQI）"
+                : "暂时无法获取空气质量数据"}
           </p>
         </button>
+
         <section className="weather-native-card weather-hourly">
           <header>
             <div>
-              <strong>天气状况</strong>
+              <strong>逐小时预报</strong>
               <small>
                 {mode === "temperature"
                   ? "气温 (°C)"
                   : mode === "rain"
                     ? "降水概率"
-                    : "风速"}
+                    : "风速 (km/h)"}
               </small>
             </div>
             <div className="weather-mode-switch">
@@ -464,59 +768,51 @@ export function WeatherSkin(p: Props) {
             </div>
           </header>
           <div className="weather-hour-grid">
-            {Array.from({ length: 6 }, (_, n) => (
+            {hourlyView.map((hour, n) => (
               <button
-                key={n}
+                key={String(hour.time) + "-" + n}
                 onClick={() => {
                   read();
                   setSheet("逐小时天气");
                 }}
               >
-                <strong>
-                  {hourly[n]?.time ||
-                    ["现在", "—时", "—时", "—时", "—时", "日出"][n]}
-                </strong>
-                {n === 5 ? (
-                  <Sunrise size={28} color="#ffd60a" />
-                ) : (
-                  <MoonStar size={28} />
-                )}
+                <strong>{weatherHour(hour.time)}</strong>
+                <WeatherGlyph
+                  code={Number(hour.weatherCode ?? currentCode)}
+                  isDay={n === 0 ? isDay : Number((hour.time || "").slice(11, 13)) >= 6 && Number((hour.time || "").slice(11, 13)) < 18}
+                  size={26}
+                />
                 <span>
-                  {n === 5
-                    ? meta(item, "sunrise", "—")
-                    : mode === "temperature"
-                      ? (hourly[n]?.temperature ?? "—") + "°"
-                      : mode === "rain"
-                        ? meta(item, "rain", "—")
-                        : meta(item, "wind", "—")}
+                  {mode === "temperature"
+                    ? (hour.temperature ?? "—") + "°"
+                    : mode === "rain"
+                      ? (hour.precipitationProbability ?? meta(item, "rain", "—")) + "%"
+                      : (hour.windSpeed ?? meta(item, "wind", "—")) + " km/h"}
                 </span>
               </button>
             ))}
           </div>
         </section>
+
         <section className="weather-native-card weather-days">
-          {(daily.length
-            ? daily
-            : [
-                {
-                  label: "今天",
-                  low: meta(item, "low", "—"),
-                  high: meta(item, "high", "—"),
-                },
-              ]
-          ).map((d, n) => (
+          <header className="weather-days-header">
+            <strong>未来 7 天</strong>
+            <small>每日天气与温度范围</small>
+          </header>
+          {dailyView.map((day, n) => (
             <button
-              key={n}
+              key={String(day.label) + "-" + n}
               onClick={() => {
                 read();
                 setSheet("每日天气");
               }}
             >
-              <strong>{d.label || d.time || "—"}</strong>
-              <CloudSun size={23} />
-              <span>{d.low || "—"}°</span>
+              <strong>{day.label || day.time || "—"}</strong>
+              <WeatherGlyph code={Number(day.weatherCode ?? currentCode)} size={23} />
+              <small>{day.precipitationProbability ? day.precipitationProbability + "%" : ""}</small>
+              <span>{day.low || "—"}°</span>
               <i />
-              <b>{d.high || "—"}°</b>
+              <b>{day.high || "—"}°</b>
             </button>
           ))}
         </section>
@@ -578,7 +874,7 @@ export function WeatherSkin(p: Props) {
                     }}
                   >
                     <strong>{i.title}</strong>
-                    <span>{meta(i, "temperature", "—")}°</span>
+                    <span>{liveWeather?.current && /首尔|seoul/i.test(i.title) ? currentTemperature : meta(i, "temperature", "—")}°</span>
                   </button>
                 ))}
               {!p.items.length && <p>暂无城市</p>}
@@ -592,17 +888,22 @@ export function WeatherSkin(p: Props) {
           ) : sheet === "天气地图" ? (
             <div className="weather-map-empty">
               <Map size={60} />
-              <p>暂无地图数据</p>
+              <h2>{item?.title || "首尔特别市"}</h2>
+              <p>韩国 · 37.5665°N, 126.9780°E</p>
+              <small>实时天气已同步；地图底图需联网加载。</small>
             </div>
           ) : (
             <div className="weather-section-detail">
-              <h2>{item?.title || "暂无城市"}</h2>
+              <h2>{item?.title || "首尔特别市"}</h2>
               <p>
                 {sheet === "空气质量"
-                  ? meta(item, "aqi", "暂无空气质量数据")
-                  : item?.body || "暂无天气记录"}
+                  ? (Number.isFinite(airQualityIndex) ? "AQI " + airQualityIndex + "（" + aqiLabel(airQualityIndex) + "）" : "暂无空气质量数据") +
+                    (liveAirQuality?.current ? "。PM2.5 " + liveAirQuality.current.pm2_5.toFixed(1) + " μg/m³，PM10 " + liveAirQuality.current.pm10.toFixed(1) + " μg/m³。" : "")
+                  : sheet === "逐小时天气"
+                    ? hourlyView.map((hour) => weatherHour(hour.time) + " " + (hour.temperature ?? "—") + "°C · 降水 " + (hour.precipitationProbability ?? "—") + "%").join("；")
+                    : dailyView.map((day) => (day.label || "—") + " " + (day.low || "—") + "° / " + (day.high || "—") + "° · " + weatherDescription(Number(day.weatherCode ?? currentCode))).join("；")}
               </p>
-              {item && <small>{item.time}</small>}
+              <small>{updateLabel}</small>
             </div>
           )}
         </div>
