@@ -3,7 +3,7 @@
   "id": "eunho-phone",
   "title": "EUNHO 的手机",
   "description": "机主 EUNHO。锁屏密码 4399；壁纸为 EUNHO 与 BAMBY 的咖啡馆双人合照。相册记录 BAMBY 的两张单人照和一张双人合照。",
-  "revision": 44,
+  "revision": 45,
   "phone": {
     "owner": "EUNHO",
     "date": "2026-03-16",
@@ -4935,7 +4935,8 @@
         "richText": "",
         "meta": {
           "kakaoUnread": "true",
-          "kakaoSequenceAdvance": "27"
+          "kakaoSequenceAdvance": "27",
+          "kakaoShowTime": "true"
         },
         "time": "2026-03-16 19:07",
         "sender": "艺俊哥",
@@ -4966,7 +4967,7 @@
         "meta": {
           "kakaoUnread": "true",
           "kakaoSequenceAdvance": "27",
-          "kakaoShowTime": "true"
+          "kakaoGapDividerBefore": "true"
         }
       },
       {
