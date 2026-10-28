@@ -1,4 +1,4 @@
-import { AudioPlayer, useTrack } from "../audio";
+import { useTrack } from "../audio";
 import { useSkinState } from "../skinState";
 import {
   Bookmark,
@@ -17,7 +17,7 @@ import {
   Video,
 } from "lucide-react";
 import { useState } from "react";
-import { safeMedia, type Item } from "../schema";
+import { type Item } from "../schema";
 import {
   Avatar,
   Empty,
@@ -32,11 +32,9 @@ import {
 } from "./shared";
 function TrackPlayer({
   item,
-  p,
   onNext,
 }: {
   item: Item;
-  p: Props;
   onNext: () => void;
 }) {
   const rawVideoId = meta(item, "youtubeId");
@@ -160,7 +158,6 @@ export function SpotifySkin(p: Props) {
       {track && (
         <TrackPlayer
           item={track}
-          p={p}
           onNext={() => {
             if (!list.length) return;
             const currentIndex = list.findIndex((i) => i.id === track.id);
