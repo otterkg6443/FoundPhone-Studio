@@ -10,7 +10,6 @@ export default defineConfig(({ command }) => ({
     react(),
     VitePWA({
       registerType: "prompt",
-      showMaximumFileSizeToCacheInBytesWarning: true,
       manifest: {
         name: "捡手机 FoundPhone Studio",
         short_name: "捡手机",
@@ -28,7 +27,7 @@ export default defineConfig(({ command }) => ({
       },
       workbox: {
         globPatterns: ["**/*.{js,css,html,svg}"],
-        maximumFileSizeToCacheInBytes: 8000000,
+        maximumFileSizeToCacheInBytes: 4000000,
       },
     }),
   ],
