@@ -278,6 +278,14 @@ export function MymyKakao(p: SkinProps) {
                 if (stage === 0 && activeThread === "啄木鸟") return "输入：好";
                 if (stage === 2 && activeThread === "艺俊哥") return "输入：叽里咕噜说啥呢";
                 if (stage === 4 && activeThread === "艺俊哥") return "输入：他好像没跟我讲过这个朋友";
+                if (stage === 6 && activeThread === "啄木鸟") return "输入：没听你提起过你的新饭搭子诶";
+                if (stage === 7 && activeThread === "啄木鸟") return "输入：是你男朋友吗";
+                if (stage === 8 && activeThread === "啄木鸟") return "等待啄木鸟回复…";
+                if (stage === 9 && activeThread === "啄木鸟") return "输入：不是说舞社有事情?";
+                if (stage === 10 && activeThread === "啄木鸟") return "等待啄木鸟回复…";
+                if (stage === 11 && activeThread === "啄木鸟") return "输入：哥还会主动交新朋友呢";
+                if (stage === 12 && activeThread === "啄木鸟") return "输入：还以为只会和植物说话";
+                if (stage === 13 && activeThread === "啄木鸟") return "等待啄木鸟回复…";
                 if (stage === 1 && activeThread === "啄木鸟") return "已发送，等待艺俊哥消息…";
                 if ([1, 3, 5].includes(stage)) return "等待艺俊哥回复…";
                 return "输入消息";
