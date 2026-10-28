@@ -250,6 +250,11 @@ export function MymyKakao(p: SkinProps) {
                       {dateDivider(m.time)}
                     </div>
                   )}
+                  {m.meta.kakaoGapDividerBefore === "true" && (
+                    <div className="kakao-time-gap-divider" role="separator" aria-label="剧情中间有时间间隔">
+                      <span>中间隔了一段时间</span>
+                    </div>
+                  )}
                   <div
                     className={
                       "kzm " +
@@ -287,7 +292,20 @@ export function MymyKakao(p: SkinProps) {
                           ? " kakao-missed-call-bubble"
                           : "")
                       }
-                      onClick={() => m.meta.local !== "true" && read(p, m)}
+                      onClick={() => {
+                        const sourceId = m.meta.scheduledSourceId || m.id;
+                        if (!p.creator && m.body === "论坛链接") {
+                          if (sourceId === "kakao-pink-maltese-19") {
+                            p.onNavigateToForum?.("forum-thread-power-pole-kiss");
+                            return;
+                          }
+                          if (sourceId === "kakao-yejun-followup-in-10") {
+                            p.onNavigateToForum?.("forum-thread-four-building");
+                            return;
+                          }
+                        }
+                        if (m.meta.local !== "true") read(p, m);
+                      }}
                     >
                       {m.id === "kakao-pink-maltese-20260310-02" ? (
                         <span className="kakao-missed-call">
