@@ -1018,7 +1018,6 @@ function PhoneRuntime({
             ...migrated,
             ui: { ...migrated.ui, ...sessionInitial.ui },
           });
-          setLoadError("已清空微信聊天和相关通知，其他应用进度已保留。");
         } else {
           const started = dispatch(work, initialRuntime(work), "start");
           setOwn({ ...started, ui: sessionInitial.ui ?? started.ui });
