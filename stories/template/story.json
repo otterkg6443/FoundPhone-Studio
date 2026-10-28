@@ -3,7 +3,7 @@
   "id": "eunho-phone",
   "title": "EUNHO 的手机",
   "description": "机主 EUNHO。锁屏密码 4399；壁纸为 EUNHO 与 BAMBY 的咖啡馆双人合照。相册记录 BAMBY 的两张单人照和一张双人合照。",
-  "revision": 33,
+  "revision": 34,
   "phone": {
     "owner": "EUNHO",
     "date": "2026-10-25",
@@ -4718,7 +4718,7 @@
         "richText": "",
         "meta": {
           "kakaoUnread": "true",
-          "kakaoSequenceAdvance": "28"
+          "kakaoSequenceAdvance": "27"
         },
         "time": "2026-03-16 19:07",
         "sender": "艺俊哥",
@@ -4734,6 +4734,55 @@
         "read": false,
         "likes": 0,
         "comments": []
+      },
+      {
+        "id": "kakao-yejun-followup-in-09",
+        "title": "艺俊哥",
+        "body": "？这帖子说的是你吗银虎",
+        "sender": "艺俊哥",
+        "avatar": "",
+        "time": "2026-03-16 19:07",
+        "kind": "text",
+        "media": "",
+        "hidden": true,
+        "outgoing": false,
+        "meta": {
+          "kakaoUnread": "true",
+          "kakaoSequenceAdvance": "27",
+          "kakaoShowTime": "true"
+        }
+      },
+      {
+        "id": "kakao-yejun-followup-in-10",
+        "title": "艺俊哥",
+        "body": "论坛链接",
+        "sender": "艺俊哥",
+        "avatar": "",
+        "time": "2026-03-16 19:07",
+        "kind": "text",
+        "media": "",
+        "hidden": true,
+        "outgoing": false,
+        "meta": {
+          "kakaoUnread": "true",
+          "kakaoSequenceAdvance": "27"
+        }
+      },
+      {
+        "id": "kakao-yejun-followup-in-11",
+        "title": "艺俊哥",
+        "body": "进展如何",
+        "sender": "艺俊哥",
+        "avatar": "",
+        "time": "2026-03-16 20:15",
+        "kind": "text",
+        "media": "",
+        "hidden": true,
+        "outgoing": false,
+        "meta": {
+          "kakaoUnread": "true",
+          "kakaoSequenceAdvance": "28"
+        }
       },
       {
         "id": "kakao-yejun-2030-out-01",

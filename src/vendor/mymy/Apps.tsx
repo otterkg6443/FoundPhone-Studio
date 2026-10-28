@@ -276,9 +276,13 @@ export function MymyKakao(p: SkinProps) {
                       className={
                         "kzbub" +
                         (m.media ? " kzimg" : "") +
-                        (m.id === "kakao-pink-maltese-19"
-                          ? " kakao-forum-link"
-                          : "") +
+                        (
+                          m.id === "kakao-pink-maltese-19" ||
+                          m.id === "kakao-yejun-followup-in-10" ||
+                          m.meta.scheduledSourceId === "kakao-yejun-followup-in-10"
+                            ? " kakao-forum-link"
+                            : ""
+                        ) +
                         (m.id === "kakao-pink-maltese-20260310-02"
                           ? " kakao-missed-call-bubble"
                           : "")

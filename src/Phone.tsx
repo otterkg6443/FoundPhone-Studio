@@ -890,7 +890,13 @@ function PhoneRuntime({
       let stage = Number(source.meta.kakaoSequenceAdvance ?? ui.kakaoSequenceStage ?? 0);
       const additions = [item];
       // Continue the cross-chat story after each segment's final incoming reply.
-      if (source.id === "kakao-yejun-2031-in-06") {
+      if (source.id === "kakao-yejun-followup-in-08") {
+        remaining = [
+          { id: "kakao-yejun-followup-in-09", dueAt: Date.now() + 800 },
+          { id: "kakao-yejun-followup-in-10", dueAt: Date.now() + 1600 },
+          { id: "kakao-yejun-followup-in-11", dueAt: Date.now() + 2600 },
+        ];
+      } else if (source.id === "kakao-yejun-2031-in-06") {
         remaining = [
           { id: "kakao-woodpecker-2045-in-01", dueAt: Date.now() + 800 },
           { id: "kakao-woodpecker-2045-in-02", dueAt: Date.now() + 1700 },
