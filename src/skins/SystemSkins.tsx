@@ -18,6 +18,7 @@ import {
   Heart,
   Image,
   LockKeyhole,
+  List,
   MapPin,
   Music,
   Phone,
@@ -651,11 +652,10 @@ export function ClockSkin(p: Props) {
   );
 }
 function reminderDateLabel(value: string) {
-  const match = /^(\\d{4})-(\\d{2})-(\\d{2})/.exec(value);
-  if (!match) return value;
-  const year = Number(match[1]);
-  const month = Number(match[2]);
-  const day = Number(match[3]);
+  const [datePart] = value.split(" ");
+  const parts = datePart.split("-").map(Number);
+  if (parts.length !== 3 || parts.some((part) => !Number.isFinite(part))) return value;
+  const [year, month, day] = parts;
   const weekday = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"][new Date(Date.UTC(year, month - 1, day, 12)).getUTCDay()];
   return `${month}月${day}日 ${weekday}`;
 }
@@ -699,7 +699,7 @@ export function RemindersSkin(p: Props) {
                 key={category.title}
                 className={view === category.title ? "active" : ""}
                 onClick={() => setView(category.title)}
-                style={{ "--reminder-color": category.color } as React.CSSProperties}
+                style={{ "--reminder-color": category.color } as import("react").CSSProperties}
               >
                 <Icon size={24} strokeWidth={2.4} />
                 <strong>{category.count}</strong>
