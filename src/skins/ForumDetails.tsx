@@ -31,7 +31,7 @@ function readForumThreads(item: Item): ForumThread[] {
 }
 
 function formatForumTime(value: string) {
-  const match = /^(\\d{4})-(\\d{2})-(\\d{2})[ T](\\d{2}):(\\d{2})/.exec(value);
+  const match = /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})/.exec(value);
   if (!match) return value;
   return `${Number(match[2])}月${Number(match[3])}日 ${match[4]}:${match[5]}`;
 }
