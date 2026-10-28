@@ -3,7 +3,7 @@
   "id": "eunho-phone",
   "title": "EUNHO 的手机",
   "description": "机主 EUNHO。锁屏密码 4399；壁纸为 EUNHO 与 BAMBY 的咖啡馆双人合照。相册记录 BAMBY 的两张单人照和一张双人合照。",
-  "revision": 27,
+  "revision": 28,
   "phone": {
     "owner": "EUNHO",
     "date": "2026-10-25",
@@ -598,7 +598,8 @@
           "artist": "PLAVE",
           "sourceType": "Official M/V",
           "youtubeId": "cFm8fTRW_so",
-          "youtubeSearch": "PLAVE 기다릴게 (Wait for You) ASTERUM official audio"
+          "youtubeSearch": "PLAVE 기다릴게 (Wait for You) ASTERUM official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/e6a68b719a1f426eb281c6ea969107b5.jpg"
         }
       },
       {
@@ -613,8 +614,10 @@
           "album": "ASTERUM",
           "releaseDate": "2023-03-12",
           "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE Pixel world ASTERUM official audio"
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE Pixel world ASTERUM official audio",
+          "youtubeId": "I2qgmAh1em0",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/e6a68b719a1f426eb281c6ea969107b5.jpg"
         }
       },
       {
@@ -630,7 +633,8 @@
           "releaseDate": "2023-03-12",
           "artist": "PLAVE",
           "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE 기다릴게 (Wait for You) (Instrumental) ASTERUM official audio"
+          "youtubeSearch": "PLAVE 기다릴게 (Wait for You) (Instrumental) ASTERUM official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/e6a68b719a1f426eb281c6ea969107b5.jpg"
         }
       },
       {
@@ -647,7 +651,8 @@
           "artist": "PLAVE",
           "sourceType": "Official Lyric Video",
           "youtubeId": "Q_TzqcWKz00",
-          "youtubeSearch": "PLAVE 왜요 왜요 왜? (Why?) 数字单曲 · Why? official audio"
+          "youtubeSearch": "PLAVE 왜요 왜요 왜? (Why?) 数字单曲 · Why? official audio",
+          "artwork": "https://i.ytimg.com/vi/Q_TzqcWKz00/hqdefault.jpg"
         }
       },
       {
@@ -664,7 +669,8 @@
           "artist": "PLAVE",
           "sourceType": "Official Lyric Video",
           "youtubeId": "Q_TzqcWKz00",
-          "youtubeSearch": "PLAVE 왜요 왜요 왜? (Why?) ASTERUM : The Shape of Things to Come official audio"
+          "youtubeSearch": "PLAVE 왜요 왜요 왜? (Why?) ASTERUM : The Shape of Things to Come official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/e5695cfb9f054562ace2af2ec40fd36d.jpg"
         }
       },
       {
@@ -681,7 +687,8 @@
           "artist": "PLAVE",
           "sourceType": "Official M/V",
           "youtubeId": "c_yCRwh97M8",
-          "youtubeSearch": "PLAVE 여섯 번째 여름 (The 6th Summer) ASTERUM : The Shape of Things to Come official audio"
+          "youtubeSearch": "PLAVE 여섯 번째 여름 (The 6th Summer) ASTERUM : The Shape of Things to Come official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/e5695cfb9f054562ace2af2ec40fd36d.jpg"
         }
       },
       {
@@ -696,8 +703,10 @@
           "album": "ASTERUM : The Shape of Things to Come",
           "releaseDate": "2023-08-24",
           "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE I Just Love Ya ASTERUM : The Shape of Things to Come official audio"
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE I Just Love Ya ASTERUM : The Shape of Things to Come official audio",
+          "youtubeId": "kuEc0G1MuDA",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/e5695cfb9f054562ace2af2ec40fd36d.jpg"
         }
       },
       {
@@ -713,7 +722,8 @@
           "releaseDate": "2023-08-24",
           "artist": "PLAVE",
           "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE Dear.PLLI ASTERUM : The Shape of Things to Come official audio"
+          "youtubeSearch": "PLAVE Dear.PLLI ASTERUM : The Shape of Things to Come official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/e5695cfb9f054562ace2af2ec40fd36d.jpg"
         }
       },
       {
@@ -729,7 +739,8 @@
           "releaseDate": "2023-08-24",
           "artist": "PLAVE",
           "sourceType": "CD Only",
-          "youtubeSearch": "PLAVE 외계어 송 DEMO (CD Only) ASTERUM : The Shape of Things to Come official audio"
+          "youtubeSearch": "PLAVE 외계어 송 DEMO (CD Only) ASTERUM : The Shape of Things to Come official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/e5695cfb9f054562ace2af2ec40fd36d.jpg"
         }
       },
       {
@@ -746,7 +757,8 @@
           "artist": "PLAVE",
           "sourceType": "Official Special Video",
           "youtubeId": "KCT3ZagR9-M",
-          "youtubeSearch": "PLAVE Merry PLLIstmas 数字单曲 · Merry PLLIstmas official audio"
+          "youtubeSearch": "PLAVE Merry PLLIstmas 数字单曲 · Merry PLLIstmas official audio",
+          "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/04/5c/ed/045ced05-3769-f0f3-fba0-9d2070b4db65/8809973507187_cover.jpg/1200x1200bb.jpg"
         }
       },
       {
@@ -761,8 +773,10 @@
           "album": "ASTERUM : 134-1",
           "releaseDate": "2024-02-26",
           "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE Watch Me Woo! ASTERUM : 134-1 official audio"
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE Watch Me Woo! ASTERUM : 134-1 official audio",
+          "youtubeId": "P0_Hn0DSTKY",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/e76ad7079f9444af81e164eff73bfee0.jpg"
         }
       },
       {
@@ -779,7 +793,8 @@
           "artist": "PLAVE",
           "sourceType": "Official M/V",
           "youtubeId": "FxB6_qaqHlY",
-          "youtubeSearch": "PLAVE WAY 4 LUV ASTERUM : 134-1 official audio"
+          "youtubeSearch": "PLAVE WAY 4 LUV ASTERUM : 134-1 official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/e76ad7079f9444af81e164eff73bfee0.jpg"
         }
       },
       {
@@ -794,8 +809,10 @@
           "album": "ASTERUM : 134-1",
           "releaseDate": "2024-02-26",
           "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE 버추얼 아이돌 (Virtual Idol) ASTERUM : 134-1 official audio"
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE 버추얼 아이돌 (Virtual Idol) ASTERUM : 134-1 official audio",
+          "youtubeId": "sAIPc_6xyAw",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/e76ad7079f9444af81e164eff73bfee0.jpg"
         }
       },
       {
@@ -810,8 +827,10 @@
           "album": "ASTERUM : 134-1",
           "releaseDate": "2024-02-26",
           "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE From ASTERUM : 134-1 official audio"
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE From ASTERUM : 134-1 official audio",
+          "youtubeId": "prdxa2aucZ8",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/e76ad7079f9444af81e164eff73bfee0.jpg"
         }
       },
       {
@@ -826,8 +845,10 @@
           "album": "ASTERUM : 134-1",
           "releaseDate": "2024-02-26",
           "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE 우리 영화 (Our Movie) ASTERUM : 134-1 official audio"
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE 우리 영화 (Our Movie) ASTERUM : 134-1 official audio",
+          "youtubeId": "zAmuk5umOh4",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/e76ad7079f9444af81e164eff73bfee0.jpg"
         }
       },
       {
@@ -844,7 +865,8 @@
           "artist": "PLAVE",
           "sourceType": "Official Special Video",
           "youtubeId": "KCT3ZagR9-M",
-          "youtubeSearch": "PLAVE Merry PLLIstmas ASTERUM : 134-1 official audio"
+          "youtubeSearch": "PLAVE Merry PLLIstmas ASTERUM : 134-1 official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/e76ad7079f9444af81e164eff73bfee0.jpg"
         }
       },
       {
@@ -861,7 +883,8 @@
           "artist": "PLAVE",
           "sourceType": "Official M/V",
           "youtubeId": "EYG4ROejmyI",
-          "youtubeSearch": "PLAVE Pump Up The Volume! 数字单曲 · Pump Up The Volume! official audio"
+          "youtubeSearch": "PLAVE Pump Up The Volume! 数字单曲 · Pump Up The Volume! official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/3172ffe191a74673966aa9ad2676bfb2.jpg"
         }
       },
       {
@@ -940,8 +963,10 @@
           "album": "Caligo Pt.1",
           "releaseDate": "2025-02-03",
           "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE Chroma Drift Caligo Pt.1 official audio"
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE Chroma Drift Caligo Pt.1 official audio",
+          "youtubeId": "pjg2FzTA0S8",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/187eabeffb564747896995789d7a0a6a.jpg"
         }
       },
       {
@@ -958,7 +983,8 @@
           "artist": "PLAVE",
           "sourceType": "Official M/V",
           "youtubeId": "b3GoZMfHJT4",
-          "youtubeSearch": "PLAVE Dash Caligo Pt.1 official audio"
+          "youtubeSearch": "PLAVE Dash Caligo Pt.1 official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/187eabeffb564747896995789d7a0a6a.jpg"
         }
       },
       {
@@ -973,8 +999,10 @@
           "album": "Caligo Pt.1",
           "releaseDate": "2025-02-03",
           "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE RIZZ Caligo Pt.1 official audio"
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE RIZZ Caligo Pt.1 official audio",
+          "youtubeId": "eJmH4oYmQ0A",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/187eabeffb564747896995789d7a0a6a.jpg"
         }
       },
       {
@@ -990,7 +1018,8 @@
           "releaseDate": "2025-02-03",
           "artist": "PLAVE",
           "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE Island Caligo Pt.1 official audio"
+          "youtubeSearch": "PLAVE Island Caligo Pt.1 official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/187eabeffb564747896995789d7a0a6a.jpg"
         }
       },
       {
@@ -1005,8 +1034,10 @@
           "album": "Caligo Pt.1",
           "releaseDate": "2025-02-03",
           "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE 12:32 (A to T) Caligo Pt.1 official audio"
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE 12:32 (A to T) Caligo Pt.1 official audio",
+          "youtubeId": "seNgeyf93p4",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/187eabeffb564747896995789d7a0a6a.jpg"
         }
       },
       {
@@ -1023,7 +1054,8 @@
           "artist": "PLAVE",
           "sourceType": "Official M/V",
           "youtubeId": "5eCFXT6Gnio",
-          "youtubeSearch": "PLAVE かくれんぼ (Hide and Seek) 日本单曲 · かくれんぼ (Hide and Seek) official audio"
+          "youtubeSearch": "PLAVE かくれんぼ (Hide and Seek) 日本单曲 · かくれんぼ (Hide and Seek) official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/a722049d9da047bfa1068245e06bfbb1.jpg"
         }
       },
       {
@@ -1038,8 +1070,10 @@
           "album": "日本单曲 · かくれんぼ (Hide and Seek)",
           "releaseDate": "2025-06-16",
           "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE RIZZ (Japanese ver.) 日本单曲 · かくれんぼ (Hide and Seek) official audio"
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE RIZZ (Japanese ver.) 日本单曲 · かくれんぼ (Hide and Seek) official audio",
+          "youtubeId": "rbg0F69tRk4",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/a722049d9da047bfa1068245e06bfbb1.jpg"
         }
       },
       {
@@ -1054,8 +1088,10 @@
           "album": "日本单曲 · かくれんぼ (Hide and Seek)",
           "releaseDate": "2025-06-16",
           "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE Chroma Drift (Japanese ver.) 日本单曲 · かくれんぼ (Hide and Seek) official audio"
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE Chroma Drift (Japanese ver.) 日本单曲 · かくれんぼ (Hide and Seek) official audio",
+          "youtubeId": "VaSAVtewKUY",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/a722049d9da047bfa1068245e06bfbb1.jpg"
         }
       },
       {
@@ -1071,7 +1107,8 @@
           "releaseDate": "2025-09-15",
           "artist": "PLAVE",
           "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE 숨바꼭질 (Hide and Seek) (Korean ver.) 数字单曲 · 숨바꼭질 (Hide and Seek) official audio"
+          "youtubeSearch": "PLAVE 숨바꼭질 (Hide and Seek) (Korean ver.) 数字单曲 · 숨바꼭질 (Hide and Seek) official audio",
+          "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/25/8c/e7/258ce738-083d-20cf-0ab6-4d1d9f38e36f/8800331139415_cover.jpg/1200x1200bb.jpg"
         }
       },
       {
@@ -1088,7 +1125,8 @@
           "artist": "PLAVE",
           "sourceType": "Official M/V",
           "youtubeId": "8L001YT4k6k",
-          "youtubeSearch": "PLAVE BBUU! PLBBUU official audio"
+          "youtubeSearch": "PLAVE BBUU! PLBBUU official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/3e38db66d04a4a71ae61a7404d2934ac.png"
         }
       },
       {
@@ -1104,7 +1142,8 @@
           "releaseDate": "2025-11-10",
           "artist": "PLAVE",
           "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE 숨바꼭질 (Hide and Seek) (Korean ver.) PLBBUU official audio"
+          "youtubeSearch": "PLAVE 숨바꼭질 (Hide and Seek) (Korean ver.) PLBBUU official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/3e38db66d04a4a71ae61a7404d2934ac.png"
         }
       },
       {
@@ -1119,8 +1158,10 @@
           "album": "PLBBUU",
           "releaseDate": "2025-11-10",
           "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE 봉숭아 (Bongsoong-a) PLBBUU official audio"
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE 봉숭아 (Bongsoong-a) PLBBUU official audio",
+          "youtubeId": "jCvpgLnwVmY",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/3e38db66d04a4a71ae61a7404d2934ac.png"
         }
       },
       {
@@ -1137,7 +1178,8 @@
           "artist": "PLAVE",
           "sourceType": "Official Lyric Video",
           "youtubeId": "HSO6D4F-ljw",
-          "youtubeSearch": "PLAVE BBUU! (Christmas ver.) 数字单曲 · BBUU! (Christmas ver.) official audio"
+          "youtubeSearch": "PLAVE BBUU! (Christmas ver.) 数字单曲 · BBUU! (Christmas ver.) official audio",
+          "artwork": "https://i.ytimg.com/vi/HSO6D4F-ljw/hqdefault.jpg"
         }
       },
       {
@@ -1153,7 +1195,8 @@
           "releaseDate": "2025-12-29",
           "artist": "PLAVE",
           "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE 이 밤을 빌려 말해요 (Borrow your night) OST · Borrow your night official audio"
+          "youtubeSearch": "PLAVE 이 밤을 빌려 말해요 (Borrow your night) OST · Borrow your night official audio",
+          "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f7/b1/bf/f7b1bf56-468f-1f75-a22c-0998553ea40e/cover_KM0024035_1.jpg/1200x1200bb.jpg"
         }
       },
       {
@@ -1169,7 +1212,8 @@
           "releaseDate": "2025-12-29",
           "artist": "PLAVE",
           "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE 이 밤을 빌려 말해요 (Borrow your night) (Inst.) OST · Borrow your night official audio"
+          "youtubeSearch": "PLAVE 이 밤을 빌려 말해요 (Borrow your night) (Inst.) OST · Borrow your night official audio",
+          "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f7/b1/bf/f7b1bf56-468f-1f75-a22c-0998553ea40e/cover_KM0024035_1.jpg/1200x1200bb.jpg"
         }
       },
       {
@@ -1186,7 +1230,8 @@
           "artist": "PLAVE",
           "sourceType": "Official Special Video",
           "youtubeId": "K-F7906Jq9U",
-          "youtubeSearch": "PLAVE 흥흥흥 (HMPH!) (feat. SOLE) 数字单曲 · HMPH! official audio"
+          "youtubeSearch": "PLAVE 흥흥흥 (HMPH!) (feat. SOLE) 数字单曲 · HMPH! official audio",
+          "artwork": "https://i.ytimg.com/vi/K-F7906Jq9U/hqdefault.jpg"
         }
       },
       {
@@ -1203,7 +1248,8 @@
           "artist": "PLAVE",
           "sourceType": "Official Audio",
           "youtubeId": "Ofuw0t7mtQw",
-          "youtubeSearch": "PLAVE 꽃송이들의 퍼레이드 (Blossom Parade) Caligo Pt.2 official audio"
+          "youtubeSearch": "PLAVE 꽃송이들의 퍼레이드 (Blossom Parade) Caligo Pt.2 official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/f294668c90ee4323b0f85ba4b06d8662.png"
         }
       },
       {
@@ -1220,7 +1266,8 @@
           "artist": "PLAVE",
           "sourceType": "Official Special Video",
           "youtubeId": "K-F7906Jq9U",
-          "youtubeSearch": "PLAVE 흥흥흥 (HMPH!) (feat. SOLE) Caligo Pt.2 official audio"
+          "youtubeSearch": "PLAVE 흥흥흥 (HMPH!) (feat. SOLE) Caligo Pt.2 official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/f294668c90ee4323b0f85ba4b06d8662.png"
         }
       },
       {
@@ -1237,7 +1284,8 @@
           "artist": "PLAVE",
           "sourceType": "Official M/V",
           "youtubeId": "XukB7ZG8CDQ",
-          "youtubeSearch": "PLAVE Born Savage Caligo Pt.2 official audio"
+          "youtubeSearch": "PLAVE Born Savage Caligo Pt.2 official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/f294668c90ee4323b0f85ba4b06d8662.png"
         }
       },
       {
@@ -1254,7 +1302,8 @@
           "artist": "PLAVE",
           "sourceType": "Official Audio",
           "youtubeId": "HzABxw3MoJ0",
-          "youtubeSearch": "PLAVE Lunar Hearts Caligo Pt.2 official audio"
+          "youtubeSearch": "PLAVE Lunar Hearts Caligo Pt.2 official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/f294668c90ee4323b0f85ba4b06d8662.png"
         }
       },
       {
@@ -1269,8 +1318,10 @@
           "album": "Caligo Pt.2",
           "releaseDate": "2026-04-13",
           "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE 그런 것 같아 (Think I Am) Caligo Pt.2 official audio"
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE 그런 것 같아 (Think I Am) Caligo Pt.2 official audio",
+          "youtubeId": "seIrfH92Zkk",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/f294668c90ee4323b0f85ba4b06d8662.png"
         }
       },
       {
@@ -1319,7 +1370,8 @@
           "artist": "PLAVE",
           "sourceType": "Official M/V",
           "youtubeId": "pOmJ65UnPEY",
-          "youtubeSearch": "PLAVE Flame (feat. milet) 日本数字单曲 · Flame official audio"
+          "youtubeSearch": "PLAVE Flame (feat. milet) 日本数字单曲 · Flame official audio",
+          "artwork": "https://i.ytimg.com/vi/pOmJ65UnPEY/hqdefault.jpg"
         }
       },
       {
@@ -1366,8 +1418,10 @@
           "album": "HYPERDRIVE",
           "releaseDate": "2026-10-13",
           "artist": "PLAVE",
-          "sourceType": "YouTube Music 搜索",
-          "youtubeSearch": "PLAVE 꾼 (GGUN) HYPERDRIVE official audio"
+          "sourceType": "Official Audio",
+          "youtubeSearch": "PLAVE 꾼 (GGUN) HYPERDRIVE official audio",
+          "youtubeId": "iYMYQSJ4_Iw",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/1cb327138c5142408c90f2cac7358b73.png"
         }
       },
       {
@@ -1384,7 +1438,8 @@
           "artist": "PLAVE",
           "sourceType": "Official Audio",
           "youtubeId": "E7CSVaczMJU",
-          "youtubeSearch": "PLAVE 푸른 하늘에 단비 (Sweet Rain) HYPERDRIVE official audio"
+          "youtubeSearch": "PLAVE 푸른 하늘에 단비 (Sweet Rain) HYPERDRIVE official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/1cb327138c5142408c90f2cac7358b73.png"
         }
       },
       {
@@ -1401,7 +1456,8 @@
           "artist": "PLAVE",
           "sourceType": "Official M/V",
           "youtubeId": "TBmE7m0yEwY",
-          "youtubeSearch": "PLAVE Star Trace HYPERDRIVE official audio"
+          "youtubeSearch": "PLAVE Star Trace HYPERDRIVE official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/1cb327138c5142408c90f2cac7358b73.png"
         }
       },
       {
@@ -1416,9 +1472,10 @@
           "album": "HYPERDRIVE",
           "releaseDate": "2026-10-13",
           "artist": "PLAVE",
-          "sourceType": "Official M/V",
+          "sourceType": "Official Audio",
           "youtubeSearch": "PLAVE The Answer Is Yes HYPERDRIVE official M/V",
-          "youtubeId": "ll-Uefui-SI"
+          "youtubeId": "vXeI6GkYgk4",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/1cb327138c5142408c90f2cac7358b73.png"
         }
       },
       {
@@ -1435,7 +1492,8 @@
           "artist": "PLAVE",
           "sourceType": "Official Audio",
           "youtubeId": "GBRzoOeHV9c",
-          "youtubeSearch": "PLAVE Rewind HYPERDRIVE official audio"
+          "youtubeSearch": "PLAVE Rewind HYPERDRIVE official audio",
+          "artwork": "https://image.weversejapan.com/official/live/plave/contents/Discography/1cb327138c5142408c90f2cac7358b73.png"
         }
       }
     ],

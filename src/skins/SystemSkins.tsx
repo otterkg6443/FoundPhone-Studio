@@ -1,5 +1,7 @@
 export { WeatherSkin, HealthSkin } from "./CalibratedSystemApps";
 import { AudioPlayer, useTrack } from "../audio";
+import { setNowPlayingTrack } from "../mediaSession";
+import { YouTubeTrackPlayer } from "../YouTubeTrackPlayer";
 import { useSkinState } from "../skinState";
 import {
   Calendar,
@@ -25,7 +27,7 @@ import {
   Users,
   Wallet,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { download } from "../io";
 import { safeMedia, type Item } from "../schema";
 import {
@@ -763,133 +765,107 @@ export function MusicSkin(p: Props) {
   const { tab, setTab, items } = useContent(p, "资料库");
   const [song, setSong] = useTrack(p, items);
   const [playlist, setPlaylist] = useState("");
-  const list = playlist
-    ? items.filter((i) => (i.folder || "我的音乐") === playlist)
-    : items;
+  const [autoPlayNext, setAutoPlayNext] = useState(false);
+  const list = playlist ? items.filter((i) => (i.folder || "我的音乐") === playlist) : items;
   const rawVideoId = song ? meta(song, "youtubeId") : "";
   const youtubeId = /^[A-Za-z0-9_-]{11}$/.test(rawVideoId) ? rawVideoId : "";
-  const searchQuery = song
-    ? meta(song, "youtubeSearch", `PLAVE ${song.title} official audio`)
-    : "";
-  const musicSearchUrl = song
-    ? `https://music.youtube.com/search?q=${encodeURIComponent(searchQuery)}`
-    : "";
+  const searchQuery = song ? meta(song, "youtubeSearch", "PLAVE " + song.title + " official audio") : "";
+  const musicSearchUrl = song ? "https://music.youtube.com/search?q=" + encodeURIComponent(searchQuery) : "";
+  const goPrevious = useCallback((shouldPlay = false) => {
+    if (!list.length) return;
+    const currentIndex = list.findIndex((i) => i.id === song?.id);
+    setAutoPlayNext(shouldPlay);
+    setSong(list[(currentIndex - 1 + list.length) % list.length]);
+  }, [list, song, setSong]);
+  const goNext = useCallback((shouldPlay = false) => {
+    if (!list.length) return;
+    const currentIndex = list.findIndex((i) => i.id === song?.id);
+    setAutoPlayNext(shouldPlay);
+    setSong(list[(currentIndex + 1 + list.length) % list.length]);
+  }, [list, song, setSong]);
+  useEffect(() => {
+    if (!song) return;
+    setNowPlayingTrack({
+      trackKey: song.id, title: song.title,
+      artist: meta(song, "artist", song.sender || "PLAVE"),
+      album: meta(song, "album", song.folder || "PLAVE"),
+      artwork: meta(song, "artwork"),
+    });
+  }, [song]);
   return (
     <div className="catalog-skin native-music">
       <Header p={p} />
       <div className="catalog-scroll">
         <h1>{playlist || (tab === "资料库" ? "PLAVE" : "歌单")}</h1>
-        {tab === "资料库" && (
-          <p className="music-library-subtitle">
-            {items.length} 首曲目 · 按发行专辑整理
-          </p>
-        )}
+        {tab === "资料库" && <p className="music-library-subtitle">{items.length} 首曲目 · 按发行专辑整理</p>}
         {tab === "歌单" && !playlist ? (
           <div className="music-albums">
-            {groupItems(items, "我的音乐").map((g) => (
-              <button key={g} onClick={() => setPlaylist(g)}>
-                <Music size={43} />
-                <strong>{g}</strong>
-                <small>{items.filter((i) => (i.folder || "我的音乐") === g).length} 首</small>
-              </button>
-            ))}
+            {groupItems(items, "我的音乐").map((g) => {
+              const coverTrack = items.find((i) => (i.folder || "我的音乐") === g);
+              const art = meta(coverTrack, "artwork");
+              return (
+                <button key={g} onClick={() => setPlaylist(g)}>
+                  <span className="music-album-art">
+                    {art ? <img src={art} alt="" loading="lazy" referrerPolicy="no-referrer" /> : <Music size={43} />}
+                  </span>
+                  <strong>{g}</strong>
+                  <small>{items.filter((i) => (i.folder || "我的音乐") === g).length} 首</small>
+                </button>
+              );
+            })}
           </div>
         ) : (
           <>
-            {playlist && (
-              <button className="music-playlist-back" onClick={() => setPlaylist("")}>
-                <ChevronLeft size={16} />
-                全部歌单
-              </button>
-            )}
-            {list.map((i, n) => (
-              <button
-                className={song?.id === i.id ? "music-track active" : "music-track"}
-                key={i.id}
-                aria-pressed={song?.id === i.id}
-                onClick={() => setSong(i)}
-              >
-                <small>{song?.id === i.id ? "▶" : n + 1}</small>
-                <span>
-                  <strong>{i.title}</strong>
-                  <small>{i.sender} · {meta(i, "album", i.folder || "PLAVE")}</small>
-                </span>
-                <span>{meta(i, "sourceType", "官方音源")}</span>
-              </button>
-            ))}
+            {playlist && <button className="music-playlist-back" onClick={() => setPlaylist("")}><ChevronLeft size={16} />全部歌单</button>}
+            {list.map((i, n) => {
+              const art = meta(i, "artwork");
+              return (
+                <button className={song?.id === i.id ? "music-track active" : "music-track"} key={i.id} aria-pressed={song?.id === i.id}
+                  onClick={() => { setAutoPlayNext(false); setSong(i); }}>
+                  <small>{song?.id === i.id ? "▶" : n + 1}</small>
+                  {art ? <img className="plave-track-art" src={art} alt="" loading="lazy" referrerPolicy="no-referrer" /> : <span className="plave-track-art-fallback"><Music size={16} /></span>}
+                  <span>
+                    <strong>{i.title}</strong>
+                    <small>{i.sender} · {meta(i, "album", i.folder || "PLAVE")}</small>
+                  </span>
+                  <span>{meta(i, "sourceType", meta(i, "youtubeId") ? "官方音源" : "YouTube Music 搜索")}</span>
+                </button>
+              );
+            })}
           </>
         )}
         <Empty items={tab === "歌单" && !playlist ? [] : list} />
       </div>
       {song && (
-        <div className={`native-now-playing${youtubeId ? " has-video" : ""}`}>
+        <div className={"native-now-playing" + (youtubeId ? " has-video" : "")}>
           <div className="native-now-playing-header">
             <div className="native-now-playing-title">
-              <Music size={18} />
-              <span>
-                <strong>{song.title}</strong>
-                <small>{meta(song, "album", song.folder || "PLAVE")}</small>
-              </span>
+              {meta(song, "artwork") ? <img className="plave-current-art" src={meta(song, "artwork")} alt="" referrerPolicy="no-referrer" /> : <Music size={18} />}
+              <span><strong>{song.title}</strong><small>{meta(song, "album", song.folder || "PLAVE")}</small></span>
             </div>
-            <button
-              aria-label="下一首"
-              onClick={() => {
-                if (!list.length) return;
-                const currentIndex = list.findIndex((i) => i.id === song.id);
-                setSong(list[(currentIndex + 1 + list.length) % list.length]);
-              }}
-            >
-              <SkipForward size={18} />
-            </button>
+            <div className="native-track-controls">
+              <button aria-label="上一首" onClick={() => goPrevious(true)}><SkipForward size={17} style={{ transform: "rotate(180deg)" }} /></button>
+              <button aria-label="下一首" onClick={() => goNext(true)}><SkipForward size={18} /></button>
+            </div>
           </div>
           {youtubeId ? (
-            <iframe
-              className="native-music-youtube"
-              title={`播放 PLAVE - ${song.title}`}
-              src={`https://www.youtube-nocookie.com/embed/${youtubeId}?rel=0&playsinline=1`}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-            />
+            <YouTubeTrackPlayer key={song.id} item={song} videoId={youtubeId} musicSearchUrl={musicSearchUrl} autoPlay={autoPlayNext}
+              onPrevious={goPrevious} onNext={goNext} onAutoPlayConsumed={() => setAutoPlayNext(false)} />
           ) : song.kind === "audio" && safeMedia(song.media) ? (
             <AudioPlayer p={p} item={song} />
           ) : (
             <div className="native-music-search-fallback">
-              <Music size={22} />
+              {meta(song, "artwork") ? <img className="plave-track-art" src={meta(song, "artwork")} alt="" referrerPolicy="no-referrer" /> : <Music size={22} />}
               <div>
                 <strong>{meta(song, "sourceType", "YouTube Music 搜索")}</strong>
-                <small>
-                  {meta(song, "sourceType") === "CD Only"
-                    ? "该曲目标注为 CD Only，可能没有官方在线音源。"
-                    : "该曲目暂未配置可直接内嵌的官方视频，可搜索官方音源播放。"}
-                </small>
+                <small>{meta(song, "sourceType") === "CD Only" ? "该曲目标注为 CD Only，目前没有确认可内嵌的官方在线音源。" : "这首曲目暂未找到可验证的官方嵌入 ID，可从 YouTube Music 官方搜索入口播放。"}</small>
               </div>
-              <a href={musicSearchUrl} target="_blank" rel="noopener noreferrer">
-                播放
-              </a>
+              <a href={musicSearchUrl} target="_blank" rel="noopener noreferrer">打开</a>
             </div>
-          )}
-          {youtubeId && (
-            <a
-              className="native-music-open-source"
-              href={musicSearchUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              在 YouTube Music 打开音源
-            </a>
           )}
         </div>
       )}
-      <Tabs
-        tabs={["资料库", "歌单"]}
-        value={tab}
-        set={(t) => {
-          setTab(t);
-          setPlaylist("");
-        }}
-        icons={[<Music />, <Folder />]}
-      />
+      <Tabs tabs={["资料库", "歌单"]} value={tab} set={(t) => { setTab(t); setPlaylist(""); }} icons={[<Music />, <Folder />]} />
     </div>
   );
 }

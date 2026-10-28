@@ -12,6 +12,7 @@ import {
   Delete,
   ChevronDown,
   Play,
+  Pause,
   SkipForward,
   Moon,
   RotateCcw,
@@ -39,6 +40,7 @@ import {
 } from "lucide-react";
 import { motion } from "motion/react";
 import type { Work } from "./schema";
+import { controlMediaAction, getNowPlayingSnapshot, subscribeMediaSession, type NowPlayingSnapshot } from "./mediaSession";
 export type DeviceKeyboardOptions = {
   placeholder?: string;
   onSend?: (message: string) => void;
@@ -262,8 +264,9 @@ export function ControlCenter({
   close: () => void;
 }) {
   const [rotation, setRotation] = useState(true),
-    [focus, setFocus] = useState(false),
-    [playing, setPlaying] = useState(false);
+    [focus, setFocus] = useState(false);
+  const [media, setMedia] = useState<NowPlayingSnapshot>(() => getNowPlayingSnapshot());
+  useEffect(() => subscribeMediaSession(setMedia), []);
   const [brightness, setBrightness] = useState(50),
     [volume, setVolume] = useState(25);
   const [tool, setTool] = useState("");
@@ -326,28 +329,24 @@ export function ControlCenter({
         <ConnectivityModule />
         <div className="cc-music">
           <div className="cc-media-top">
-            <span>
-              <Music2 size={28} />
+            <span className="cc-media-art">
+              {media.artwork ? <img src={media.artwork} alt="" referrerPolicy="no-referrer" /> : <Music2 size={28} />}
             </span>
             <Airplay size={21} />
           </div>
           <div className="cc-media-title">
-            <strong>{playing ? "测试播放" : "未在播放"}</strong>
-            <small>音乐</small>
+            <strong title={media.title}>{media.hasTrack ? media.title : "未在播放"}</strong>
+            <small>{media.hasTrack ? (media.artist + (media.album ? " · " + media.album : "")) : "音乐"}</small>
           </div>
-          <div>
-            <button aria-label="上一首">
+          <div className="cc-media-controls">
+            <button aria-label="上一首" disabled={!media.actionsAvailable} onClick={() => controlMediaAction("previous")}>
               <SkipForward style={{ transform: "rotate(180deg)" }} />
             </button>
-            <button
-              aria-label={playing ? "暂停" : "播放"}
-              onClick={() => setPlaying(!playing)}
-            >
-              <Play fill="currentColor" />
+            <button aria-label={media.playing ? "暂停" : "播放"} disabled={!media.actionsAvailable}
+              onClick={() => controlMediaAction(media.playing ? "pause" : "play")}>
+              {media.playing ? <Pause fill="currentColor" /> : <Play fill="currentColor" />}
             </button>
-            <button aria-label="下一首">
-              <SkipForward />
-            </button>
+            <button aria-label="下一首" disabled={!media.actionsAvailable} onClick={() => controlMediaAction("next")}><SkipForward /></button>
           </div>
         </div>
         <button

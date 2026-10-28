@@ -1346,3 +1346,21 @@
   grid-template-rows: repeat(6, 99px);
   grid-auto-rows: 99px;
 }
+
+
+/* Media tile follows the active embedded audio/video player. */
+.ios18 .cc-media-art {
+  display:grid; place-items:center; width:48px; height:48px; flex:0 0 48px;
+  overflow:hidden; border-radius:7px; background:#ffffff1f;
+}
+.ios18 .cc-media-art img { width:100%; height:100%; object-fit:cover; }
+.ios18 .cc-media-title { min-width:0; }
+.ios18 .cc-media-title strong {
+  display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:12px; line-height:1.4;
+}
+.ios18 .cc-media-title small {
+  display:block; margin-top:3px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  font-size:8px; font-weight:400; opacity:.72;
+}
+.ios18 .cc-music .cc-media-controls { gap:12px; }
+.ios18 .cc-media-controls button:disabled { opacity:.38; }
