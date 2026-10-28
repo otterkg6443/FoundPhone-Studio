@@ -689,7 +689,7 @@ export function WeatherSkin(p: Props) {
           </div>
           <div className="weather-stat">
             <div><Wind size={16} /><span>风速</span></div>
-            <strong>{Number.isFinite(windSpeed) ? Math.round(windSpeed) : "—"}<small> km/h</small></strong>
+            <strong>{windDirection(current?.wind_direction_10m ?? Number(meta(item, "windDirection", "315")))} {Number.isFinite(windSpeed) ? Math.round(windSpeed) : "—"}<small> km/h</small></strong>
           </div>
           <div className="weather-stat">
             <div><Droplet size={16} /><span>降水量</span></div>
@@ -702,6 +702,14 @@ export function WeatherSkin(p: Props) {
           <div className="weather-stat">
             <div><Activity size={16} /><span>气压</span></div>
             <strong>{Number.isFinite(pressure) ? Math.round(pressure) : "—"}<small> hPa</small></strong>
+          </div>
+          <div className="weather-stat">
+            <div><Sunrise size={16} /><span>日出</span></div>
+            <strong>{liveWeather?.daily?.sunrise?.[0]?.slice(11, 16) ?? meta(item, "sunrise", "06:52")}</strong>
+          </div>
+          <div className="weather-stat">
+            <div><Sunset size={16} /><span>日落</span></div>
+            <strong>{liveWeather?.daily?.sunset?.[0]?.slice(11, 16) ?? meta(item, "sunset", "17:39")}</strong>
           </div>
         </section>
 
