@@ -277,11 +277,12 @@
         "body": "BAMBY 的制服造型单人照。",
         "sender": "EUNHO",
         "kind": "image",
-        "media": "./images/bamby-uniform.jpg",
+        "media": "./images/bamby1.jpg",
         "time": "",
         "meta": {
           "description": "粉发、紫色眼睛，白蓝格纹装饰制服。"
-        }
+        },
+        "folder": "粉红马尔济斯"
       },
       {
         "id": "photo-bamby-hoodie",
@@ -289,11 +290,12 @@
         "body": "BAMBY 穿黑色连帽外套的侧面照。",
         "sender": "EUNHO",
         "kind": "image",
-        "media": "./images/bamby-hoodie.jpg",
+        "media": "./images/bamby2.jpg",
         "time": "",
         "meta": {
           "description": "黑色连帽外套、白色 T 恤，昏暗室内场馆。"
-        }
+        },
+        "folder": "粉红马尔济斯"
       },
       {
         "id": "photo-eunho-bamby-cafe",
@@ -307,6 +309,198 @@
         "meta": {
           "description": "白发角色靠近粉发角色并用手碰着他的脸。"
         }
+      },
+      {
+        "id": "photo-bamby3",
+        "title": "bamby3",
+        "body": "",
+        "sender": "EUNHO",
+        "kind": "image",
+        "media": "./images/bamby3.jpg",
+        "time": "",
+        "meta": {},
+        "folder": "粉红马尔济斯"
+      },
+      {
+        "id": "photo-bamby4",
+        "title": "bamby4",
+        "body": "",
+        "sender": "EUNHO",
+        "kind": "image",
+        "media": "./images/bamby4.jpg",
+        "time": "",
+        "meta": {},
+        "folder": "粉红马尔济斯"
+      },
+      {
+        "id": "photo-e1",
+        "title": "e1",
+        "body": "",
+        "sender": "EUNHO",
+        "kind": "image",
+        "media": "./images/e1.jpg",
+        "time": "",
+        "meta": {}
+      },
+      {
+        "id": "photo-e2",
+        "title": "e2",
+        "body": "",
+        "sender": "EUNHO",
+        "kind": "image",
+        "media": "./images/e2.jpg",
+        "time": "",
+        "meta": {}
+      },
+      {
+        "id": "photo-e3",
+        "title": "e3",
+        "body": "",
+        "sender": "EUNHO",
+        "kind": "image",
+        "media": "./images/e3.jpg",
+        "time": "",
+        "meta": {}
+      },
+      {
+        "id": "photo-e4",
+        "title": "e4",
+        "body": "",
+        "sender": "EUNHO",
+        "kind": "image",
+        "media": "./images/e4.jpg",
+        "time": "",
+        "meta": {}
+      },
+      {
+        "id": "photo-e5",
+        "title": "e5",
+        "body": "",
+        "sender": "EUNHO",
+        "kind": "image",
+        "media": "./images/e5.jpg",
+        "time": "",
+        "meta": {}
+      },
+      {
+        "id": "photo-eb1",
+        "title": "eb1",
+        "body": "",
+        "sender": "EUNHO",
+        "kind": "image",
+        "media": "./images/eb1.jpg",
+        "time": "",
+        "meta": {}
+      },
+      {
+        "id": "photo-eb2",
+        "title": "eb2",
+        "body": "",
+        "sender": "EUNHO",
+        "kind": "image",
+        "media": "./images/eb2.jpg",
+        "time": "",
+        "meta": {}
+      },
+      {
+        "id": "photo-eb3",
+        "title": "eb3",
+        "body": "",
+        "sender": "EUNHO",
+        "kind": "image",
+        "media": "./images/eb3.jpg",
+        "time": "",
+        "meta": {}
+      },
+      {
+        "id": "photo-eb4",
+        "title": "eb4",
+        "body": "",
+        "sender": "EUNHO",
+        "kind": "image",
+        "media": "./images/eb4.png",
+        "time": "",
+        "meta": {}
+      },
+      {
+        "id": "photo-eb5",
+        "title": "eb5",
+        "body": "",
+        "sender": "EUNHO",
+        "kind": "image",
+        "media": "./images/eb5.jpg",
+        "time": "",
+        "meta": {}
+      },
+      {
+        "id": "photo-eat-1",
+        "title": "吃1",
+        "body": "",
+        "sender": "EUNHO",
+        "kind": "image",
+        "media": "./images/吃1.jpg",
+        "time": "",
+        "meta": {}
+      },
+      {
+        "id": "photo-eat-2",
+        "title": "吃2",
+        "body": "",
+        "sender": "EUNHO",
+        "kind": "image",
+        "media": "./images/吃2.jpg",
+        "time": "",
+        "meta": {}
+      },
+      {
+        "id": "photo-eat-3",
+        "title": "吃3",
+        "body": "",
+        "sender": "EUNHO",
+        "kind": "image",
+        "media": "./images/吃3.jpg",
+        "time": "",
+        "meta": {}
+      },
+      {
+        "id": "photo-eat-4",
+        "title": "吃4",
+        "body": "",
+        "sender": "EUNHO",
+        "kind": "image",
+        "media": "./images/吃4.jpg",
+        "time": "",
+        "meta": {}
+      },
+      {
+        "id": "photo-takeout",
+        "title": "外卖",
+        "body": "",
+        "sender": "EUNHO",
+        "kind": "image",
+        "media": "./images/外卖.jpg",
+        "time": "",
+        "meta": {}
+      },
+      {
+        "id": "photo-pai",
+        "title": "牌",
+        "body": "",
+        "sender": "EUNHO",
+        "kind": "image",
+        "media": "./images/牌.jpg",
+        "time": "",
+        "meta": {}
+      },
+      {
+        "id": "photo-pai-2",
+        "title": "牌2",
+        "body": "",
+        "sender": "EUNHO",
+        "kind": "image",
+        "media": "./images/牌2.jpg",
+        "time": "",
+        "meta": {}
       }
     ],
     "camera": [
