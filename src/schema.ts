@@ -202,9 +202,11 @@ export function safeMedia(value: string) {
     );
   const localRasterImage =
     /^\.\/images\/[\p{L}\p{N}._-]+\.(png|jpe?g|webp|gif)$/iu.test(value);
-  // This one checked-in SVG is a static, locally-authored chat screenshot.
-  // Keep SVG support narrowly scoped instead of allowing arbitrary SVG files.
-  const approvedStaticSvg =
-    value === "./images/kakao-woodpecker-chat-screenshot.svg";
+  // SVG is limited to checked-in, trusted static assets and these two cropped order thumbnails.
+  const approvedStaticSvg = [
+    "./images/kakao-woodpecker-chat-screenshot.svg",
+    "./images/tong-spicy-burger-set.svg",
+    "./images/smoke-chipotle-wrap.svg",
+  ].includes(value);
   return embeddedMedia || localRasterImage || approvedStaticSvg ? value : "";
 }
