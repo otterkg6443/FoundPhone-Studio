@@ -926,7 +926,22 @@ function PhoneRuntime({
       }
       update({
         ...latest,
-        ui: { ...latest.ui, kakao: { ...ui, kakaoSequenceStage: stage, kakaoSequenceSchedule: JSON.stringify(remaining) } },
+        ui: {
+          ...latest.ui,
+          kakao: {
+            ...ui,
+            kakaoSequenceStage: stage,
+            kakaoSequenceSchedule: JSON.stringify(remaining),
+          },
+          ...(source.id === "kakao-woodpecker-2047-in-10"
+            ? {
+                instagram: {
+                  ...(latest.ui?.instagram ?? {}),
+                  instagramPostsUnlocked: true,
+                },
+              }
+            : {}),
+        },
         messages: { ...latest.messages, kakao: [...(latest.messages.kakao ?? []), ...additions] },
         variables:
           source.id === "kakao-woodpecker-2047-in-10"
@@ -1440,16 +1455,7 @@ function PhoneRuntime({
                   items={[
                     ...(work.data[app] ?? []),
                     ...(s.messages[app] ?? []),
-                  ].filter(
-                    (item) =>
-                      creator ||
-                      app !== "instagram" ||
-                      s.variables.instagramPostsUnlocked === true ||
-                      ![
-                        "instagram-bamby-post-20260316-2100",
-                        "instagram-owner-post-20260316-2100",
-                      ].includes(item.id),
-                  ).map((item) => {
+                  ].map((item) => {
                     if (
                       app !== "kakao" ||
                       s.variables.kakaoContactRenamed !== true
