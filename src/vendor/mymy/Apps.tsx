@@ -545,6 +545,16 @@ export function MymyKakao(p: SkinProps) {
     </div>
   );
 }
+function parseInstagramComment(value: string) {
+  const parts = value.split("|");
+  if (parts[0] !== "igc" || parts.length < 5) return null;
+  return {
+    sender: parts[1],
+    avatar: parts[2],
+    time: parts[3],
+    body: parts.slice(4).join("|"),
+  };
+}
 export function MymyInstagram(p: SkinProps) {
   const [tab, setTab] = useSkinState<string>(p, "mymyTab", "主页"),
     [liked, setLiked] = useSkinState<string[]>(p, "mymyLiked", []),
@@ -563,7 +573,9 @@ export function MymyInstagram(p: SkinProps) {
     dms = p.items.filter((i) => i.folder === "私信"),
     active = stories[story - 1],
     ownerPosts = posts.filter((i) => i.sender === p.owner),
-    ownerPost = ownerPosts[0];
+    ownerPost =
+      ownerPosts.find((i) => i.meta.instagramProfileAvatar === "true") ??
+      ownerPosts[0];
   const toggle = (id: string, values: string[], set: (v: string[]) => void) =>
     set(values.includes(id) ? values.filter((v) => v !== id) : [...values, id]);
   useEffect(() => {
@@ -649,7 +661,11 @@ export function MymyInstagram(p: SkinProps) {
           <Bookmark fill={saved.includes(i.id) ? "currentColor" : "none"} />
         </button>
       </div>
-      <p className="lk2">{i.likes + (liked.includes(i.id) ? 1 : 0)} 次赞</p>
+      <p className="lk2">
+        {i.meta.instagramLikers
+          ? i.meta.instagramLikers.split(",").join("、") + " 赞了"
+          : i.likes + (liked.includes(i.id) ? 1 : 0) + " 次赞"}
+      </p>
       <button
         className="igc"
         onClick={() => {
@@ -809,12 +825,29 @@ export function MymyInstagram(p: SkinProps) {
                 ...replies
                   .filter((r) => r.startsWith(sheet.id + "\t"))
                   .map((r) => r.split("\t").slice(1).join("\t")),
-              ].map((c, n) => (
-                <p key={n}>
-                  <Avatar name={c.split(":")[0]} />
-                  {c}
-                </p>
-              ))}
+              ].map((c, n) => {
+                const parsed = parseInstagramComment(c);
+                return (
+                  <p key={n}>
+                    <Avatar
+                      name={parsed?.sender ?? c.split(":")[0]}
+                      src={parsed?.avatar ?? ""}
+                    />
+                    {parsed ? (
+                      <span>
+                        <b>{parsed.sender}</b> {parsed.body}
+                        {parsed.time && (
+                          <small style={{ display: "block" }}>
+                            {parsed.time}
+                          </small>
+                        )}
+                      </span>
+                    ) : (
+                      c
+                    )}
+                  </p>
+                );
+              })}
             </div>
             <form
               className="cmb2"
