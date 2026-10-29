@@ -439,11 +439,6 @@ export function DeviceKeyboard({
   const [value, setValue] = useState(""),
     [shift, setShift] = useState(false),
     [numbers, setNumbers] = useState(false);
-  // On touch devices, keep the game inside its fixed phone viewport and use
-  // the simulated keyboard below instead of opening the browser's native one.
-  const touchDevice =
-    typeof window !== "undefined" &&
-    window.matchMedia("(pointer: coarse)").matches;
   const submit = () => {
     const message = value.trim();
     if (!message || !onSend || disabled) return;
@@ -454,8 +449,7 @@ export function DeviceKeyboard({
     <div className="device-keyboard" role="dialog" aria-label="屏幕键盘">
       <div className="keyboard-draft">
         <input
-          autoFocus={!touchDevice}
-          inputMode={touchDevice ? "none" : "text"}
+          autoFocus
           aria-label="消息草稿"
           value={value}
           onChange={(e) => setValue(e.target.value)}

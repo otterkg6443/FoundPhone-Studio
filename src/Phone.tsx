@@ -227,12 +227,15 @@ function PhoneRuntime({
         ),
       );
     };
-    // Size the phone once on launch. Mobile browsers fire resize events
-    // when zooming or showing a keyboard; recalculating here made the whole
-    // phone jump/scale after an input was tapped.
-    const frame = window.requestAnimationFrame(fit);
-    return () => window.cancelAnimationFrame(frame);
-  }, [creator]);
+    const observer = new ResizeObserver(fit);
+    observer.observe(el.parentElement!);
+    window.addEventListener("resize", fit);
+    fit();
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", fit);
+    };
+  }, [creator, ready]);
   const s = external ?? own;
   const openingWechatItems = (work.data.wechat ?? [])
     .filter(

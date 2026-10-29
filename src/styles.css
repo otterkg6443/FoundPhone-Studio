@@ -5062,22 +5062,3 @@ label {
   opacity: 1;
   pointer-events: auto;
 }
-
-
-/* Keep the simulated phone viewport fixed on touch devices. iOS Safari
-   automatically zooms inputs below 16px; app UI inputs must not trigger it. */
-@media (pointer: coarse) {
-  .phone-screen input,
-  .phone-screen textarea,
-  .phone-screen select {
-    font-size: 16px !important;
-  }
-}
-.phone-screen {
-  touch-action: pan-x pan-y;
-  overscroll-behavior: none;
-}
-.standalone-player {
-  touch-action: pan-x pan-y;
-  overscroll-behavior: none;
-}
