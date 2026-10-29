@@ -211,7 +211,14 @@ export function MymyKakao(p: SkinProps) {
   const [copiedHintText, setCopiedHintText] = useState("");
   const fillSuggestion = () => {
     setDraft(suggestionText);
-    composerInputRef.current?.focus();
+    // Touch devices should not force-focus a small app input: iOS Safari can
+    // zoom the page and shift the fixed phone viewport when doing so.
+    if (
+      typeof window !== "undefined" &&
+      !window.matchMedia("(pointer: coarse)").matches
+    ) {
+      composerInputRef.current?.focus();
+    }
   };
   const copySuggestion = async () => {
     try {
