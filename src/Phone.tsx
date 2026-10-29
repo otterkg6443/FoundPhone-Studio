@@ -121,7 +121,6 @@ function readPhoneSession(work: Work, creator: boolean): PhoneSession {
     );
     if (!raw) return fallback;
     const saved = JSON.parse(raw) as Partial<PhoneSession>;
-    if (saved.revision !== work.updatedAt) return fallback;
     const app =
       typeof saved.app === "string" &&
       work.apps.some((item) => item.id === saved.app && item.installed)
@@ -1040,13 +1039,19 @@ function PhoneRuntime({
       .get(work.id)
       .then((saved) => {
         if (!active) return;
-        if (saved && saved.state.revision === work.updatedAt) {
+        if (
+          saved &&
+          saved.state.workId === work.id &&
+          saved.state.revision === work.updatedAt
+        ) {
           setOwn({
             ...saved.state,
+            workId: work.id,
             ui: { ...saved.state.ui, ...sessionInitial.ui },
           });
         } else if (
           saved &&
+          saved.state.workId === work.id &&
           work.updatedAt === 25 &&
           saved.state.revision === 24
         ) {
@@ -1085,10 +1090,26 @@ function PhoneRuntime({
             ...migrated,
             ui: { ...migrated.ui, ...sessionInitial.ui },
           });
+        } else if (saved && saved.state.workId === work.id) {
+          // Keep the player's runtime across story/code revisions. New story
+          // content still comes from the current Work definition; the saved
+          // runtime carries choices, read/unlocked items, messages and timers.
+          const migrated: Runtime = {
+            ...saved.state,
+            workId: work.id,
+            revision: work.updatedAt,
+            variables: {
+              ...work.variables,
+              ...saved.state.variables,
+            },
+          };
+          setOwn({
+            ...migrated,
+            ui: { ...migrated.ui, ...sessionInitial.ui },
+          });
         } else {
           const started = dispatch(work, initialRuntime(work), "start");
           setOwn({ ...started, ui: sessionInitial.ui ?? started.ui });
-          if (saved) setLoadError("作品已更新，已开始新的进度。");
         }
         setReady(true);
       })
