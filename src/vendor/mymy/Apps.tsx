@@ -555,6 +555,20 @@ function parseInstagramComment(value: string) {
     body: parts.slice(4).join("|"),
   };
 }
+function instagramCommentAvatar(
+  sender: string,
+  fallback: string,
+  ownerAvatar: string,
+) {
+  const avatars: Record<string, string> = {
+    EUNHO: ownerAvatar,
+    BAMBY: "./images/ig-bamby.jpg",
+    NOAH: "./images/kakao-noah-avatar.jpg",
+    HAMIN: "./images/kakao-ryu-hamin-avatar.jpg",
+    YEJUN: "./images/kakao-yejun-avatar.jpg",
+  };
+  return avatars[sender] ?? fallback ?? ownerAvatar;
+}
 export function MymyInstagram(p: SkinProps) {
   const igAvatar = "./images/ig-avatar.jpg";
   const [tab, setTab] = useSkinState<string>(p, "mymyTab", "主页"),
@@ -835,7 +849,15 @@ export function MymyInstagram(p: SkinProps) {
                   <p key={n}>
                     <Avatar
                       name={parsed?.sender ?? c.split(":")[0]}
-                      src={igAvatar}
+                      src={
+                        parsed
+                          ? instagramCommentAvatar(
+                              parsed.sender,
+                              parsed.avatar,
+                              igAvatar,
+                            )
+                          : igAvatar
+                      }
                     />
                     {parsed ? (
                       <span>
